@@ -1,0 +1,107 @@
+\documentclass[12pt, letterpaper, a4paper]{article}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage[hungarian]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{csquotes}
+\graphicspath{{./Pictures/}}
+\usepackage[
+    style=ieee,
+  ]{biblatex}
+\addbibresource{soc.bib}
+
+\usepackage{listings}
+\usepackage[svgnames]{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows, calc}
+
+\usepackage{float}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Bash,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=2
+}
+
+\lstdefinestyle{cstyle}{
+  language=C,
+  basicstyle=\footnotesize\ttfamily,  % smaller fixed-width font
+  keywordstyle=\color{RoyalBlue},     % keywords like for, if, while
+  commentstyle=\color{DarkGreen}\itshape,  % italic green comments
+  stringstyle=\color{orange!80!black},     % orange strings
+  identifierstyle=\color{black},      % variable/function names
+  numberstyle=\tiny\color{gray},
+  numbers=left,
+  numbersep=8pt,
+  frame=none,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=2,
+  captionpos=b,
+  breaklines=true,
+  breakatwhitespace=true,
+  aboveskip=0.5em,
+  belowskip=0.5em,
+  lineskip=-1pt,
+  morekeywords={uint8_t, memcpy, memset}, % highlight C stdlib/uint types
+  morekeywords=[2]{compare,merge,sort,media_filter_scalar},
+  keywordstyle=[2]\color{purple}
+}
+
+\lstdefinestyle{pythonstyle}{
+  language=Python,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{RoyalBlue}\bfseries,
+  commentstyle=\color{DarkGreen}\itshape,
+  stringstyle=\color{orange!80!black},
+  numberstyle=\tiny\color{gray},
+  numbers=left,
+  numbersep=8pt,
+  frame=none,
+  showstringspaces=false,
+  tabsize=4,
+  breaklines=true,
+  breakatwhitespace=true,
+  captionpos=b,
+}
+
+\tikzstyle{box} = [rectangle, rounded corners, minimum width=3cm, minimum height=0.5cm,text centered, draw=black, fill=orange!30]
+\tikzstyle{arrow} = [thick,->,>=stealth]
+
+
+\title{\textcolor{RoyalBlue}{\textbf{Audio tömörítő egység megvalósítása FPGA-val}}}
+\author{\textcolor{RoyalBlue}{Nyiri Levente}}
+\date{2025 Október}
+\begin{document}
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{BME.png}
+\end{figure}
+\selectlanguage{hungarian}
+\maketitle
+
+\newpage
+
+
+
+
+\end{document}
