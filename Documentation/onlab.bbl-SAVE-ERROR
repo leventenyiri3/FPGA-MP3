@@ -1,0 +1,84 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{mp3-iso}{report}{}{}
+      \name{author}{1}{}{%
+        {{hash=0828a8408614177181026ea908d5594a}{%
+           family={{ISO/IEC}},
+           familyi={I\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {International Organization for Standardization}%
+      }
+      \list{location}{1}{%
+        {Geneva, Switzerland}%
+      }
+      \strng{namehash}{0828a8408614177181026ea908d5594a}
+      \strng{fullhash}{0828a8408614177181026ea908d5594a}
+      \strng{fullhashraw}{0828a8408614177181026ea908d5594a}
+      \strng{bibnamehash}{0828a8408614177181026ea908d5594a}
+      \strng{authorbibnamehash}{0828a8408614177181026ea908d5594a}
+      \strng{authornamehash}{0828a8408614177181026ea908d5594a}
+      \strng{authorfullhash}{0828a8408614177181026ea908d5594a}
+      \strng{authorfullhashraw}{0828a8408614177181026ea908d5594a}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{(MPEG-1 Audio)}
+      \field{number}{ISO/IEC 11172-3:1993}
+      \field{title}{{Information technology --- Coding of moving pictures and associated audio for digital storage media at up to about 1,5 Mbit/s --- Part 3: Audio}}
+      \field{type}{International Standard}
+      \field{year}{1993}
+    \endentry
+    \entry{raissi-mp3}{inproceedings}{}{}
+      \name{author}{1}{}{%
+        {{hash=d4951c106c7a5518a8042693076d9a32}{%
+           family={Raissi},
+           familyi={R\bibinitperiod},
+           given={Rassol},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{d4951c106c7a5518a8042693076d9a32}
+      \strng{fullhash}{d4951c106c7a5518a8042693076d9a32}
+      \strng{fullhashraw}{d4951c106c7a5518a8042693076d9a32}
+      \strng{bibnamehash}{d4951c106c7a5518a8042693076d9a32}
+      \strng{authorbibnamehash}{d4951c106c7a5518a8042693076d9a32}
+      \strng{authornamehash}{d4951c106c7a5518a8042693076d9a32}
+      \strng{authorfullhash}{d4951c106c7a5518a8042693076d9a32}
+      \strng{authorfullhashraw}{d4951c106c7a5518a8042693076d9a32}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{The Theory Behind Mp3}
+      \field{year}{2002}
+      \verb{urlraw}
+      \verb https://api.semanticscholar.org/CorpusID:12806533
+      \endverb
+      \verb{url}
+      \verb https://api.semanticscholar.org/CorpusID:12806533
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

@@ -84,7 +84,7 @@
       <file>onlab.bcf</file>
     </requires>
     <requires type="editable">
-      <file>soc.bib</file>
+      <file>onlab.bib</file>
     </requires>
   </external>
 </requests>

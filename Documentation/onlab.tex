@@ -11,7 +11,7 @@
 \usepackage[
     style=ieee,
   ]{biblatex}
-\addbibresource{soc.bib}
+\addbibresource{onlab.bib}
 
 \usepackage{listings}
 \usepackage[svgnames]{xcolor}
@@ -19,12 +19,15 @@
 \usetikzlibrary{shapes.geometric, arrows, calc}
 
 \usepackage{float}
+\usepackage{amsmath}
+\usepackage{tabularx}
 
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
 
-\lstset{frame=tb,
+
+\lstset{frame=none,
   language=Bash,
   aboveskip=3mm,
   belowskip=3mm,
@@ -101,7 +104,100 @@
 
 \newpage
 
+\section{Szabvány}
+
+Tanulmányoztam az MPEG-1 Audio és az MPEG-2 Advanced Audio Coding (AAC) szabványokat, úgy döntöttem, hogy az MPEG-1 Audio-t fogom implementálni.
+
+\section{LAME}
+
+Kiindulásnak a LAME (Lame Aint an MP3 Encoder) nyílt forráskódú MP3 tömörítő szoftver forráskódját tanulmányoztam.
+%TODO még írni kicsit a LAME-ről
 
 
+\section{Encoder}
+
+Az encoder blokkvázlata\cite{mp3-iso} az \ref{fig:encoder-diagram}. árbán látható.
+Nem szabványosított az algoritmus, én a LAME source code-jából fogok kiindulni a tervezésnél.
+A kimeneti bitsream-nek meg kell felelnie az International Standard-nak.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{encoder-diagram.png}
+  \caption{Encoder blokkvázlat}
+  \label{fig:encoder-diagram}
+\end{figure}
+
+\subsection{Mapping}
+
+
+\subsection{Frame}
+
+Egy MP3 file kisebb részegységekre van osztva, ezeket frame-eknek hívjuk. Minden frame 1152 audio mintát tartalmaz. Egy frame továbbá szét van választva 2 granule-ra, mindkettőre 576 minta jut.
+
+Egy frame méretét byteban a(z) \ref{eq:frame-size}. ábra írja le.   
+
+\begin{equation}
+    \label{eq:frame-size}
+    \text{frame size} = \frac{144 \cdot \text{bitrate}}{f_s} + \text{Padding}
+\end{equation}
+Egy frame felépítése a(z) \ref{tab:frame-header}. táblázatban \cite{raissi-mp3} látható.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+  \hline
+  \texttt{Header} & \texttt{CRC} & \texttt{Side\_Information} & \texttt{Main\_Data} & \texttt{Ancillary\_Data} \\
+  \hline
+\end{tabular}
+\caption{Az MPEG frame fő mezői}
+\label{tab:frame-header}
+\end{table}
+
+\subsubsection{Header}
+
+A header tartalmazza a szinkronizációs biteket és egyéb információkat a frame-ről, felépítését mutatja a(z) \ref{fig:frame-header}. ábra \cite{raissi-mp3}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.2\textwidth]{frame-header.png}
+  \caption{Frame header}
+  \label{fig:frame-header}
+\end{figure}
+
+\begin{description}
+  \item[Sync (12 bit)] Szerepe a szinkronizálás, mind a 12 bitnek 1-esnek kell lennie: \texttt{sync = 12'b1111\_1111\_1111}
+  \item[ID (1 bit)] Az MPEG verziót határozza meg (MPEG-1 vagy MPEG-2)
+  \item[Layer (2 bit)] Layer I, II vagy III 
+  \item[Protection bit (1 bit)] Meghatározza, használunk-e CRC-t
+  \item[Bitrate (4 bit)] A bitrate beállítása
+  \item[Frequency (2 bit)] A mintavételi frekvencia meghatározása
+  \item[Padding bit (1 bit)] Néhány frame-nek szüksége van rá, hogy a bitrate pontos legyen
+  \item[Private bit (1 bit)] Applikáció-specifikus trigger
+  \item[Mode (2 bit)] Csatornamód 
+  \item[Mode extension (2 bit)] Csak joint stereo esetén használatos, további specifikáció
+  \item[Copyright bit (1 bit)] Jelzi, hogy a tartalom szerzői jogi védelem alatt áll-e
+  \item[Home bit (1 bit)] A frame az eredeti adathordozón található-e
+  \item[Emphasis (2 bit)] A dekódernek szükséges-e de-emphasist alkalmaznia zajcsökkentés után
+\end{description}
+
+\subsubsection{Side information}
+
+A side information további információt tartalmaz arra vonatkozóan, hogy hogyan kell dekódolni a frame-et. A felépítését a(z) \ref{tab:side-info}. táblázat mutatja.
+
+
+\begin{table}[h]
+\centering
+\footnotesize
+\begin{tabular}{|c|c|c|c|c|}
+  \hline
+  \texttt{main\_data\_begin} & \texttt{private\_bits} & \texttt{scfsi} & \texttt{Side\_info gr. 0} & \texttt{Side\_info gr. 1} \\
+  \hline
+\end{tabular}
+\caption{A side information mezői}
+\label{tab:side-info}
+\end{table}
+
+\newpage
+\printbibliography
 
 \end{document}
