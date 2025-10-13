@@ -21,6 +21,7 @@
 \usepackage{float}
 \usepackage{amsmath}
 \usepackage{tabularx}
+\usepackage{url}
 
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -175,7 +176,7 @@ A header tartalmazza a szinkronizációs biteket és egyéb információkat a fr
   \item[Private bit (1 bit)] Applikáció-specifikus trigger
   \item[Mode (2 bit)] Csatornamód 
   \item[Mode extension (2 bit)] Csak joint stereo esetén használatos, további specifikáció
-  \item[Copyright bit (1 bit)] Jelzi, hogy a tartalom szerzői jogi védelem alatt áll-e
+  \item[Copyright bit (1 bit)] Jelzi, ha a tartalom szerzői jogi védelem alatt áll
   \item[Home bit (1 bit)] A frame az eredeti adathordozón található-e
   \item[Emphasis (2 bit)] A dekódernek szükséges-e de-emphasist alkalmaznia zajcsökkentés után
 \end{description}
@@ -306,6 +307,72 @@ A granule-okhoz tartozó \texttt{side\_info} még további mezőkből áll, ezt 
 \caption{Scalefac compress értékek}
 \label{tab:scalefac-compress}
 \end{table}
+
+  \item [windows\_switching\_flag (1-1 bit)] Megmutatja, hogyha a normálon kívül másmilyen ablaktípus van használatban.
+  \item [block\_type (2-2 bit)] Ha nem normál ablakot használunk, mutatja, hogy milyet. A lehetőségek a \ref{tab:block-type}. táblázatban vannak.
+\begin{table}[h]
+\centering
+\footnotesize
+\begin{tabular}{|c|c|}
+  \hline
+  \textbf{block\_type} & \textbf{window type} \\
+  \hline
+  00 & forbidden \\
+  \hline
+  01 & start \\
+  \hline
+  10 & 3 short windows \\
+  \hline
+  11 & end \\
+  \hline
+\end{tabular}
+\caption{Block type értékek}
+\label{tab:block-type}
+\end{table}
+
+  \item [mixed\_blockflag (1-1 bit)] Akkor használható, ha  a windows\_switching\_flag be van állítva. Azt jelzi, hogy más ablaktípust használunk alacsonyabb és magasabb frekvenciákon. Az alsó 2 sávban normál, a maradék 30-ban pedig a block\_type-ban megadottal.
+
+  \item [table\_select (10-10 bit)] Megadja milyen Huffman kódolást használjunk.
+  \item [subblock\_gain (9-9 bit)] Ha windows\_switching\_flag set és block\_type == 10, akkor a gain offsetet mutatja a global gain-től.
+  \item [region\_address1 (4-4 bit) region\_address2 (3-3 bit)] A spektrumot további részekre osztjuk a Huffman kódoláshoz, ezek a változók ezeknek a régióknak a kezdőcímét tartalmazzák.
+
+  \item [preflag (1-1 bit)] További nagyfrekvenciás erősítése a kvantált mintáknak. Ha set, akkor értékeket ad hozzá a scalefactorokhoz.
+  \item [scaleflac\_scale (1-1 bit)] a scalefactorok logaritmikusan kvantáltak a(z) \ref{tab:scalefac-scale}. táblázat szerint.
+\begin{table}[h]
+\centering
+\footnotesize
+\begin{tabular}{|c|c|}
+  \hline
+  \textbf{scalfac\_scale} & \textbf{step size} \\
+  \hline
+  0 & $\sqrt{2}$ \\
+  \hline
+  1 & 2 \\
+  \hline
+\end{tabular}
+\caption{Scalefac scale értékek}
+\label{tab:scalefac-scale}
+\end{table}
+
+  \item [count1table\_select (1-1 bit)] Huffman kódolást választ a count1 mezőben lévő értékekhez.
+\end{description}
+
+\subsubsection{Main Data}
+
+Scalefactorokból, Huffman kódolt bitekből és ancillary data-ból áll. Az elrendezés a(z) \ref{fig:main-data-granules}. ábrán látható.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{main-data-granule.png}
+  \caption{Main data, granule-ok és channelek elrendezése}
+  \label{fig:main-data-granules}
+\end{figure}
+
+\begin{description}
+
+  \item [Scale factors] A céljuk, hogy redukálják a kvantálási zajt. Ha a minták egy adott scalefactor band-ben megfelelően vannak scale-elve, akkor a kvantálási zaj teljesen ki lesz maszkolva.
+  \item [Huffman code bits] Itt találhatóak a Huffman kódolt bitek.
+  \item [Ancillary data] Opcionális, felhasználó definiálhatja.
 
 \end{description}
 
