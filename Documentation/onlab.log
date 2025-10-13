@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.8.1)  12 OCT 2025 18:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.8.1)  13 OCT 2025 12:13
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -827,13 +827,37 @@ Overfull \hbox (8.31801pt too wide) in paragraph at lines 191--196
 
 
 [4]
-Overfull \hbox (50.41048pt too wide) in paragraph at lines 202--202
+Overfull \hbox (43.15646pt too wide) in paragraph at lines 235--246
+ [][] 
+ []
+
+
+Overfull \hbox (5.17285pt too wide) in paragraph at lines 252--254
+[]\T1/cmr/m/n/12 Az egyes granule-ok spekt-rá-lis kom-po-nen-sei más Huff-
+ []
+
+
+
+[5]
+<./Pictures/big-values.png, id=40, 826.08624pt x 138.5175pt>
+File: ./Pictures/big-values.png Graphic file (type png)
+<use ./Pictures/big-values.png>
+Package pdftex.def Info: ./Pictures/big-values.png  used on input line 259.
+(pdftex.def)             Requested size: 312.00119pt x 52.31592pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+
+[6 <./Pictures/big-values.png (PNG copy)>]
+Overfull \hbox (50.41048pt too wide) in paragraph at lines 314--314
 []\T1/cmr/m/n/12 R. Ra-is-si, ^^R  The The-ory Be-hind Mp3^^Q, 2002. cím: $\T1/cmtt/m/n/12 https : / / api . semanticscholar .
  []
 
 
 
-[5] (./onlab.aux)
+[7] (./onlab.aux)
  ***********
 LaTeX2e <2025-06-01> patch level 1
 L3 programming layer <2025-07-20>
@@ -843,18 +867,18 @@ Package logreq Info: Writing requests to 'onlab.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 27978 strings out of 467801
- 555829 string characters out of 5431917
- 1383298 words of memory out of 5000000
- 56220 multiletter control sequences out of 15000+600000
- 640923 words of font info for 71 fonts, out of 8000000 for 9000
+ 27993 strings out of 467801
+ 556199 string characters out of 5431917
+ 1386383 words of memory out of 5000000
+ 56234 multiletter control sequences out of 15000+600000
+ 641699 words of font info for 72 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,8n,87p,1182b,2405s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx2074.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb>
-Output written on onlab.pdf (5 pages, 271477 bytes).
+ 84i,10n,87p,1182b,2405s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx2074.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb>
+Output written on onlab.pdf (7 pages, 340462 bytes).
 PDF statistics:
- 89 PDF objects out of 1000 (max. 8388607)
- 53 compressed objects within 1 object stream
+ 108 PDF objects out of 1000 (max. 8388607)
+ 65 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 28 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 33 words of extra memory for PDF output out of 10000 (max. 10000000)
 

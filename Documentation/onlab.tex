@@ -197,6 +197,118 @@ A side information további információt tartalmaz arra vonatkozóan, hogy hogy
 \label{tab:side-info}
 \end{table}
 
+\begin{description}
+  \item [main\_data\_begin (9 bit)] Layer III-nál bit reservoir használatával egy adott frame main data helyén szabadon maradt helyet másik frame-ek is használhatják. Ez a mező azt a negatív offsetet adja meg, amennyivel korábban kezdődik egy frame-nek a main data-ja a sync word-höz képest.
+  \item [private\_bits (5 bit)] Szabad felhasználás 
+  \item [scfsi (4-4 bit)] ScaleFactor Selection Information, azt határozza meg, hogy az egyes scalefactor-ok mindkét granule-ra használhatóak-e vagy külön kell mindkettőre küldeni. Ha elég csak egyet küldeni, azzal biteket nyerünk, amit Huffman kódoláshoz lehet használni. Layer III-nál a scalefactorok 4 csoportba vannak osztva a(z) \ref{tab:scalefactor-bands}. táblázat szerint.
+
+    Mindkét csatornára vonatkozóan, ha egy bit 1-esbe van, akkor az adott csoporthoz tartozó scalefactorokat a frameben lévő második granule újra fogja használni.
+
+    Ha short window-t használunk (block\_type == 2) bármely granule-ban, akkor a scalefactorokat mindig külön küldjük mindkét csatornára.
+
+\begin{table}[h]
+\centering
+\footnotesize
+\begin{tabular}{|c|c|}
+  \hline
+  \textbf{group} & \textbf{scalefactor bands} \\
+  \hline
+  0 & 0,1,2,3,4,5 \\
+  \hline
+  1 & 6,7,8,9,10 \\
+  \hline
+  2 & 11,12,13,14,15 \\
+  \hline
+  3 & 16,17,18,19,20 \\
+  \hline
+\end{tabular}
+\caption{Scalefactor csoportok}
+\label{tab:scalefactor-bands}
+\end{table}
+
+\end{description}
+
+A granule-okhoz tartozó \texttt{side\_info} még további mezőkből áll, ezt mutatja a(z) \ref{tab:granule-side-info}. táblázat.
+\begin{table}[h]
+\centering
+\footnotesize
+\begin{tabular}{|l|l|l|l|}
+  \hline
+  \texttt{part2\_3\_length} & \texttt{big\_values} & \texttt{global\_gain} & \texttt{scalefac\_compress} \\
+  \hline
+  \texttt{windows\_switching\_flag} & \texttt{block\_type} & \texttt{mixed\_block\_flag} & \texttt{table\_select} \\
+  \hline
+  \texttt{subblock\_gain} & \texttt{region0\_count} & \texttt{region1\_count} & \texttt{preflag} \\
+  \hline
+  \texttt{scalefac\_scale} & \texttt{count1table\_select} & \multicolumn{2}{c}{} \\
+  \cline{1-2}
+\end{tabular}
+\caption{Granule side information mezői}
+\label{tab:granule-side-info}
+\end{table}
+
+\begin{description}
+  \item [par2\_3\_length (12-12 bit)] Megmondja, hogy a main data részében a frame-nek hány bit van allokálva scalefactor-oknak (part2) és Huffman kódolt adatnak (part3).
+  \item [big\_values (9-9 bit)] Az egyes granule-ok spektrális komponensei más Huffman kód táblázatokkal vannak kódolva. A teljes spektrum 0-tól a Nyquist frekvenciáig több részre van bontva, és ezek a részek máshogy vannak kódolva. A partícionálás a maximális kvantált értékek alapján történik. A magasabb frekvenciájú komponenseknek várhatóan alacsonyabb amplitúdójuk van, vagy nem is kell őket kódolni. Megszámoljuk, hogy minden frekvencián összesen hány 0 érték van, ezeknek a számát az \texttt{rzero}-ban tároljuk. 
+    A \texttt{count1} mezőben 4-esével vannak értékek, és az abszolútértéke nem haladja meg az 1-et (az egyes értékek -1, 0 vagy 1 lehetnek). A többi érték a \texttt{big\_values} mezőben van, ezen belül is 3 részre osztva. Az abszolút maximum értéke ennek a régiónak 8191.
+    
+    A big\_values mező felosztása a(z) \ref{fig:big-values}. ábrán látható.
+  
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{big-values.png}
+  \caption{big\_values felosztása}
+  \label{fig:big-values}
+\end{figure}
+
+  \item [global\_gain (8-8 bit)] Kvantálás lépésköz.
+  \item [scalefac\_compress (4-4 bit)] Hány bitet használjon a scalefactorok átviteléhez. Hogy az értéke alapján az első és második scalefactor group hány bitet kap az a(z) \ref{tab:scalefac-compress}. táblázatban látható.
+\begin{table}[h]
+\centering
+\footnotesize
+\begin{tabular}{|c|c|c|}
+  \hline
+  \textbf{scalefac\_compress} & \textbf{slen1} & \textbf{slen2} \\
+  \hline
+  0 & 0 & 0 \\
+  \hline
+  1 & 0 & 1 \\
+  \hline
+  2 & 0 & 2 \\
+  \hline
+  3 & 0 & 3 \\
+  \hline
+  4 & 3 & 0 \\
+  \hline
+  5 & 1 & 1 \\
+  \hline
+  6 & 1 & 2 \\
+  \hline
+  7 & 1 & 3 \\
+  \hline
+  8 & 2 & 1 \\
+  \hline
+  9 & 2 & 2 \\
+  \hline
+  10 & 2 & 3 \\
+  \hline
+  11 & 3 & 1 \\
+  \hline
+  12 & 3 & 2 \\
+  \hline
+  13 & 3 & 3 \\
+  \hline
+  14 & 4 & 2 \\
+  \hline
+  15 & 4 & 3 \\
+  \hline
+\end{tabular}
+\caption{Scalefac compress értékek}
+\label{tab:scalefac-compress}
+\end{table}
+
+\end{description}
+
 \newpage
 \printbibliography
 
