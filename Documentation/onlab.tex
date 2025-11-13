@@ -112,6 +112,7 @@ Tanulmányoztam az MPEG-1 Audio és az MPEG-2 Advanced Audio Coding (AAC) szabv�
 \section{LAME}
 
 Kiindulásnak a LAME (Lame Aint an MP3 Encoder) nyílt forráskódú MP3 tömörítő szoftver forráskódját tanulmányoztam.
+A weboldalukról töltöttem le, fordítottam és egy példa .wav file-on kipróbáltam.
 %TODO még írni kicsit a LAME-ről
 
 
@@ -135,7 +136,7 @@ A kimeneti bitsream-nek meg kell felelnie az International Standard-nak.
 
 Egy MP3 file kisebb részegységekre van osztva, ezeket frame-eknek hívjuk. Minden frame 1152 audio mintát tartalmaz. Egy frame továbbá szét van választva 2 granule-ra, mindkettőre 576 minta jut.
 
-Egy frame méretét byteban a(z) \ref{eq:frame-size}. ábra írja le.   
+Egy frame méretét byteban a(z) \ref{eq:frame-size}. egyenlet írja le.   
 
 \begin{equation}
     \label{eq:frame-size}
@@ -308,7 +309,7 @@ A granule-okhoz tartozó \texttt{side\_info} még további mezőkből áll, ezt 
 \label{tab:scalefac-compress}
 \end{table}
 
-  \item [windows\_switching\_flag (1-1 bit)] Megmutatja, hogyha a normálon kívül másmilyen ablaktípus van használatban.
+  \item [windows\_switching\_flag (1-1 bit)] Megmutatja, ha a normálon kívül másmilyen ablaktípus van használatban.
   \item [block\_type (2-2 bit)] Ha nem normál ablakot használunk, mutatja, hogy milyet. A lehetőségek a \ref{tab:block-type}. táblázatban vannak.
 \begin{table}[h]
 \centering
@@ -337,7 +338,7 @@ A granule-okhoz tartozó \texttt{side\_info} még további mezőkből áll, ezt 
   \item [region\_address1 (4-4 bit) region\_address2 (3-3 bit)] A spektrumot további részekre osztjuk a Huffman kódoláshoz, ezek a változók ezeknek a régióknak a kezdőcímét tartalmazzák.
 
   \item [preflag (1-1 bit)] További nagyfrekvenciás erősítése a kvantált mintáknak. Ha set, akkor értékeket ad hozzá a scalefactorokhoz.
-  \item [scaleflac\_scale (1-1 bit)] a scalefactorok logaritmikusan kvantáltak a(z) \ref{tab:scalefac-scale}. táblázat szerint.
+  \item [scaleflac\_scale (1-1 bit)] A scalefactorok logaritmikusan kvantáltak a(z) \ref{tab:scalefac-scale}. táblázat szerint.
 \begin{table}[h]
 \centering
 \footnotesize
@@ -375,6 +376,57 @@ Scalefactorokból, Huffman kódolt bitekből és ancillary data-ból áll. Az el
   \item [Ancillary data] Opcionális, felhasználó definiálhatja.
 
 \end{description}
+
+
+
+\subsection{Megkötések}
+
+Mivel egy áltanános, a header-ben megadható minden opciót kiszolgáló megvalósítás túl sok időbe telne, ezért bizonyos megkötésekkel élni fogunk.
+
+A megkötéseket a(z) \ref{tab:bit-constraints}. táblázat mutatja.
+
+\begin{table}[h]
+\centering
+\footnotesize
+\begin{tabular}{|c|c|p{6cm}|}
+  \hline
+  \textbf{Mező Neve} & \textbf{Bit Érték} & \textbf{Jelentés} \\
+  \hline
+   ID & 1 & MPEG-1 \\
+  \hline
+  Layer & 01 & Layer III \\
+  \hline
+  Protection bit & 1 & Használunk CRC-t \\
+  \hline
+  Bitrate & 1110 & 320 Kbps \\
+  \hline
+  Frequency & 00 & 44.1 kHz mintavételi frekvencia \\
+  \hline
+  Mode & 00 & Stereo \\
+  \hline
+  Emphasis & 00 & Nem kell de-emphasis dekódolásnál, nem használunk noise suppression-t \\
+  \hline
+\end{tabular}
+\caption{Megkötések a bitekre}
+\label{tab:bit-constraints}
+\end{table}
+
+
+\subsection{Analysis Polyphase Filterbank}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{encoder-reszletes.png}
+  \caption{Encoder blokkvázlat részletesebben}
+  \label{fig:encoder-reszletes}
+\end{figure}
+
+
+A(z) \ref{fig:encoder-reszletes}. ábrán látható egy részletesebb blokkvázlat az encoderről.
+
+Az Analysis Polyphase Filterbankba megy a PCM input, itt az 1152 PCM minták mindegyike 32 egyenletesen eloszló frekvencia sávba lesz szétosztva. Mivel \( f_s = 44.1 kHz \) ezért a Nyquist frekvencia \( f_{Nyquist} = 22.05 kHz \). 
+Minden sáv \[ \frac{22050}{32} = 689.0625 Hz \] széles lesz. Minden minta tartalmazhat 0-22.05 kHz-s komponenseket, ami a 32 sáv közül a megfelelőbe lesz szűrve.
+Mivel minden mintát 32 subband-re osztunk, ezért az eredeti 1152-ből \( 1152*32 = 36 864 \) mintánk lesz. A folyamat végén viszont 32-vel decimálunk minden subband-et, így ismét 1152 mintánk lesz.
 
 \newpage
 \printbibliography

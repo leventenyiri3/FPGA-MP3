@@ -356,6 +356,10 @@ INPUT ./Pictures/main-data-granule.png
 INPUT ./Pictures/main-data-granule.png
 INPUT ./Pictures/main-data-granule.png
 INPUT ./Pictures/main-data-granule.png
+INPUT ./Pictures/encoder-reszletes.png
+INPUT ./Pictures/encoder-reszletes.png
+INPUT ./Pictures/encoder-reszletes.png
+INPUT ./Pictures/encoder-reszletes.png
 INPUT onlab.aux
 INPUT onlab.run.xml
 OUTPUT onlab.run.xml

@@ -1,12 +1,12 @@
 # Fdb version 4
-["biber onlab"] 1760285957.60648 "onlab.bcf" "onlab.bbl" "onlab" 1760375820.69702 0
-  "onlab.bcf" 1760375820.61943 107991 07b85ddbc7e25981be7201a0802f6b4c "pdflatex"
-  "onlab.bib" 1760285095.22685 631 e9e5a617efa7b40fe3420e095dab66f6 ""
+["biber onlab"] 1760447064.47852 "onlab.bcf" "onlab.bbl" "onlab" 1762275771.48349 0
+  "onlab.bcf" 1762275771.40454 107991 07b85ddbc7e25981be7201a0802f6b4c "pdflatex"
+  "onlab.bib" 1760376364.69281 924 20e0650beadd6439fddc5ae2eef0ab93 ""
   (generated)
   "onlab.bbl"
   "onlab.blg"
   (rewritten before read)
-["pdflatex"] 1760375819.87462 "onlab.tex" "onlab.pdf" "onlab" 1760375820.69726 0
+["pdflatex"] 1762275770.65314 "onlab.tex" "onlab.pdf" "onlab" 1762275771.48374 0
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/ecbx1000.tfm" 1136768653 3584 2d666ecf6d466d8b007246bc2f94d9da ""
@@ -196,12 +196,13 @@
   "Pictures/BME.png" 1760195733.27538 7797 0e7bb921739505c79b2c9ea67a498e9c ""
   "Pictures/big-values.png" 1760349417.53556 29877 24edd152e31cdd98553eb7f0c32c6209 ""
   "Pictures/encoder-diagram.png" 1760274682.28819 21902 b58254f1f10144309d3c91afd3a1acaf ""
+  "Pictures/encoder-reszletes.png" 1762274676.81461 147600 85050b867b99bcead2e70205a832835b ""
   "Pictures/frame-header.png" 1760283378.39269 34204 7647605ad31ee7d70bddbe6b2bc1bade ""
   "Pictures/main-data-granule.png" 1760374976.96324 57908 1f3c0a75c523edec2db63c9330a39a79 ""
-  "onlab.aux" 1760375820.61788 4022 b6494cf405d2e76a173811caa63edc71 "pdflatex"
-  "onlab.bbl" 1760285958.33519 3087 b1c68dac2049187cffa3d681e41df9c2 "biber onlab"
-  "onlab.run.xml" 1760375820.62074 2471 1d80bf3af17e86f5b99b3b49c1a6e053 "pdflatex"
-  "onlab.tex" 1760375818.37993 13430 624473372ae4a50f52ec9c35134642e8 ""
+  "onlab.aux" 1762275771.40387 4734 98ce779b113155ba9208010bb3a42bb7 "pdflatex"
+  "onlab.bbl" 1760447085.76241 3087 b1c68dac2049187cffa3d681e41df9c2 "biber onlab"
+  "onlab.run.xml" 1762275771.40587 2471 1d80bf3af17e86f5b99b3b49c1a6e053 "pdflatex"
+  "onlab.tex" 1762275770.14206 15349 06f7a5d1dff2d7344664962a9bf34784 ""
   (generated)
   "onlab.aux"
   "onlab.bcf"
