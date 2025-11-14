@@ -428,6 +428,55 @@ Az Analysis Polyphase Filterbankba megy a PCM input, itt az 1152 PCM minták min
 Minden sáv \[ \frac{22050}{32} = 689.0625 Hz \] széles lesz. Minden minta tartalmazhat 0-22.05 kHz-s komponenseket, ami a 32 sáv közül a megfelelőbe lesz szűrve.
 Mivel minden mintát 32 subband-re osztunk, ezért az eredeti 1152-ből \( 1152*32 = 36 864 \) mintánk lesz. A folyamat végén viszont 32-vel decimálunk minden subband-et, így ismét 1152 mintánk lesz.
 
+
+\subsection{FFT}
+
+Először is ki kell találni, hogy egy órajel alatt hány FFT-t kell megcsinálni, hány műveletvégző egység kell.
+
+Layer III-nál két FFT-t kell párhuzamosan. Block length == window lenght.
+
+\begin{description}
+  \item[Short blocks] shift length = 192 samples, window length  = 256 samples
+  \item[Long blocks] shift lenght = 576 samples, window lenght  = 1024 samples
+\end{description}
+
+Mivel \(f_s = 44.1 kHz\), ezért \[window\_size_1 = \frac{256}{44100} = 5.8 ms\] \[window\_size_2 = \frac{1024}{44100} = 23.2 ms\]. 
+\[frequency\_resolution_1 = \frac{44100}{256} = 172.3 Hz\] \[frequency\_resolution_2 = \frac{44100}{1024} = 43.1 Hz\]
+
+Látszik, hogy a kisebb ablakok jobb felbontást biztosítanak időtartományban, a hosszabb ablakok pedig frekvencia tartományban.
+
+A cél megtalálni az AMD által biztosított FFT core-nak azt a felparaméterezését, amely a lehető legkisebb erőforrás felhasználás nélkül teljesíteni tudja a követelményeket. 
+
+\newpage
+
+\textbf{Long blocks:}
+\begin{itemize}
+    \item Shift length: 576 samples
+    \item FFT méret: 1024 points
+    \item Overlap: $1024 - 576 = 448$ samples (43.75\%)
+\end{itemize}
+
+\begin{align*}
+    \text{Frame } N   &: \text{samples } [0 \dots 1023] \\
+    \text{Frame } N+1 &: \text{samples } [576 \dots 1599] \\
+    \text{Frame } N+2 &: \text{samples } [1152 \dots 2175]
+\end{align*}
+
+\textbf{Short blocks:}
+\begin{itemize}
+    \item Shift length: 192 samples
+    \item FFT méret: 256 points
+    \item Overlap: $256 - 192 = 64$ samples (25\%)
+\end{itemize}
+
+\begin{align*}
+    \text{Frame } N   &: \text{samples } [0 \dots 255] \\
+    \text{Frame } N+1 &: \text{samples } [192 \dots 447] \\
+    \text{Frame } N+2 &: \text{samples } [384 \dots 639] \\
+\end{align*}
+
+Hosszú ablakoknál \(\frac{576}{44100} = 13.6 ms \) idő van FFT-re, rövidnél  \(\frac{192}{44100} = 4.35 ms \).
+
 \newpage
 \printbibliography
 
