@@ -1,0 +1,9 @@
+Time resolution is 1 ps
+Note:   - SCALING_SCH: in_ptr = 1, out_ptr = 1
+Time: 0 ps  Iteration: 0  Process: /test/testFFT/fft_radix2/U0/i_synth/axi_wrapper/gen_config_fifo_in/line__94240  File: /opt/Xilinx/2025.1/Vivado/data/ip/xilinx/xfft_v9_1/hdl/xfft_v9_1_vh_rfs.vhd
+Note:     - C_CHANNELS  = 1
+Time: 0 ps  Iteration: 0  Process: /test/testFFT/fft_radix2/U0/i_synth/axi_wrapper/gen_config_fifo_in/line__94240  File: /opt/Xilinx/2025.1/Vivado/data/ip/xilinx/xfft_v9_1/hdl/xfft_v9_1_vh_rfs.vhd
+Note:     - field_width = 16
+Time: 0 ps  Iteration: 0  Process: /test/testFFT/fft_radix2/U0/i_synth/axi_wrapper/gen_config_fifo_in/line__94240  File: /opt/Xilinx/2025.1/Vivado/data/ip/xilinx/xfft_v9_1/hdl/xfft_v9_1_vh_rfs.vhd
+Note:   - Copying SCALE_SCH from 16 downto 1 to 16 downto 1
+Time: 0 ps  Iteration: 0  Process: /test/testFFT/fft_radix2/U0/i_synth/axi_wrapper/gen_config_fifo_in/line__94240  File: /opt/Xilinx/2025.1/Vivado/data/ip/xilinx/xfft_v9_1/hdl/xfft_v9_1_vh_rfs.vhd

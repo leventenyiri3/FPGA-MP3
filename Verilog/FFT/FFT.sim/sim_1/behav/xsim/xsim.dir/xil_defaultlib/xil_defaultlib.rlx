@@ -1,0 +1,9 @@
+0.7
+2020.2
+May 21 2025
+22:59:56
+/home/levente/git/Msc/FPGA-MP3/Verilog/FFT/FFT.gen/sources_1/ip/xfft_0/sim/xfft_0.vhd,1763627720,vhdl,,,,xfft_0,,,,,,,,
+/home/levente/git/Msc/FPGA-MP3/Verilog/FFT/FFT.sim/sim_1/behav/xsim/glbl.v,1760717229,verilog,,,,glbl,,,,,,,,
+/home/levente/git/Msc/FPGA-MP3/Verilog/FFT/FFT.srcs/sources_1/new/FFT.v,1764174143,verilog,,/home/levente/git/Msc/FPGA-MP3/Verilog/FFT/FFT.srcs/sources_1/new/sample_ram.v,,FFT,,,../../../../../../../../../../../opt/Xilinx/2025.1/data/rsb/busdef,,,,,
+/home/levente/git/Msc/FPGA-MP3/Verilog/FFT/FFT.srcs/sources_1/new/sample_ram.v,1763731725,verilog,,/home/levente/git/Msc/FPGA-MP3/Verilog/FFT/FFT.srcs/sources_1/new/test.v,,ram,,,../../../../../../../../../../../opt/Xilinx/2025.1/data/rsb/busdef,,,,,
+/home/levente/git/Msc/FPGA-MP3/Verilog/FFT/FFT.srcs/sources_1/new/test.v,1764165070,verilog,,,,test,,,../../../../../../../../../../../opt/Xilinx/2025.1/data/rsb/busdef,,,,,

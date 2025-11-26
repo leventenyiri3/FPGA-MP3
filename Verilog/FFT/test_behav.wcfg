@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="test_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="test" />
+            <top_module name="vcomponents" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="24.067500 us"></ZoomStartTime>
+      <ZoomEndTime time="376.567501 us"></ZoomEndTime>
+      <Cursor1Time time="226.867500 us"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="276"></NameColumnWidth>
+      <ValueColumnWidth column_width="104"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="15" />
+   <wave_markers>
+      <marker label="" time="136167500" />
+      <marker label="" time="113492500" />
+      <marker label="" time="226867500" />
+      <marker label="" time="204192500" />
+   </wave_markers>
+   <wvobject type="logic" fp_name="/test/clk">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/test/rst">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/test/config_tdata">
+      <obj_property name="ElementShortName">config_tdata[23:0]</obj_property>
+      <obj_property name="ObjectShortName">config_tdata[23:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/test/config_valid">
+      <obj_property name="ElementShortName">config_valid</obj_property>
+      <obj_property name="ObjectShortName">config_valid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/test/config_ready">
+      <obj_property name="ElementShortName">config_ready</obj_property>
+      <obj_property name="ObjectShortName">config_ready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/test/data_in">
+      <obj_property name="ElementShortName">data_in[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_in[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/test/data_in_valid">
+      <obj_property name="ElementShortName">data_in_valid</obj_property>
+      <obj_property name="ObjectShortName">data_in_valid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/test/data_in_ready">
+      <obj_property name="ElementShortName">data_in_ready</obj_property>
+      <obj_property name="ObjectShortName">data_in_ready</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/test/data_in_last">
+      <obj_property name="ElementShortName">data_in_last</obj_property>
+      <obj_property name="ObjectShortName">data_in_last</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/test/data_out">
+      <obj_property name="ElementShortName">data_out[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_out[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/test/data_out_valid">
+      <obj_property name="ElementShortName">data_out_valid</obj_property>
+      <obj_property name="ObjectShortName">data_out_valid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/test/data_out_ready">
+      <obj_property name="ElementShortName">data_out_ready</obj_property>
+      <obj_property name="ObjectShortName">data_out_ready</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/test/data_out_last">
+      <obj_property name="ElementShortName">data_out_last</obj_property>
+      <obj_property name="ObjectShortName">data_out_last</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/test/fs_out">
+      <obj_property name="ElementShortName">fs_out</obj_property>
+      <obj_property name="ObjectShortName">fs_out</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/test/testFFT/fs_cntr">
+      <obj_property name="ElementShortName">fs_cntr[12:0]</obj_property>
+      <obj_property name="ObjectShortName">fs_cntr[12:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+</wave_config>
