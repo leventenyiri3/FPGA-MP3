@@ -25,7 +25,7 @@ module test();
 FFT testFFT(
     .clk(clk),
     .rst(rst),
-    .config_tdata(config_tdata),
+//    .config_tdata(config_tdata), //ezt nem is kéne, hogy input legyen...
     .config_valid(config_valid),
     .config_ready(config_ready),
     .data_in(data_in),
@@ -41,7 +41,7 @@ FFT testFFT(
 
 reg clk;
 reg rst;
-reg [23:0] config_tdata;
+//reg [39:0] config_tdata;
 reg config_valid;
 wire config_ready;
 reg [15:0] data_in;

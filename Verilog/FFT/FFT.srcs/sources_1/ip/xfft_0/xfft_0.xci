@@ -13,7 +13,7 @@
         "target_clock_frequency": [ { "value": "200", "value_src": "user", "resolve_type": "user", "format": "long", "usage": "all" } ],
         "implementation_options": [ { "value": "radix_2_burst_io", "value_src": "user", "resolve_type": "user", "usage": "all" } ],
         "target_data_throughput": [ { "value": "50", "resolve_type": "user", "format": "long", "usage": "all" } ],
-        "run_time_configurable_transform_length": [ { "value": "false", "resolve_type": "user", "format": "bool", "usage": "all" } ],
+        "run_time_configurable_transform_length": [ { "value": "true", "value_src": "user", "resolve_type": "user", "format": "bool", "usage": "all" } ],
         "data_format": [ { "value": "fixed_point", "value_src": "user", "resolve_type": "user", "usage": "all" } ],
         "input_width": [ { "value": "16", "resolve_type": "user", "usage": "all" } ],
         "phase_factor_width": [ { "value": "16", "resolve_type": "user", "usage": "all" } ],
@@ -35,12 +35,12 @@
         "butterfly_type": [ { "value": "use_luts", "resolve_type": "user", "usage": "all" } ],
         "super_sample_rates": [ { "value": "1", "value_src": "user", "resolve_type": "user", "usage": "all" } ],
         "systolicfft_inv": [ { "value": "false", "resolve_type": "user", "format": "bool", "usage": "all" } ],
-        "blocking_run_time_configuration": [ { "value": "false", "resolve_type": "user", "format": "bool", "enabled": false, "usage": "all" } ]
+        "blocking_run_time_configuration": [ { "value": "true", "resolve_type": "user", "format": "bool", "enabled": false, "usage": "all" } ]
       },
       "model_parameters": {
         "C_XDEVICEFAMILY": [ { "value": "kintex7", "resolve_type": "generated", "usage": "all" } ],
         "C_PART": [ { "value": "xc7k70tfbv676-1", "resolve_type": "generated", "usage": "all" } ],
-        "C_S_AXIS_CONFIG_TDATA_WIDTH": [ { "value": "24", "resolve_type": "generated", "format": "long", "usage": "all" } ],
+        "C_S_AXIS_CONFIG_TDATA_WIDTH": [ { "value": "32", "resolve_type": "generated", "format": "long", "usage": "all" } ],
         "C_S_AXIS_DATA_TDATA_WIDTH": [ { "value": "32", "resolve_type": "generated", "format": "long", "usage": "all" } ],
         "C_M_AXIS_DATA_TDATA_WIDTH": [ { "value": "32", "resolve_type": "generated", "format": "long", "usage": "all" } ],
         "C_M_AXIS_DATA_TUSER_WIDTH": [ { "value": "1", "resolve_type": "generated", "format": "long", "usage": "all" } ],
@@ -50,7 +50,7 @@
         "C_CHANNELS": [ { "value": "1", "resolve_type": "generated", "format": "long", "usage": "all" } ],
         "C_NFFT_MAX": [ { "value": "8", "resolve_type": "generated", "format": "long", "usage": "all" } ],
         "C_ARCH": [ { "value": "2", "resolve_type": "generated", "format": "long", "usage": "all" } ],
-        "C_HAS_NFFT": [ { "value": "0", "resolve_type": "generated", "format": "long", "usage": "all" } ],
+        "C_HAS_NFFT": [ { "value": "1", "resolve_type": "generated", "format": "long", "usage": "all" } ],
         "C_USE_FLT_PT": [ { "value": "0", "resolve_type": "generated", "format": "long", "usage": "all" } ],
         "C_INPUT_WIDTH": [ { "value": "16", "resolve_type": "generated", "format": "long", "usage": "all" } ],
         "C_TWIDDLE_WIDTH": [ { "value": "16", "resolve_type": "generated", "format": "long", "usage": "all" } ],
@@ -74,7 +74,7 @@
         "C_CMPY_TYPE": [ { "value": "1", "resolve_type": "generated", "format": "long", "usage": "all" } ],
         "C_BFLY_TYPE": [ { "value": "0", "resolve_type": "generated", "format": "long", "usage": "all" } ],
         "C_SYSTOLICFFT_INV": [ { "value": "0", "resolve_type": "generated", "format": "long", "usage": "all" } ],
-        "C_IS_BLOCKING_RUNTIME_CONF": [ { "value": "0", "resolve_type": "generated", "format": "long", "usage": "all" } ]
+        "C_IS_BLOCKING_RUNTIME_CONF": [ { "value": "1", "resolve_type": "generated", "format": "long", "usage": "all" } ]
       },
       "project_parameters": {
         "ARCHITECTURE": [ { "value": "kintex7" } ],
@@ -104,7 +104,7 @@
       "ports": {
         "aclk": [ { "direction": "in", "driver_value": "0x1" } ],
         "aresetn": [ { "direction": "in", "driver_value": "0x1" } ],
-        "s_axis_config_tdata": [ { "direction": "in", "size_left": "23", "size_right": "0" } ],
+        "s_axis_config_tdata": [ { "direction": "in", "size_left": "31", "size_right": "0" } ],
         "s_axis_config_tvalid": [ { "direction": "in" } ],
         "s_axis_config_tready": [ { "direction": "out" } ],
         "s_axis_data_tdata": [ { "direction": "in", "size_left": "31", "size_right": "0" } ],
@@ -290,7 +290,7 @@
           "abstraction_type": "xilinx.com:interface:axis_rtl:1.0",
           "mode": "slave",
           "parameters": {
-            "TDATA_NUM_BYTES": [ { "value": "3", "value_src": "auto", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
+            "TDATA_NUM_BYTES": [ { "value": "4", "value_src": "auto", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
             "TDEST_WIDTH": [ { "value": "0", "value_src": "constant", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
             "TID_WIDTH": [ { "value": "0", "value_src": "constant", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
             "TUSER_WIDTH": [ { "value": "0", "value_src": "constant", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],

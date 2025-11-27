@@ -3,8 +3,8 @@
 # SW Build 6140274 on Wed May 21 22:58:25 MDT 2025
 # IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
 # SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
-# Start of session at: Thu Nov 20 09:35:22 2025
-# Process ID         : 13439
+# Start of session at: Thu Nov 27 12:21:24 2025
+# Process ID         : 33112
 # Current directory  : /home/levente/git/Msc/FPGA-MP3/Verilog/FFT/FFT.runs/xfft_0_synth_1
 # Command line       : vivado -log xfft_0.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source xfft_0.tcl
 # Log file           : /home/levente/git/Msc/FPGA-MP3/Verilog/FFT/FFT.runs/xfft_0_synth_1/xfft_0.vds
@@ -13,13 +13,13 @@
 # Platform           : unknown
 # Operating System   : unknown
 # Processor Detail   : AMD Ryzen 7 5700X3D 8-Core Processor
-# CPU Frequency      : 4049.438 MHz
+# CPU Frequency      : 3238.729 MHz
 # CPU Physical cores : 8
 # CPU Logical cores  : 16
 # Host memory        : 67300 MB
 # Swap memory        : 8589 MB
 # Total Virtual      : 75890 MB
-# Available Virtual  : 73231 MB
+# Available Virtual  : 70498 MB
 #-----------------------------------------------------------
 source xfft_0.tcl -notrace
 Command: synth_design -top xfft_0 -part xc7k70tfbv676-1 -incremental_mode off -mode out_of_context
@@ -29,14 +29,14 @@ INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7k70t
 INFO: [Device 21-403] Loading part xc7k70tfbv676-1
 INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 7 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 13465
+INFO: [Synth 8-7075] Helper process launched with PID 33167
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:06 . Memory (MB): peak = 2093.434 ; gain = 439.828 ; free physical = 57502 ; free virtual = 68387
+Starting RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:06 . Memory (MB): peak = 2093.227 ; gain = 439.797 ; free physical = 54743 ; free virtual = 65967
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-638] synthesizing module 'xfft_0' [/home/levente/git/Msc/FPGA-MP3/Verilog/FFT/FFT.gen/sources_1/ip/xfft_0/synth/xfft_0.vhd:80]
 	Parameter C_XDEVICEFAMILY bound to: kintex7 - type: string 
 	Parameter C_PART bound to: xc7k70tfbv676-1 - type: string 
-	Parameter C_S_AXIS_CONFIG_TDATA_WIDTH bound to: 24 - type: integer 
+	Parameter C_S_AXIS_CONFIG_TDATA_WIDTH bound to: 32 - type: integer 
 	Parameter C_S_AXIS_DATA_TDATA_WIDTH bound to: 32 - type: integer 
 	Parameter C_M_AXIS_DATA_TDATA_WIDTH bound to: 32 - type: integer 
 	Parameter C_M_AXIS_DATA_TUSER_WIDTH bound to: 1 - type: integer 
@@ -46,7 +46,7 @@ INFO: [Synth 8-638] synthesizing module 'xfft_0' [/home/levente/git/Msc/FPGA-MP3
 	Parameter C_CHANNELS bound to: 1 - type: integer 
 	Parameter C_NFFT_MAX bound to: 8 - type: integer 
 	Parameter C_ARCH bound to: 2 - type: integer 
-	Parameter C_HAS_NFFT bound to: 0 - type: integer 
+	Parameter C_HAS_NFFT bound to: 1 - type: integer 
 	Parameter C_USE_FLT_PT bound to: 0 - type: integer 
 	Parameter C_INPUT_WIDTH bound to: 16 - type: integer 
 	Parameter C_TWIDDLE_WIDTH bound to: 16 - type: integer 
@@ -70,7 +70,7 @@ INFO: [Synth 8-638] synthesizing module 'xfft_0' [/home/levente/git/Msc/FPGA-MP3
 	Parameter C_CMPY_TYPE bound to: 1 - type: integer 
 	Parameter C_BFLY_TYPE bound to: 0 - type: integer 
 	Parameter C_SYSTOLICFFT_INV bound to: 0 - type: integer 
-	Parameter C_IS_BLOCKING_RUNTIME_CONF bound to: 0 - type: integer 
+	Parameter C_IS_BLOCKING_RUNTIME_CONF bound to: 1 - type: integer 
 INFO: [Synth 8-3491] module 'xfft_v9_1_14' declared at '/home/levente/git/Msc/FPGA-MP3/Verilog/FFT/FFT.gen/sources_1/ip/xfft_0/hdl/xfft_v9_1_vh_rfs.vhd:103919' bound to instance 'U0' of component 'xfft_v9_1_14' [/home/levente/git/Msc/FPGA-MP3/Verilog/FFT/FFT.gen/sources_1/ip/xfft_0/synth/xfft_0.vhd:196]
 INFO: [Synth 8-256] done synthesizing module 'xfft_0' (0#1) [/home/levente/git/Msc/FPGA-MP3/Verilog/FFT/FFT.gen/sources_1/ip/xfft_0/synth/xfft_0.vhd:80]
 WARNING: [Synth 8-7129] Port LUT_SCLR in module mux_bus4__parameterized1 is either unconnected or has no load
@@ -175,18 +175,18 @@ WARNING: [Synth 8-7129] Port a[2] in module c_shift_ram_v12_0_19_legacy__paramet
 WARNING: [Synth 8-7129] Port a[1] in module c_shift_ram_v12_0_19_legacy__parameterized1 is either unconnected or has no load
 INFO: [Common 17-14] Message 'Synth 8-7129' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:18 ; elapsed = 00:00:22 . Memory (MB): peak = 2722.941 ; gain = 1069.336 ; free physical = 56964 ; free virtual = 67889
+Finished RTL Elaboration : Time (s): cpu = 00:00:18 ; elapsed = 00:00:22 . Memory (MB): peak = 2721.734 ; gain = 1068.305 ; free physical = 54127 ; free virtual = 65357
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:18 ; elapsed = 00:00:22 . Memory (MB): peak = 2722.941 ; gain = 1069.336 ; free physical = 56964 ; free virtual = 67889
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:18 ; elapsed = 00:00:22 . Memory (MB): peak = 2721.734 ; gain = 1068.305 ; free physical = 54127 ; free virtual = 65357
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:18 ; elapsed = 00:00:22 . Memory (MB): peak = 2722.941 ; gain = 1069.336 ; free physical = 56964 ; free virtual = 67889
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:18 ; elapsed = 00:00:22 . Memory (MB): peak = 2721.734 ; gain = 1068.305 ; free physical = 54127 ; free virtual = 65357
 ---------------------------------------------------------------------------------
-Netlist sorting complete. Time (s): cpu = 00:00:00.03 ; elapsed = 00:00:00.02 . Memory (MB): peak = 2722.941 ; gain = 0.000 ; free physical = 56967 ; free virtual = 67892
+Netlist sorting complete. Time (s): cpu = 00:00:00.03 ; elapsed = 00:00:00.03 . Memory (MB): peak = 2721.734 ; gain = 0.000 ; free physical = 54127 ; free virtual = 65357
 INFO: [Netlist 29-17] Analyzing 267 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
@@ -199,31 +199,31 @@ Parsing XDC File [/home/levente/git/Msc/FPGA-MP3/Verilog/FFT/FFT.runs/xfft_0_syn
 Finished Parsing XDC File [/home/levente/git/Msc/FPGA-MP3/Verilog/FFT/FFT.runs/xfft_0_synth_1/dont_touch.xdc]
 Completed Processing XDC Constraints
 
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2762.961 ; gain = 0.000 ; free physical = 56976 ; free virtual = 67916
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2761.754 ; gain = 0.000 ; free physical = 54109 ; free virtual = 65351
 INFO: [Project 1-111] Unisim Transformation Summary:
   A total of 11 instances were transformed.
   FDE => FDRE: 11 instances
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00.03 ; elapsed = 00:00:00.03 . Memory (MB): peak = 2762.996 ; gain = 0.000 ; free physical = 56976 ; free virtual = 67916
+Constraint Validation Runtime : Time (s): cpu = 00:00:00.05 ; elapsed = 00:00:00.03 . Memory (MB): peak = 2761.789 ; gain = 0.000 ; free physical = 54107 ; free virtual = 65349
 INFO: [Designutils 20-5008] Incremental synthesis strategy off
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:23 ; elapsed = 00:00:27 . Memory (MB): peak = 2762.996 ; gain = 1109.391 ; free physical = 57104 ; free virtual = 68045
+Finished Constraint Validation : Time (s): cpu = 00:00:24 ; elapsed = 00:00:27 . Memory (MB): peak = 2761.789 ; gain = 1108.359 ; free physical = 54129 ; free virtual = 65371
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7k70tfbv676-1
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:23 ; elapsed = 00:00:27 . Memory (MB): peak = 2770.965 ; gain = 1117.359 ; free physical = 57104 ; free virtual = 68045
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:24 ; elapsed = 00:00:27 . Memory (MB): peak = 2769.758 ; gain = 1116.328 ; free physical = 54128 ; free virtual = 65371
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:23 ; elapsed = 00:00:27 . Memory (MB): peak = 2770.965 ; gain = 1117.359 ; free physical = 57104 ; free virtual = 68045
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:24 ; elapsed = 00:00:27 . Memory (MB): peak = 2769.758 ; gain = 1116.328 ; free physical = 54128 ; free virtual = 65371
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:23 ; elapsed = 00:00:27 . Memory (MB): peak = 2770.965 ; gain = 1117.359 ; free physical = 57090 ; free virtual = 68032
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:24 ; elapsed = 00:00:28 . Memory (MB): peak = 2769.758 ; gain = 1116.328 ; free physical = 54111 ; free virtual = 65355
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start RTL Component Statistics 
@@ -246,8 +246,6 @@ Start Cross Boundary and Area Optimization
 WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
 INFO: [Synth 8-3332] Sequential element (non_native_flt_non_ssr_fft.xfft_inst/non_floating_point.arch_c.xfft_inst/control/twiddle_address_generator/n256.mux8/eight_to_one.use_lut6.eight_to_one_mux[7].latency1.reg) is unused and will be removed from module xfft_v9_1_14_viv.
 INFO: [Synth 8-3332] Sequential element (non_native_flt_non_ssr_fft.xfft_inst/non_floating_point.arch_c.xfft_inst/control/delay_line_for_twiddle_rank/no_sclr_lut.real_shift_ram.use_baseblock.use_hlutnm_srls.srl_loop[1].i_fdre1) is unused and will be removed from module xfft_v9_1_14_viv.
-INFO: [Synth 8-3332] Sequential element (non_native_flt_non_ssr_fft.xfft_inst/non_floating_point.arch_c.xfft_inst/control/cntrl/max_rank_flops[3].max_rank_ff) is unused and will be removed from module xfft_v9_1_14_viv.
-INFO: [Synth 8-3332] Sequential element (non_native_flt_non_ssr_fft.xfft_inst/non_floating_point.arch_c.xfft_inst/control/cntrl/max_rank_flops[0].max_rank_ff) is unused and will be removed from module xfft_v9_1_14_viv.
 INFO: [Synth 8-3332] Sequential element (non_native_flt_non_ssr_fft.xfft_inst/non_floating_point.arch_c.xfft_inst/control/delay_line_for_xk_index/no_sclr_lut.real_shift_ram.use_baseblock.use_hlutnm_srls.srl_loop[0].i_fdre0) is unused and will be removed from module xfft_v9_1_14_viv.
 INFO: [Synth 8-3332] Sequential element (non_native_flt_non_ssr_fft.xfft_inst/non_floating_point.arch_c.xfft_inst/control/delay_line_for_xk_index/no_sclr_lut.real_shift_ram.use_baseblock.use_hlutnm_srls.srl_loop[0].i_fdre1) is unused and will be removed from module xfft_v9_1_14_viv.
 INFO: [Synth 8-3332] Sequential element (non_native_flt_non_ssr_fft.xfft_inst/non_floating_point.arch_c.xfft_inst/control/delay_line_for_xk_index/no_sclr_lut.real_shift_ram.use_baseblock.use_hlutnm_srls.srl_loop[1].i_fdre0) is unused and will be removed from module xfft_v9_1_14_viv.
@@ -289,25 +287,26 @@ INFO: [Synth 8-3332] Sequential element (non_native_flt_non_ssr_fft.xfft_inst/no
 INFO: [Synth 8-3332] Sequential element (non_native_flt_non_ssr_fft.xfft_inst/non_floating_point.arch_c.xfft_inst/single_channel.datapath/pe/scale_gen.scaler_1i/scale_mux/four_inputs.use_lut6.no_lut_sclr.four_to_one_mux[1].latency1.reg) is unused and will be removed from module xfft_v9_1_14_viv.
 INFO: [Synth 8-3332] Sequential element (non_native_flt_non_ssr_fft.xfft_inst/non_floating_point.arch_c.xfft_inst/single_channel.datapath/pe/scale_gen.scaler_1i/scale_mux/four_inputs.use_lut6.no_lut_sclr.four_to_one_mux[0].latency1.reg) is unused and will be removed from module xfft_v9_1_14_viv.
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:25 ; elapsed = 00:00:29 . Memory (MB): peak = 2770.965 ; gain = 1117.359 ; free physical = 57087 ; free virtual = 68031
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:26 ; elapsed = 00:00:29 . Memory (MB): peak = 2769.758 ; gain = 1116.328 ; free physical = 54115 ; free virtual = 65360
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:29 ; elapsed = 00:00:33 . Memory (MB): peak = 2770.965 ; gain = 1117.359 ; free physical = 57089 ; free virtual = 68040
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:30 ; elapsed = 00:00:34 . Memory (MB): peak = 2769.758 ; gain = 1116.328 ; free physical = 54032 ; free virtual = 65284
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:29 ; elapsed = 00:00:33 . Memory (MB): peak = 2770.965 ; gain = 1117.359 ; free physical = 57072 ; free virtual = 68023
+Finished Timing Optimization : Time (s): cpu = 00:00:30 ; elapsed = 00:00:34 . Memory (MB): peak = 2769.758 ; gain = 1116.328 ; free physical = 54034 ; free virtual = 65286
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Technology Mapping
 ---------------------------------------------------------------------------------
+INFO: [Synth 8-3332] Sequential element (non_native_flt_non_ssr_fft.xfft_inst/non_floating_point.arch_c.xfft_inst/control/cntrl/nfft_from_port.i_nfft_gen[4].gen_reset.i_nfft_reg) is unused and will be removed from module xfft_v9_1_14_viv.
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:29 ; elapsed = 00:00:34 . Memory (MB): peak = 2770.965 ; gain = 1117.359 ; free physical = 57060 ; free virtual = 68012
+Finished Technology Mapping : Time (s): cpu = 00:00:30 ; elapsed = 00:00:34 . Memory (MB): peak = 2769.758 ; gain = 1116.328 ; free physical = 54034 ; free virtual = 65286
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start IO Insertion
@@ -325,37 +324,37 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:32 ; elapsed = 00:00:36 . Memory (MB): peak = 2770.965 ; gain = 1117.359 ; free physical = 57056 ; free virtual = 68008
+Finished IO Insertion : Time (s): cpu = 00:00:33 ; elapsed = 00:00:37 . Memory (MB): peak = 2769.758 ; gain = 1116.328 ; free physical = 54028 ; free virtual = 65280
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:32 ; elapsed = 00:00:36 . Memory (MB): peak = 2770.965 ; gain = 1117.359 ; free physical = 57056 ; free virtual = 68008
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:33 ; elapsed = 00:00:37 . Memory (MB): peak = 2769.758 ; gain = 1116.328 ; free physical = 54028 ; free virtual = 65280
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:32 ; elapsed = 00:00:36 . Memory (MB): peak = 2770.965 ; gain = 1117.359 ; free physical = 57047 ; free virtual = 68000
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:33 ; elapsed = 00:00:37 . Memory (MB): peak = 2769.758 ; gain = 1116.328 ; free physical = 54028 ; free virtual = 65280
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:32 ; elapsed = 00:00:36 . Memory (MB): peak = 2770.965 ; gain = 1117.359 ; free physical = 57047 ; free virtual = 68000
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:33 ; elapsed = 00:00:37 . Memory (MB): peak = 2769.758 ; gain = 1116.328 ; free physical = 54028 ; free virtual = 65280
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:32 ; elapsed = 00:00:36 . Memory (MB): peak = 2770.965 ; gain = 1117.359 ; free physical = 57047 ; free virtual = 68000
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:33 ; elapsed = 00:00:37 . Memory (MB): peak = 2769.758 ; gain = 1116.328 ; free physical = 54028 ; free virtual = 65280
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:32 ; elapsed = 00:00:36 . Memory (MB): peak = 2770.965 ; gain = 1117.359 ; free physical = 57047 ; free virtual = 68000
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:33 ; elapsed = 00:00:37 . Memory (MB): peak = 2769.758 ; gain = 1116.328 ; free physical = 54028 ; free virtual = 65280
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -383,52 +382,52 @@ Report Cell Usage:
 +------+---------+------+
 |1     |CARRY4   |     5|
 |2     |DSP48E1  |     3|
-|4     |LUT1     |    17|
-|5     |LUT2     |   109|
-|6     |LUT3     |   184|
-|7     |LUT4     |    36|
-|8     |LUT5     |    13|
-|9     |LUT6     |   210|
+|4     |LUT1     |    15|
+|5     |LUT2     |   107|
+|6     |LUT3     |   173|
+|7     |LUT4     |    51|
+|8     |LUT5     |    21|
+|9     |LUT6     |   221|
 |10    |MUXCY    |   110|
 |11    |MUXF7    |    21|
 |12    |MUXF8    |     7|
 |13    |RAMB18E1 |     3|
 |15    |SRL16E   |    99|
 |16    |XORCY    |   100|
-|17    |FDE      |     9|
-|18    |FDRE     |  1014|
-|19    |FDSE     |    24|
+|17    |FDE      |    11|
+|18    |FDRE     |  1024|
+|19    |FDSE     |    20|
 +------+---------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:32 ; elapsed = 00:00:36 . Memory (MB): peak = 2770.965 ; gain = 1117.359 ; free physical = 57047 ; free virtual = 68000
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:33 ; elapsed = 00:00:37 . Memory (MB): peak = 2769.758 ; gain = 1116.328 ; free physical = 54028 ; free virtual = 65280
 ---------------------------------------------------------------------------------
-Synthesis finished with 0 errors, 0 critical warnings and 174 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:30 ; elapsed = 00:00:35 . Memory (MB): peak = 2770.965 ; gain = 1077.305 ; free physical = 57050 ; free virtual = 68003
-Synthesis Optimization Complete : Time (s): cpu = 00:00:32 ; elapsed = 00:00:36 . Memory (MB): peak = 2770.973 ; gain = 1117.359 ; free physical = 57050 ; free virtual = 68003
+Synthesis finished with 0 errors, 0 critical warnings and 177 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:31 ; elapsed = 00:00:35 . Memory (MB): peak = 2769.758 ; gain = 1076.273 ; free physical = 54013 ; free virtual = 65265
+Synthesis Optimization Complete : Time (s): cpu = 00:00:33 ; elapsed = 00:00:37 . Memory (MB): peak = 2769.766 ; gain = 1116.328 ; free physical = 54013 ; free virtual = 65265
 INFO: [Project 1-571] Translating synthesized netlist
-Netlist sorting complete. Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2770.973 ; gain = 0.000 ; free physical = 57207 ; free virtual = 68162
-INFO: [Netlist 29-17] Analyzing 258 Unisim elements for replacement
+Netlist sorting complete. Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.02 . Memory (MB): peak = 2769.766 ; gain = 0.000 ; free physical = 54186 ; free virtual = 65438
+INFO: [Netlist 29-17] Analyzing 260 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2826.992 ; gain = 0.000 ; free physical = 57218 ; free virtual = 68175
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2825.785 ; gain = 0.000 ; free physical = 54182 ; free virtual = 65435
 INFO: [Project 1-111] Unisim Transformation Summary:
-  A total of 44 instances were transformed.
+  A total of 46 instances were transformed.
   (MUXCY,XORCY) => CARRY4: 35 instances
-  FDE => FDRE: 9 instances
+  FDE => FDRE: 11 instances
 
-Synth Design complete | Checksum: d79b1f3f
+Synth Design complete | Checksum: ca3d3712
 INFO: [Common 17-83] Releasing license: Synthesis
-65 Infos, 101 Warnings, 0 Critical Warnings and 0 Errors encountered.
+64 Infos, 101 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:00:37 ; elapsed = 00:00:40 . Memory (MB): peak = 2827.027 ; gain = 1303.531 ; free physical = 57218 ; free virtual = 68175
-INFO: [Common 17-2834] synth_design peak Physical Memory [PSS] (MB): overall = 2191.583; main = 1979.902; forked = 274.107
-INFO: [Common 17-2834] synth_design peak Virtual Memory [VSS] (MB): overall = 3736.832; main = 2826.996; forked = 965.863
-Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2851.004 ; gain = 0.000 ; free physical = 57218 ; free virtual = 68175
+synth_design: Time (s): cpu = 00:00:38 ; elapsed = 00:00:40 . Memory (MB): peak = 2825.820 ; gain = 1230.906 ; free physical = 54181 ; free virtual = 65434
+INFO: [Common 17-2834] synth_design peak Physical Memory [PSS] (MB): overall = 2348.798; main = 2148.851; forked = 347.443
+INFO: [Common 17-2834] synth_design peak Virtual Memory [VSS] (MB): overall = 3735.625; main = 2825.789; forked = 965.863
+Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2849.797 ; gain = 0.000 ; free physical = 54180 ; free virtual = 65434
 INFO: [Common 17-1381] The checkpoint '/home/levente/git/Msc/FPGA-MP3/Verilog/FFT/FFT.runs/xfft_0_synth_1/xfft_0.dcp' has been generated.
-INFO: [Coretcl 2-1648] Added synthesis output to IP cache for IP xfft_0, cache-ID = f4670f6a4f6b4835
+INFO: [Coretcl 2-1648] Added synthesis output to IP cache for IP xfft_0, cache-ID = dd23c4c3ca4f4186
 INFO: [Coretcl 2-1174] Renamed 166 cell refs.
-Write ShapeDB Complete: Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2851.004 ; gain = 0.000 ; free physical = 57216 ; free virtual = 68177
+Write ShapeDB Complete: Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2849.797 ; gain = 0.000 ; free physical = 54176 ; free virtual = 65434
 INFO: [Common 17-1381] The checkpoint '/home/levente/git/Msc/FPGA-MP3/Verilog/FFT/FFT.runs/xfft_0_synth_1/xfft_0.dcp' has been generated.
 INFO: [Vivado 12-24828] Executing command : report_utilization -file xfft_0_utilization_synth.rpt -pb xfft_0_utilization_synth.pb
-INFO: [Common 17-206] Exiting Vivado at Thu Nov 20 09:36:07 2025...
+INFO: [Common 17-206] Exiting Vivado at Thu Nov 27 12:22:10 2025...

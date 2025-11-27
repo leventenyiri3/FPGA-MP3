@@ -1,7 +1,6 @@
 vlib questa_lib/work
 vlib questa_lib/msim
 
-vlib questa_lib/msim/xpm
 vlib questa_lib/msim/xbip_utils_v3_0_14
 vlib questa_lib/msim/axi_utils_v2_0_10
 vlib questa_lib/msim/c_reg_fd_v12_0_10
@@ -15,7 +14,6 @@ vlib questa_lib/msim/cmpy_v6_0_26
 vlib questa_lib/msim/xfft_v9_1_14
 vlib questa_lib/msim/xil_defaultlib
 
-vmap xpm questa_lib/msim/xpm
 vmap xbip_utils_v3_0_14 questa_lib/msim/xbip_utils_v3_0_14
 vmap axi_utils_v2_0_10 questa_lib/msim/axi_utils_v2_0_10
 vmap c_reg_fd_v12_0_10 questa_lib/msim/c_reg_fd_v12_0_10
@@ -28,12 +26,6 @@ vmap floating_point_v7_1_20 questa_lib/msim/floating_point_v7_1_20
 vmap cmpy_v6_0_26 questa_lib/msim/cmpy_v6_0_26
 vmap xfft_v9_1_14 questa_lib/msim/xfft_v9_1_14
 vmap xil_defaultlib questa_lib/msim/xil_defaultlib
-
-vlog -work xpm -64 -incr -mfcu  -sv "+incdir+../../../../../../../../../../../opt/Xilinx/2025.1/data/rsb/busdef" \
-"/opt/Xilinx/2025.1/Vivado/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv" \
-
-vcom -work xpm -64 -93  \
-"/opt/Xilinx/2025.1/data/ip/xpm/xpm_VCOMP.vhd" \
 
 vcom -work xbip_utils_v3_0_14 -64 -93  \
 "../../../ipstatic/hdl/xbip_utils_v3_0_vh_rfs.vhd" \
@@ -74,7 +66,4 @@ vcom -work xfft_v9_1_14 -64 -93  \
 vcom -work xil_defaultlib -64 -93  \
 "../../../../FFT.gen/sources_1/ip/xfft_0/sim/xfft_0.vhd" \
 
-
-vlog -work xil_defaultlib \
-"glbl.v"
 

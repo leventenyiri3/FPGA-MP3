@@ -2,10 +2,10 @@
 // Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2025.1 (lin64) Build 6140274 Wed May 21 22:58:25 MDT 2025
-// Date        : Thu Nov 27 12:22:08 2025
+// Date        : Thu Nov 27 12:22:07 2025
 // Host        : leventepc running 64-bit unknown
-// Command     : write_verilog -force -mode synth_stub
-//               /home/levente/git/Msc/FPGA-MP3/Verilog/FFT/FFT.gen/sources_1/ip/xfft_0/xfft_0_stub.v
+// Command     : write_verilog -force -mode synth_stub -rename_top decalper_eb_ot_sdeen_pot_pi_dehcac_xnilix -prefix
+//               decalper_eb_ot_sdeen_pot_pi_dehcac_xnilix_ xfft_0_stub.v
 // Design      : xfft_0
 // Purpose     : Stub declaration of top-level module interface
 // Device      : xc7k70tfbv676-1
@@ -16,7 +16,7 @@
 // Please paste the declaration into a Verilog source file or add the file as an additional source.
 (* CHECK_LICENSE_TYPE = "xfft_0,xfft_v9_1_14,{}" *) (* core_generation_info = "xfft_0,xfft_v9_1_14,{x_ipProduct=Vivado 2025.1,x_ipVendor=xilinx.com,x_ipLibrary=ip,x_ipName=xfft,x_ipVersion=9.1,x_ipCoreRevision=14,x_ipLanguage=VERILOG,x_ipSimLanguage=MIXED,C_XDEVICEFAMILY=kintex7,C_PART=xc7k70tfbv676-1,C_S_AXIS_CONFIG_TDATA_WIDTH=32,C_S_AXIS_DATA_TDATA_WIDTH=32,C_M_AXIS_DATA_TDATA_WIDTH=32,C_M_AXIS_DATA_TUSER_WIDTH=1,C_M_AXIS_STATUS_TDATA_WIDTH=1,C_THROTTLE_SCHEME=0,C_NSSR=1,C_CHANNELS=1,C_NFFT_MAX=8,C_ARCH=2,C_HAS_NFFT=1,C_USE_FLT_PT=0,C_INPUT_WIDTH=16,C_TWIDDLE_WIDTH=16,C_OUTPUT_WIDTH=16,C_HAS_SCALING=1,C_HAS_BFP=0,C_HAS_ROUNDING=0,C_HAS_ACLKEN=0,C_HAS_ARESETN=1,C_HAS_OVFLO=0,C_HAS_NATURAL_INPUT=1,C_HAS_NATURAL_OUTPUT=0,C_HAS_CYCLIC_PREFIX=0,C_HAS_XK_INDEX=0,C_DATA_MEM_TYPE=1,C_TWIDDLE_MEM_TYPE=1,C_BRAM_STAGES=0,C_REORDER_MEM_TYPE=1,C_USE_HYBRID_RAM=0,C_OPTIMIZE_GOAL=0,C_CMPY_TYPE=1,C_BFLY_TYPE=0,C_SYSTOLICFFT_INV=0,C_IS_BLOCKING_RUNTIME_CONF=1}" *) (* downgradeipidentifiedwarnings = "yes" *) 
 (* x_core_info = "xfft_v9_1_14,Vivado 2025.1" *) 
-module xfft_0(aclk, aresetn, s_axis_config_tdata, 
+module decalper_eb_ot_sdeen_pot_pi_dehcac_xnilix(aclk, aresetn, s_axis_config_tdata, 
   s_axis_config_tvalid, s_axis_config_tready, s_axis_data_tdata, s_axis_data_tvalid, 
   s_axis_data_tready, s_axis_data_tlast, m_axis_data_tdata, m_axis_data_tvalid, 
   m_axis_data_tlast, event_frame_started, event_tlast_unexpected, event_tlast_missing, 
