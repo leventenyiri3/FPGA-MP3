@@ -1,14 +1,10 @@
 Vivado Simulator v2025.1.0
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
 Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
-Running: /opt/Xilinx/2025.1/Vivado/bin/unwrapped/lnx64.o/xelab --incr --debug typical --relax --mt 8 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip -L xpm --snapshot test_behav xil_defaultlib.test xil_defaultlib.glbl -log elaborate.log 
+Running: /opt/Xilinx/2025.1/Vivado/bin/unwrapped/lnx64.o/xelab --incr --debug typical --relax --mt 8 -L xil_defaultlib -L xbip_utils_v3_0_14 -L axi_utils_v2_0_10 -L c_reg_fd_v12_0_10 -L xbip_dsp48_wrapper_v3_0_7 -L xbip_pipe_v3_0_10 -L c_addsub_v12_0_20 -L c_shift_ram_v12_0_19 -L mult_gen_v12_0_23 -L floating_point_v7_1_20 -L cmpy_v6_0_26 -L xfft_v9_1_14 -L unisims_ver -L unimacro_ver -L secureip -L xpm --snapshot test_behav xil_defaultlib.test xil_defaultlib.glbl -log elaborate.log 
 Using 8 slave threads.
 Starting static elaboration
 Pass Through NonSizing Optimizer
-WARNING: [VRFC 10-9380] size mismatch in mixed-language port association of VHDL port 's_axis_data_tdata' [/home/levente/git/Msc/FPGA-MP3/Verilog/FFT/FFT.srcs/sources_1/new/FFT.v:68]
-WARNING: [VRFC 10-3091] actual bit length 16 differs from formal bit length 17 for port 'data_in' [/home/levente/git/Msc/FPGA-MP3/Verilog/FFT/FFT.srcs/sources_1/new/test.v:31]
-WARNING: [VRFC 10-3091] actual bit length 17 differs from formal bit length 16 for port 'din_a' [/home/levente/git/Msc/FPGA-MP3/Verilog/FFT/FFT.srcs/sources_1/new/FFT.v:204]
-WARNING: [VRFC 10-5021] port 'config_tdata' is not connected on this instance [/home/levente/git/Msc/FPGA-MP3/Verilog/FFT/FFT.srcs/sources_1/new/test.v:25]
 WARNING: [VRFC 10-5021] port 'event_data_in_channel_halt' is not connected on this instance [/home/levente/git/Msc/FPGA-MP3/Verilog/FFT/FFT.srcs/sources_1/new/FFT.v:68]
 Completed static elaboration
 Starting simulation data flow analysis
@@ -129,6 +125,7 @@ Compiling architecture synth of entity c_shift_ram_v12_0_19.c_shift_ram_v12_0_19
 Compiling architecture xilinx of entity xfft_v9_1_14.shift_ram [\shift_ram(c_xdevicefamily="kint...]
 Compiling architecture xilinx of entity xfft_v9_1_14.shift_ram [\shift_ram(c_xdevicefamily="kint...]
 Compiling architecture xilinx of entity xfft_v9_1_14.shift_ram [\shift_ram(c_xdevicefamily="kint...]
+Compiling architecture fdse_v of entity unisim.FDSE [fdse_default]
 Compiling architecture fde_v of entity unisim.FDE [fde_default]
 Compiling architecture rtl of entity c_addsub_v12_0_20.c_addsub_v12_0_20_lut6_legacy [\c_addsub_v12_0_20_lut6_legacy(c...]
 Compiling architecture synth of entity c_addsub_v12_0_20.c_addsub_v12_0_20_fabric_legacy [\c_addsub_v12_0_20_fabric_legacy...]
@@ -170,7 +167,7 @@ Compiling architecture synth of entity xfft_v9_1_14.xfft_v9_1_14_core [\xfft_v9_
 Compiling architecture synth of entity xfft_v9_1_14.axi_wrapper_input_fifo [\axi_wrapper_input_fifo(c_fifo_w...]
 Compiling architecture synth of entity xfft_v9_1_14.axi_wrapper_input_fifo [\axi_wrapper_input_fifo(c_fifo_w...]
 Compiling architecture synth of entity xfft_v9_1_14.axi_wrapper_output_fifo [\axi_wrapper_output_fifo(c_fifo_...]
-Compiling architecture synth of entity xfft_v9_1_14.axi_wrapper [\axi_wrapper(c_has_nfft=0,c_inpu...]
+Compiling architecture synth of entity xfft_v9_1_14.axi_wrapper [\axi_wrapper(c_input_width=16,c_...]
 Compiling architecture synth of entity xfft_v9_1_14.xfft_v9_1_14_viv [\xfft_v9_1_14_viv(c_xdevicefamil...]
 Compiling architecture xilinx of entity xfft_v9_1_14.xfft_v9_1_14 [\xfft_v9_1_14(c_xdevicefamily="k...]
 Compiling architecture xfft_0_arch of entity xil_defaultlib.xfft_0 [xfft_0_default]

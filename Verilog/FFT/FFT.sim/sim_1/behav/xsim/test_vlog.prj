@@ -1,5 +1,7 @@
 # compile verilog/system verilog design source files
 verilog xil_defaultlib  --include "../../../../../../../../../../../opt/Xilinx/2025.1/data/rsb/busdef" \
+"../../../../FFT.srcs/sources_1/new/FFT.v" \
+"../../../../FFT.srcs/sources_1/new/sample_ram.v" \
 "../../../../FFT.srcs/sources_1/new/test.v" \
 
 # compile glbl module
