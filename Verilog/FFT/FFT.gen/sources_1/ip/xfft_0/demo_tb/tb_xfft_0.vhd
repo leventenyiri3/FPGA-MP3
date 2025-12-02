@@ -122,7 +122,7 @@ architecture tb of tb_xfft_0 is
 
       signal s_axis_config_tdata_nfft         : std_logic_vector(3 downto 0) := (others => '0');  -- point size
       signal s_axis_config_tdata_fwd_inv      : std_logic := '0'; -- forward or inverse
-      signal s_axis_config_tdata_scale_sch    : std_logic_vector(15 downto 0) := (others => '0');  -- scaling schedule
+      signal s_axis_config_tdata_scale_sch    : std_logic_vector(19 downto 0) := (others => '0');  -- scaling schedule
 
   -- Data slave channel alias signals
         signal s_axis_data_tdata_re             : std_logic_vector(15 downto 0) := (others => '0');  -- real data
@@ -138,7 +138,7 @@ architecture tb of tb_xfft_0 is
   -----------------------------------------------------------------------
 
   constant IP_WIDTH    : integer := 16;
-  constant MAX_SAMPLES : integer := 2**8;  -- maximum number of samples in a frame
+  constant MAX_SAMPLES : integer := 2**10;  -- maximum number of samples in a frame
   type T_IP_SAMPLE is record
     re : std_logic_vector(IP_WIDTH-1 downto 0);
     im : std_logic_vector(IP_WIDTH-1 downto 0);
@@ -187,7 +187,7 @@ architecture tb of tb_xfft_0 is
   -- Communication between processes regarding DUT configuration
   type T_DO_CONFIG is (NONE, IMMEDIATE, AFTER_START, DONE);
   shared variable do_config : T_DO_CONFIG := NONE;  -- instruction for driving config slave channel
-  signal cfg_nfft : integer := 8;
+  signal cfg_nfft : integer := 10;
   type T_CFG_FWD_INV is (FWD, INV);
   signal cfg_fwd_inv : T_CFG_FWD_INV := FWD;
   type T_CFG_SCALE_SCH is (ZERO, xDEFAULT);
@@ -372,7 +372,7 @@ begin
 
     wait until m_axis_data_tvalid = '1';
     wait until rising_edge(aclk);
-    for i in 0 to 254 loop
+    for i in 0 to 1022 loop
       wait for T_HOLD;
       wait until rising_edge(aclk);
     end loop;
@@ -392,7 +392,7 @@ begin
     -- First create 2 configurations, one for the 1st frame, the other sent in time for the 2nd frame
     -- 1st configuration
     ip_frame <= 4;
-    cfg_nfft <= 7;  -- smaller point size
+    cfg_nfft <= 9;  -- smaller point size
     cfg_fwd_inv <= FWD;  -- forward transform
     cfg_scale_sch <= xDEFAULT;  -- default scaling schedule
     do_config := IMMEDIATE;
@@ -408,17 +408,17 @@ begin
     do_config := AFTER_START;  -- send configuration after 1st data frame starts
 
     -- Drive the 1st data frame
-    drive_frame(IP_DATA, 0, 128);
+    drive_frame(IP_DATA, 0, 512);
 
     -- Request a 3rd configuration, to be sent after 2nd data frame starts
     ip_frame <= 6;
-    cfg_nfft <= 8;  -- back to largest point size
+    cfg_nfft <= 10;  -- back to largest point size
     cfg_fwd_inv <= FWD;  -- forward transform
     cfg_scale_sch <= ZERO;  -- no scaling
     do_config := AFTER_START;
 
     -- Drive the 2nd data frame
-    drive_frame(op_data_saved, 0, 128);
+    drive_frame(op_data_saved, 0, 512);
 
     -- Request a 4th configuration, to be sent after 3rd data frame starts: same as 3rd, except:
     ip_frame <= 7;
@@ -447,7 +447,7 @@ begin
   -----------------------------------------------------------------------
 
   config_stimuli : process
-    variable scale_sch : std_logic_vector(15 downto 0);
+    variable scale_sch : std_logic_vector(19 downto 0);
   begin
 
     -- Drive a configuration when requested by data_stimuli process
@@ -483,13 +483,13 @@ begin
       for s in 2 to cfg_nfft loop
         scale_sch(s*2-1 downto s*2-2) := "01";  -- less scaling at later stages
       end loop;
-      if cfg_nfft < 8 then
-        for s in cfg_nfft+1 to 8 loop
+      if cfg_nfft < 10 then
+        for s in cfg_nfft+1 to 10 loop
           scale_sch(s*2-1 downto s*2-2) := "00";  -- unused stages
         end loop;
       end if;
     end if;
-    s_axis_config_tdata(24 downto 9) <= scale_sch;
+    s_axis_config_tdata(28 downto 9) <= scale_sch;
 
     -- Drive the transaction on the config slave channel
     s_axis_config_tvalid <= '1';
@@ -536,7 +536,7 @@ begin
         -- Record output data such that it can be used as input data
         index := op_sample;
         -- Bit-reverse output sample number, to get actual sample index as outputs are in bit-reversed order
-        index := bit_reverse_int(index, 8);
+        index := bit_reverse_int(index, 10);
         op_data(index).re <= m_axis_data_tdata(15 downto 0);
         op_data(index).im <= m_axis_data_tdata(31 downto 16);
         -- Increment output sample counter
@@ -590,7 +590,7 @@ begin
 
   s_axis_config_tdata_nfft       <= s_axis_config_tdata(3 downto 0);
   s_axis_config_tdata_fwd_inv    <= s_axis_config_tdata(8);
-  s_axis_config_tdata_scale_sch  <= s_axis_config_tdata(24 downto 9);
+  s_axis_config_tdata_scale_sch  <= s_axis_config_tdata(28 downto 9);
 
 
   -- Data slave channel alias signals

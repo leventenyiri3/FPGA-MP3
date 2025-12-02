@@ -22,36 +22,26 @@
 
 module test();
 
-FFT testFFT(
-    .clk(clk),
-    .rst(rst),
-//    .config_tdata(config_tdata), //ezt nem is kéne, hogy input legyen...
-//    .config_valid(config_valid),
-    .config_ready(config_ready),
-    .data_in(data_in),
-//    .data_in_valid(data_in_valid),
-    .data_in_ready(data_in_ready),
-//    .data_in_last(data_in_last),
-    .data_out(data_out),
-    .data_out_valid(data_out_valid),
-    .data_out_last(data_out_last)
-//    .fs_out(fs_out)
-    
-);
-
 reg clk;
 reg rst;
-//reg [39:0] config_tdata;
-reg config_valid;
 wire config_ready;
 reg [15:0] data_in;
-reg data_in_valid;
-wire data_in_ready;
-//reg data_in_last;
 wire [31:0] data_out;
 wire data_out_valid;
 reg data_out_ready;
 wire data_out_last;
+
+FFT testFFT(
+    .clk(clk),
+    .rst(rst),
+    .config_ready(config_ready),
+    .data_in(data_in),
+    .data_out(data_out),
+    .data_out_valid(data_out_valid),
+    .data_out_last(data_out_last)
+    
+);
+
 
 
 

@@ -64,6 +64,21 @@ module FFT (
   wire data_in_channel_halt;
   wire data_out_channel_halt;
 
+  wire [15:0] buffer_out_raw;
+  reg  [31:0] buffer_out_reg_ext;
+  wire [31:0] buffer_out;  //ezt majd még Hann ablakozni
+
+  always @(posedge clk) begin
+
+    begin
+      buffer_out_reg_ext <= {16'b0, buffer_out_raw};
+    end
+
+
+  end
+
+  assign buffer_out = buffer_out_reg_ext;
+
   xfft_0 fft_radix2 (
       .aclk                  (clk),                 // input wire aclk
       .aresetn               (rst),                 // input wire aresetn
@@ -90,8 +105,8 @@ module FFT (
 
   reg we_a_reg;
   reg we_b_reg;
-  reg [9:0] smpl_wr_addr_reg;
-  reg [9:0] smpl_rd_addr_reg;
+  reg [13:0] smpl_wr_addr_reg;
+  reg [13:0] smpl_rd_addr_reg;
 
 
 
@@ -170,20 +185,6 @@ module FFT (
 
 
 
-  wire [15:0] buffer_out_raw;
-  reg  [31:0] buffer_out_reg_ext;
-  wire [31:0] buffer_out;  //ezt majd még Hann ablakozni
-
-  always @(posedge clk) begin
-
-    begin
-      buffer_out_reg_ext <= {16'b0, buffer_out_raw};
-    end
-
-
-  end
-
-  assign buffer_out = buffer_out_reg_ext;
 
   wire [15:0] test;
 
@@ -207,10 +208,10 @@ module FFT (
 
   /************************* FINITE STATE MACHINE ***************************/
 
-  parameter SAMPLE_IN = 2'b00;
-  parameter SMALL_BLOCK_READ = 2'b01;
-  parameter LARGE_BLOCK_READ = 2'b10;
-  parameter CONFIG = 2'b11;
+  localparam [1:0] SAMPLE_IN = 2'b00;
+  localparam [1:0] SMALL_BLOCK_READ = 2'b01;
+  localparam [1:0] LARGE_BLOCK_READ = 2'b10;
+  localparam [1:0] CONFIG = 2'b11;
 
 
 
@@ -223,144 +224,157 @@ module FFT (
   reg [9:0] smpl_cntr;
 
   reg [1:0] state_reg;
-  reg [1:0] next_state;
-
-  always @(posedge clk) begin
-    if (rst == 0) begin
-      state_reg <= SAMPLE_IN;
-      config_tdata <= 0;
-      smpl_cntr <= 0;
-      small_read_cntr <= 0;
-      small_smpl_cntr <= 0;
-      large_read_cntr <= 0;
-      large_smpl_cntr <= 0;
-      small_read_cntr_offset <= 0;
-      large_read_cntr_offset <= 0;
-      data_in_last <= 0;
-    end else state_reg <= next_state;
-  end
+  reg [1:0] state_reg;
 
 
   always @(posedge clk) begin
-    case (state_reg)
-      SAMPLE_IN: begin
-        if (small_smpl_cntr == 191) begin
-          next_state <= CONFIG;
+   if (rst == 0) begin
+        state_reg <= SAMPLE_IN;
+        config_tdata <= 0;
+        smpl_cntr <= 0;
+        small_read_cntr <= 0;
+        small_smpl_cntr <= 0;
+        large_read_cntr <= 0;
+        large_smpl_cntr <= 0;
+        small_read_cntr_offset <= 0;
+        large_read_cntr_offset <= 0;
+        data_in_last <= 0;
+        smpl_rd_addr_reg <= 0;
+        smpl_wr_addr_reg <= 0;
+        config_valid <= 0;
+        data_in_valid <= 0;
+    end
+    else begin
+      case (state_reg)
+        SAMPLE_IN: begin
+          if (small_smpl_cntr == 192) begin
+            state_reg <= CONFIG;
 
-        end else if (large_smpl_cntr == 575) begin
-          next_state <= LARGE_BLOCK_READ;
+          end else if (large_smpl_cntr == 576) begin
+            state_reg <= CONFIG;
 
-        end else begin
-          if (we_a_reg == 1) begin
-
-            smpl_cntr <= smpl_cntr + 1;
-            smpl_wr_addr_reg <= smpl_cntr * 16;
-
-            small_smpl_cntr <= small_smpl_cntr + 1;
-
-            large_smpl_cntr <= large_smpl_cntr + 1;
-          end
-
-          data_in_last  <= 0; //ezt biztos lehetne jobban is kezelni, hogy kéne 1 órajel múlva levinni, úgy hogy egy helyen maradjon?
-        end
-      end
-
-      CONFIG: begin
-        if (small_smpl_cntr == 191) begin
-          config_tdata <= {
-            7'b0000000,  // PAD hogy 32 bit legyen, mert byte- többszörösnek kell a hossznak lennie
-            16'b0101010101010101,  // SCALE_SCH 8db 01pár
-            1'b1,  // FWD/INV 
-            //8'b00000000,         // CP_LEN 
-            3'b000,
-            5'b01000  // PAD, NFFT :256
-          };
-
-          small_smpl_cntr <= 0;
-
-          config_valid <= 1;
-          if (config_ready == 1) begin
-            config_valid <= 0;
-            next_state   <= SMALL_BLOCK_READ;
-          end
-        end else if (large_smpl_cntr == 575) begin
-          config_tdata <= {
-            3'b000,  // PAD hogy 32 bit legyen, mert byte- többszörösnek kell a hossznak lennie
-            20'b01010101010101010101,  // SCALE_SCH 10db 01pár
-            1'b1,  // FWD/INV 
-            //8'b00000000,         // CP_LEN 
-            3'b000,
-            5'b01010  // NFFT :1024
-          };  // SCALE_SCH FWD/INV PAD CP_LEN PAD NFFT nem fér bele...
-
-          large_smpl_cntr <= 0;
-
-          config_valid <= 1;
-          if (config_ready == 1) begin
-            config_valid <= 0;
-            next_state   <= LARGE_BLOCK_READ;
-          end
-
-        end
-      end
-
-      SMALL_BLOCK_READ: begin
-
-        data_in_valid <= 1;
-
-        if (data_in_valid == 1 && data_in_ready == 1) begin //ha képes adatot fogadni az FFT core, akkor megkezdünk egy olvasást
-
-
-          if (small_read_cntr == 255) begin
-            small_read_cntr_offset <= small_read_cntr_offset + small_read_cntr - 64;  //overlap
-            small_read_cntr <= 0;
-
-            data_in_last <= 0;
-            data_in_valid <= 0;
-            next_state <= SAMPLE_IN;
           end else begin
-            small_read_cntr  <= small_read_cntr + 1;
-            smpl_rd_addr_reg <= (small_read_cntr_offset + small_read_cntr) * 16;
+            if (we_a_reg == 1) begin
 
-            if (small_read_cntr == 254) begin
-              data_in_last <= 1;
+              smpl_cntr <= smpl_cntr + 1;
+              smpl_wr_addr_reg <= smpl_cntr * 16;
+
+              small_smpl_cntr <= small_smpl_cntr + 1;
+
+              large_smpl_cntr <= large_smpl_cntr + 1;
             end
 
           end
-
-
         end
-      end
 
-      LARGE_BLOCK_READ: begin
+        CONFIG: begin
+          if (small_smpl_cntr == 192) begin
+            config_tdata <= {
+              7'b0000000,  // PAD hogy 32 bit legyen, mert byte- többszörösnek kell a hossznak lennie
+              16'b0101010101010101,  // SCALE_SCH 8db 01pár
+              1'b1,  // FWD/INV 
+              //8'b00000000,         // CP_LEN 
+              3'b000,
+              5'b01000  // PAD, NFFT :256
+            };
 
-        data_in_valid <= 1;
+            config_valid <= 1;
+            if (config_ready == 1 && config_valid == 1) begin
+              small_smpl_cntr <= 0;
+              config_valid <= 0;
+              smpl_rd_addr_reg <= small_read_cntr_offset * 16;
+              state_reg   <= SMALL_BLOCK_READ;
+            end
+          end else if (large_smpl_cntr == 576) begin
+            config_tdata <= {
+              3'b000,  // PAD hogy 32 bit legyen, mert byte- többszörösnek kell a hossznak lennie
+              20'b01010101010101010101,  // SCALE_SCH 10db 01pár
+              1'b1,  // FWD/INV 
+              //8'b00000000,         // CP_LEN 
+              3'b000,
+              5'b01010  // NFFT :1024
+            };  // SCALE_SCH FWD/INV PAD CP_LEN PAD NFFT nem fér bele...
 
-        if (data_in_valid == 1 && data_in_ready == 1) begin //ha képes adatot fogadni az FFT core, akkor megkezdünk egy olvasást
+
+            config_valid <= 1;
+            if (config_ready == 1 && config_valid == 1) begin
+              large_smpl_cntr <= 0;
+              config_valid <= 0;
+              smpl_rd_addr_reg <= large_read_cntr_offset * 16; //ezt itt azért kell, hogy a legelső olvasásnál ne rossz helyről olvasson, utána úgyis korrigálva lenne
+              state_reg   <= LARGE_BLOCK_READ;
+            end
+
+          end
+        end
+
+        SMALL_BLOCK_READ: begin
+
+          data_in_valid <= 1;
+
+          if (data_in_valid == 1 && data_in_ready == 1) begin //ha képes adatot fogadni az FFT core, akkor megkezdünk egy olvasást
 
 
-          if (large_read_cntr == 1023) begin
-            large_read_cntr_offset <= large_read_cntr_offset + large_read_cntr - 448;  //overlap
-            large_read_cntr <= 0;
+            if (small_read_cntr == 255) begin
+              small_read_cntr_offset <= small_read_cntr_offset + 192;  //overlap
+              small_read_cntr <= 0;
+             // smpl_rd_addr_reg <= 0;
 
-            data_in_last <= 0;
-            data_in_valid <= 0;
-            next_state <= SAMPLE_IN;
-          end else begin
-            large_read_cntr  <= large_read_cntr + 1;
-            smpl_rd_addr_reg <= (large_read_cntr_offset + large_read_cntr) * 16;
+              data_in_last <= 0;
+              data_in_valid <= 0;
+              state_reg <= SAMPLE_IN;
+            end else begin
+              small_read_cntr  <= small_read_cntr + 1;
+              smpl_rd_addr_reg <= (small_read_cntr_offset + small_read_cntr + 1) * 16;
 
-            if (large_read_cntr == 1022) begin
-              data_in_last <= 1;
+              if (small_read_cntr == 254) begin
+                data_in_last <= 1;
+              end
+
             end
 
 
           end
         end
-      end
+
+        LARGE_BLOCK_READ: begin
+
+          data_in_valid <= 1;
+
+          if (data_in_valid == 1 && data_in_ready == 1) begin //ha képes adatot fogadni az FFT core, akkor megkezdünk egy olvasást
 
 
-    endcase
+            if (large_read_cntr == 1023) begin
+              large_read_cntr_offset <= large_read_cntr_offset + 576;  //overlap
+              large_read_cntr <= 0;
+              //smpl_rd_addr_reg <= 0;
+
+              data_in_last <= 0;
+              data_in_valid <= 0;
+              state_reg <= SAMPLE_IN;
+            end else begin
+              large_read_cntr  <= large_read_cntr + 1;
+              smpl_rd_addr_reg <= (large_read_cntr_offset + large_read_cntr + 1) * 16;
+
+              if (large_read_cntr == 1022) begin
+                data_in_last <= 1;
+              end
+
+
+            end
+          end
+        end
+
+        default: begin
+                state_reg <= SAMPLE_IN;
+          
+                small_read_cntr <= 0;
+                large_read_cntr <= 0;
+                data_in_valid <= 0;
+                data_in_last <= 0;
+        end
+
+      endcase
+    end
   end
 
 
