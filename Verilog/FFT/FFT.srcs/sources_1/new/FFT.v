@@ -65,16 +65,57 @@ module FFT (
   wire data_out_channel_halt;
 
   wire [15:0] buffer_out_raw;
-  reg  [31:0] buffer_out_reg_ext;
+  reg [31:0] buffer_out_reg_ext;
   wire [31:0] buffer_out;  //ezt majd még Hann ablakozni
 
+  reg data_in_valid_d1, data_in_valid_d2;
+  reg data_in_last_d1, data_in_last_d2;
+
+  reg [31:0] shadow_reg;
+  reg shadow_valid;
+
+  // A 0-k hozzáfűzése miatt késik az FFT bemenete, hogy ne legyen
+  // adatveszteség kell egy skid buffer, mivel mindig az első elküldött adat
+  // után egy clk-ra data_in_ready 0-ba megy, ekkor egy adatot elvesztünk,
+  // elcsúszik a pipeline
   always @(posedge clk) begin
-
-    begin
-      buffer_out_reg_ext <= {16'b0, buffer_out_raw};
+    if (rst == 0) begin
+      data_in_valid_d1 <= 0;
+      data_in_valid_d2 <= 0;
+      data_in_last_d1 <= 0;
+      data_in_last_d2 <= 0;
+      buffer_out_reg_ext <= 0;
+      shadow_reg <= 0;
+      shadow_valid <= 0;
     end
+    else begin
 
+      if (data_in_ready) begin
 
+         data_in_valid_d1 <= data_in_valid;
+         data_in_last_d1 <= data_in_last;
+         data_in_valid_d2 <= data_in_valid_d1;
+         data_in_last_d2 <= data_in_last_d1;
+
+        if (shadow_valid) begin
+           buffer_out_reg_ext <= shadow_reg;
+           shadow_valid <= 0;
+        end
+
+        else begin
+           buffer_out_reg_ext <= {16'b0, buffer_out_raw};
+        end
+      end
+
+      else begin
+        // 1-el delayelt valid még 1-es, de a data_in_ready épp lement 0-ba,
+        // mentjük az adatot, flaget állítunk
+        if (data_in_valid_d1 == 1 && shadow_valid == 0) begin
+           shadow_reg <= {16'b0, buffer_out_raw};
+           shadow_valid <= 1;
+        end
+      end
+    end
   end
 
   assign buffer_out = buffer_out_reg_ext;
@@ -86,9 +127,9 @@ module FFT (
       .s_axis_config_tvalid  (config_valid),        // input wire s_axis_config_tvalid
       .s_axis_config_tready  (config_ready),        // output wire s_axis_config_tready
       .s_axis_data_tdata     (buffer_out),          // input wire [31 : 0] s_axis_data_tdata
-      .s_axis_data_tvalid    (data_in_valid),       // input wire s_axis_data_tvalid
+      .s_axis_data_tvalid    (data_in_valid_d2),       // input wire s_axis_data_tvalid
       .s_axis_data_tready    (data_in_ready),       // output wire s_axis_data_tready
-      .s_axis_data_tlast     (data_in_last),        // input wire s_axis_data_tlast
+      .s_axis_data_tlast     (data_in_last_d2),        // input wire s_axis_data_tlast
       .m_axis_data_tdata     (data_out),            // output wire [31 : 0] m_axis_data_tdata
       .m_axis_data_tvalid    (data_out_valid),      // output wire m_axis_data_tvalid
       //  .m_axis_data_tready(data_out_ready),                    // input wire m_axis_data_tready
@@ -109,12 +150,36 @@ module FFT (
   reg [13:0] smpl_rd_addr_reg;
 
 
-
-
   reg [12:0] fs_cntr;
+  reg start;
+  reg [9:0] start_cntr;
+  reg fft_enable;
 
   always @(posedge clk) begin
-    if (rst == 0) fs_cntr <= 0;
+    if (rst == 0) begin
+      fs_cntr <= 0;
+      start <= 1;
+      start_cntr <= 0;
+      we_a_reg <= 0; //gyorsan feltöltjük értékekkel a ram-ot
+      fft_enable <= 0;
+    end
+
+    else if (start == 1) begin
+
+      if (start_cntr != 1023)
+      begin
+        we_a_reg <= 1;
+        start_cntr <= start_cntr + 1;
+        smpl_wr_addr_reg <= start_cntr;
+      end
+
+      else if (start_cntr == 1023)
+      begin
+        smpl_wr_addr_reg <= start_cntr;
+        start  <= 0;
+        fft_enable <= 1;
+      end
+    end
 
     else begin
       fs_cntr <= fs_cntr + 1;
@@ -127,66 +192,6 @@ module FFT (
 
   end
 
-  //TEST
-  //always @ (posedge clk)
-  //begin
-  //    if (rst == 0) smpl_wr_addr_reg <= 0;
-  //    
-  //    else
-  //    begin
-  //        if(we_a_reg == 1) smpl_wr_addr_reg <= smpl_wr_addr_reg + 16;
-  //    end
-  //    
-  //    
-  //end
-
-  //TEST
-  //reg rd_enable;
-  //
-  //reg [1:0] we_a_reg_edge; 
-  //
-  //always @ (posedge clk)
-  //begin
-  //    if (rst == 0) we_a_reg_edge <= 0;
-  //    
-  //    else
-  //    begin
-  //        we_a_reg_edge = {we_a_reg_edge[0], we_a_reg};
-  //    end
-  //    
-  //end
-  //
-  //always @ (posedge clk)
-  //begin
-  //    if(rst == 0)
-  //    begin 
-  //        smpl_rd_addr_reg <= 0; //
-  //        rd_enable <= 0;
-  //
-  //    end
-  //    
-  //    else
-  //    begin
-  //        if (we_a_reg_edge[0] == 1 && we_a_reg_edge[1] == 0 && rd_enable == 0) rd_enable = rd_enable + 1; //ha jön két we_a_reg, akkor engedélyezzük, mivel a BRAM-unk read first, el kell eggyel tolni az olvasást, ha meg akarom nézni néhány mintára
-  //    
-  //        else
-  //        begin
-  //            if(rd_enable == 1 && we_a_reg == 1) 
-  //            begin
-  //                smpl_rd_addr_reg <= smpl_rd_addr_reg + 16;
-  //            end
-  //        end
-  //       
-  //    end
-  //end
-
-
-
-
-
-
-
-  wire [15:0] test;
 
   ram #(
       .DATA_W(16),
@@ -204,6 +209,9 @@ module FFT (
       .din_b (),
       .dout_b(buffer_out_raw)
   );
+  
+
+
 
 
   /************************* FINITE STATE MACHINE ***************************/
@@ -212,8 +220,6 @@ module FFT (
   localparam [1:0] SMALL_BLOCK_READ = 2'b01;
   localparam [1:0] LARGE_BLOCK_READ = 2'b10;
   localparam [1:0] CONFIG = 2'b11;
-
-
 
   reg [7:0] small_read_cntr;
   reg [7:0] small_smpl_cntr;
@@ -224,27 +230,25 @@ module FFT (
   reg [9:0] smpl_cntr;
 
   reg [1:0] state_reg;
-  reg [1:0] state_reg;
-
 
   always @(posedge clk) begin
-   if (rst == 0) begin
-        state_reg <= SAMPLE_IN;
-        config_tdata <= 0;
-        smpl_cntr <= 0;
-        small_read_cntr <= 0;
-        small_smpl_cntr <= 0;
-        large_read_cntr <= 0;
-        large_smpl_cntr <= 0;
-        small_read_cntr_offset <= 0;
-        large_read_cntr_offset <= 0;
-        data_in_last <= 0;
-        smpl_rd_addr_reg <= 0;
-        smpl_wr_addr_reg <= 0;
-        config_valid <= 0;
-        data_in_valid <= 0;
-    end
-    else begin
+    if (rst == 0) begin
+      state_reg <= SAMPLE_IN;
+      config_tdata <= 0;
+      smpl_cntr <= 0;
+      small_read_cntr <= 0;
+      small_smpl_cntr <= 0;
+      large_read_cntr <= 0;
+      large_smpl_cntr <= 0;
+      small_read_cntr_offset <= 0;
+      large_read_cntr_offset <= 0;
+      data_in_last <= 0;
+      smpl_rd_addr_reg <= 0;
+      smpl_wr_addr_reg <= 0;
+      config_valid <= 0;
+      data_in_valid <= 0;
+
+    end else if (fft_enable == 1) begin
       case (state_reg)
         SAMPLE_IN: begin
           if (small_smpl_cntr == 192) begin
@@ -257,7 +261,7 @@ module FFT (
             if (we_a_reg == 1) begin
 
               smpl_cntr <= smpl_cntr + 1;
-              smpl_wr_addr_reg <= smpl_cntr * 16;
+              smpl_wr_addr_reg <= smpl_cntr;
 
               small_smpl_cntr <= small_smpl_cntr + 1;
 
@@ -282,8 +286,8 @@ module FFT (
             if (config_ready == 1 && config_valid == 1) begin
               small_smpl_cntr <= 0;
               config_valid <= 0;
-              smpl_rd_addr_reg <= small_read_cntr_offset * 16;
-              state_reg   <= SMALL_BLOCK_READ;
+              smpl_rd_addr_reg <= small_read_cntr_offset;
+              state_reg <= SMALL_BLOCK_READ;
             end
           end else if (large_smpl_cntr == 576) begin
             config_tdata <= {
@@ -300,8 +304,8 @@ module FFT (
             if (config_ready == 1 && config_valid == 1) begin
               large_smpl_cntr <= 0;
               config_valid <= 0;
-              smpl_rd_addr_reg <= large_read_cntr_offset * 16; //ezt itt azért kell, hogy a legelső olvasásnál ne rossz helyről olvasson, utána úgyis korrigálva lenne
-              state_reg   <= LARGE_BLOCK_READ;
+              smpl_rd_addr_reg <= large_read_cntr_offset; //ezt itt azért kell, hogy a legelső olvasásnál ne rossz helyről olvasson, utána úgyis korrigálva lenne
+              state_reg <= LARGE_BLOCK_READ;
             end
 
           end
@@ -317,14 +321,14 @@ module FFT (
             if (small_read_cntr == 255) begin
               small_read_cntr_offset <= small_read_cntr_offset + 192;  //overlap
               small_read_cntr <= 0;
-             // smpl_rd_addr_reg <= 0;
+              // smpl_rd_addr_reg <= 0;
 
               data_in_last <= 0;
               data_in_valid <= 0;
               state_reg <= SAMPLE_IN;
             end else begin
               small_read_cntr  <= small_read_cntr + 1;
-              smpl_rd_addr_reg <= (small_read_cntr_offset + small_read_cntr + 1) * 16;
+              smpl_rd_addr_reg <= (small_read_cntr_offset + small_read_cntr + 1);
 
               if (small_read_cntr == 254) begin
                 data_in_last <= 1;
@@ -334,6 +338,7 @@ module FFT (
 
 
           end
+
         end
 
         LARGE_BLOCK_READ: begin
@@ -353,7 +358,7 @@ module FFT (
               state_reg <= SAMPLE_IN;
             end else begin
               large_read_cntr  <= large_read_cntr + 1;
-              smpl_rd_addr_reg <= (large_read_cntr_offset + large_read_cntr + 1) * 16;
+              smpl_rd_addr_reg <= (large_read_cntr_offset + large_read_cntr + 1);
 
               if (large_read_cntr == 1022) begin
                 data_in_last <= 1;
@@ -365,12 +370,12 @@ module FFT (
         end
 
         default: begin
-                state_reg <= SAMPLE_IN;
-          
-                small_read_cntr <= 0;
-                large_read_cntr <= 0;
-                data_in_valid <= 0;
-                data_in_last <= 0;
+          state_reg <= SAMPLE_IN;
+
+          small_read_cntr <= 0;
+          large_read_cntr <= 0;
+          data_in_valid <= 0;
+          data_in_last <= 0;
         end
 
       endcase

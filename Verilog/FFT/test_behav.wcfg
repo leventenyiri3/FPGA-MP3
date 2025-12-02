@@ -12,19 +12,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="29,860.840833 us"></ZoomStartTime>
-      <ZoomEndTime time="30,027.840834 us"></ZoomEndTime>
-      <Cursor1Time time="29,892.340833 us"></Cursor1Time>
+      <ZoomStartTime time="0.000000000 ms"></ZoomStartTime>
+      <ZoomEndTime time="79.800000001 ms"></ZoomEndTime>
+      <Cursor1Time time="4.337482500 ms"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="231"></NameColumnWidth>
-      <ValueColumnWidth column_width="81"></ValueColumnWidth>
+      <NameColumnWidth column_width="214"></NameColumnWidth>
+      <ValueColumnWidth column_width="73"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="30" />
-   <wave_markers>
-      <marker label="" time="4339437500" />
-      <marker label="" time="4331067500" />
-   </wave_markers>
+   <WVObjectSize size="39" />
    <wvobject type="logic" fp_name="/test/testFFT/clk">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -69,9 +65,33 @@
       <obj_property name="ElementShortName">data_in_valid</obj_property>
       <obj_property name="ObjectShortName">data_in_valid</obj_property>
    </wvobject>
+   <wvobject type="logic" fp_name="/test/testFFT/data_in_valid_d1">
+      <obj_property name="ElementShortName">data_in_valid_d1</obj_property>
+      <obj_property name="ObjectShortName">data_in_valid_d1</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/test/testFFT/data_in_valid_d2">
+      <obj_property name="ElementShortName">data_in_valid_d2</obj_property>
+      <obj_property name="ObjectShortName">data_in_valid_d2</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/test/testFFT/data_in_last_d1">
+      <obj_property name="ElementShortName">data_in_last_d1</obj_property>
+      <obj_property name="ObjectShortName">data_in_last_d1</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/test/testFFT/data_in_last_d2">
+      <obj_property name="ElementShortName">data_in_last_d2</obj_property>
+      <obj_property name="ObjectShortName">data_in_last_d2</obj_property>
+   </wvobject>
    <wvobject type="logic" fp_name="/test/testFFT/data_in_last">
       <obj_property name="ElementShortName">data_in_last</obj_property>
       <obj_property name="ObjectShortName">data_in_last</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/test/testFFT/shadow_reg">
+      <obj_property name="ElementShortName">shadow_reg[31:0]</obj_property>
+      <obj_property name="ObjectShortName">shadow_reg[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/test/testFFT/shadow_valid">
+      <obj_property name="ElementShortName">shadow_valid</obj_property>
+      <obj_property name="ObjectShortName">shadow_valid</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/test/testFFT/buffer_out_raw">
       <obj_property name="ElementShortName">buffer_out_raw[15:0]</obj_property>
@@ -90,13 +110,13 @@
       <obj_property name="ObjectShortName">we_a_reg</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/test/testFFT/smpl_wr_addr_reg">
-      <obj_property name="ElementShortName">smpl_wr_addr_reg[9:0]</obj_property>
-      <obj_property name="ObjectShortName">smpl_wr_addr_reg[9:0]</obj_property>
+      <obj_property name="ElementShortName">smpl_wr_addr_reg[13:0]</obj_property>
+      <obj_property name="ObjectShortName">smpl_wr_addr_reg[13:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/test/testFFT/smpl_rd_addr_reg">
-      <obj_property name="ElementShortName">smpl_rd_addr_reg[9:0]</obj_property>
-      <obj_property name="ObjectShortName">smpl_rd_addr_reg[9:0]</obj_property>
+      <obj_property name="ElementShortName">smpl_rd_addr_reg[13:0]</obj_property>
+      <obj_property name="ObjectShortName">smpl_rd_addr_reg[13:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/test/testFFT/small_read_cntr">
@@ -152,5 +172,17 @@
    <wvobject type="array" fp_name="/test/testFFT/LARGE_BLOCK_READ">
       <obj_property name="ElementShortName">LARGE_BLOCK_READ[1:0]</obj_property>
       <obj_property name="ObjectShortName">LARGE_BLOCK_READ[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/test/testFFT/start">
+      <obj_property name="ElementShortName">start</obj_property>
+      <obj_property name="ObjectShortName">start</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/test/testFFT/start_cntr">
+      <obj_property name="ElementShortName">start_cntr[9:0]</obj_property>
+      <obj_property name="ObjectShortName">start_cntr[9:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/test/testFFT/fft_enable">
+      <obj_property name="ElementShortName">fft_enable</obj_property>
+      <obj_property name="ObjectShortName">fft_enable</obj_property>
    </wvobject>
 </wave_config>

@@ -67,7 +67,7 @@ begin
     
     else 
     begin
-        data_in <= {data_in[14:0], data_in[0] ^ data_in[1] ^ data_in[4] ^ data_in[2]}; 
+        data_in <= {data_in[14:0], data_in[15] ^ data_in[13] ^ data_in[12] ^ data_in[10]};
     end
 end
 

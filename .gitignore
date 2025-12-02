@@ -1,1 +1,19 @@
+# Vivado Generated Files
+*.jou
+*.log
+*.dcp
 *.wdb
+*.str
+.Xil/
+
+# Generated folders
+*.cache/
+*.hw/
+*.ip_user_files/
+*.runs/
+*.sim/
+*.gen/
+
+# Synthesis/Implementation results
+usage_statistics_webtalk.html
+usage_statistics_webtalk.xml
