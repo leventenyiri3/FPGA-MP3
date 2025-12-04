@@ -12,15 +12,21 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0.000000000 ms"></ZoomStartTime>
-      <ZoomEndTime time="79.800000001 ms"></ZoomEndTime>
-      <Cursor1Time time="4.337482500 ms"></Cursor1Time>
+      <ZoomStartTime time="0.051815417 ms"></ZoomStartTime>
+      <ZoomEndTime time="80.351815418 ms"></ZoomEndTime>
+      <Cursor1Time time="36.351815417 ms"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="214"></NameColumnWidth>
-      <ValueColumnWidth column_width="73"></ValueColumnWidth>
+      <NameColumnWidth column_width="202"></NameColumnWidth>
+      <ValueColumnWidth column_width="80"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="39" />
+   <wave_markers>
+      <marker label="" time="36351697500" />
+      <marker label="" time="36292532500" />
+      <marker label="" time="36350537500" />
+      <marker label="" time="36292242500" />
+   </wave_markers>
    <wvobject type="logic" fp_name="/test/testFFT/clk">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -32,10 +38,26 @@
    <wvobject type="array" fp_name="/test/testFFT/data_in">
       <obj_property name="ElementShortName">data_in[15:0]</obj_property>
       <obj_property name="ObjectShortName">data_in[15:0]</obj_property>
+      <obj_property name="WaveformStyle">STYLE_ANALOG</obj_property>
+      <obj_property name="CellHeight">100</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/test/testFFT/data_out">
       <obj_property name="ElementShortName">data_out[31:0]</obj_property>
       <obj_property name="ObjectShortName">data_out[31:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <obj_property name="WaveformStyle">STYLE_ANALOG</obj_property>
+      <obj_property name="CellHeight">100</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/test/testFFT/out_abs">
+      <obj_property name="ElementShortName">out_abs[32:0]</obj_property>
+      <obj_property name="ObjectShortName">out_abs[32:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <obj_property name="WaveformStyle">STYLE_ANALOG</obj_property>
+      <obj_property name="CellHeight">100</obj_property>
+      <obj_property name="AnalogYRangeType">ANALOG_YRANGETYPE_FIXED</obj_property>
+      <obj_property name="AnalogYRangeMin">-1.1139e+08</obj_property>
+      <obj_property name="AnalogYRRangeMax">-8.56846e+06</obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/test/testFFT/data_out_valid">
       <obj_property name="ElementShortName">data_out_valid</obj_property>
@@ -180,9 +202,5 @@
    <wvobject type="array" fp_name="/test/testFFT/start_cntr">
       <obj_property name="ElementShortName">start_cntr[9:0]</obj_property>
       <obj_property name="ObjectShortName">start_cntr[9:0]</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/test/testFFT/fft_enable">
-      <obj_property name="ElementShortName">fft_enable</obj_property>
-      <obj_property name="ObjectShortName">fft_enable</obj_property>
    </wvobject>
 </wave_config>

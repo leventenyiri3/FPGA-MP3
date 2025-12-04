@@ -39,7 +39,6 @@ FFT testFFT(
     .data_out(data_out),
     .data_out_valid(data_out_valid),
     .data_out_last(data_out_last)
-    
 );
 
 
@@ -58,20 +57,49 @@ begin
     rst <= 1;
 end
 
-always @ (posedge clk)
+//always @ (posedge clk)
+//begin
+//    if (rst == 0)
+//    begin
+//        data_in <= 16'b0100010101001010;
+//    end
+//
+//    else
+//    begin
+//        data_in <= {data_in[14:0], data_in[15] ^ data_in[13] ^ data_in[12] ^ data_in[10]};
+//    end
+//end
+
+reg signed [15:0] sin_mem [0:1023];
+
+initial
 begin
-    if (rst == 0)
-    begin
-        data_in <= 16'b0100010101001010;
-    end
-    
-    else 
-    begin
-        data_in <= {data_in[14:0], data_in[15] ^ data_in[13] ^ data_in[12] ^ data_in[10]};
-    end
+  $readmemh("sine_lut.mem",sin_mem);
 end
 
+reg [14:0] sin_cntr_en; //10 kHz-s szinusz legyen
 
+reg  [9:0] sin_cntr;
+reg [12:0] fs_sync_cntr; // Match the FFT's 4534 counter
+
+always @ (posedge clk) begin
+  if (rst == 0) begin
+    sin_cntr <= 0;
+    fs_sync_cntr <= 0;
+  end else begin
+   //FFT sampling rate-el sync
+    if (fs_sync_cntr == 4534) begin
+       fs_sync_cntr <= 0;
+
+//       sin_cntr <= sin_cntr + 232; // (1024*10 000)/(44 100) ~= 232
+       sin_cntr <= sin_cntr + 23; // (1024*1 000)/(44 100) ~= 23
+
+       data_in <= sin_mem[sin_cntr];
+    end else begin
+       fs_sync_cntr <= fs_sync_cntr + 1;
+    end
+  end
+end
 
 
 endmodule
