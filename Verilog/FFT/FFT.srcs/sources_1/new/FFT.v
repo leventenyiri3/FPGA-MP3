@@ -20,42 +20,22 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
+
 module FFT (
     input clk,
     input rst,
-    //    input [39:0] config_tdata,
-    //    input config_valid,
-
     input [15:0] data_in,
-    //    input data_in_valid,
-    //    input data_in_last,
-
     output [31:0] data_out,
     output data_out_valid,
     output data_out_last,
     output config_ready,
     output data_in_ready
-
-
-    // TEST PORTS
-
-    //output fs_out
-
 );
 
-  //reg clk;
-  //reg rst;
   reg [31:0] config_tdata;
   reg config_valid;
-  //wire config_ready;
-  //reg [31:0] data_in;
   reg data_in_valid;
-  //wire data_in_ready;
   reg data_in_last;
-  //wire [31:0] data_out;
-  //wire data_out_valid;
-  //reg data_out_ready;
-  //wire data_out_last;
 
   wire frame_started;
   wire tlast_unexpected;
@@ -74,6 +54,20 @@ module FFT (
   reg [31:0] shadow_reg;
   reg shadow_valid;
 
+  reg [9:0] smpl_cntr;
+
+
+reg signed [15:0] hann_256_coeffs [0:255];
+reg signed [15:0] hann_1024_coeffs [0:1023];
+
+initial
+begin
+  $readmemh("hann_256_coeffs.mem",hann_256_coeffs );
+  $readmemh("hann_1024_coeffs.mem",hann_1024_coeffs);
+end
+
+reg [9:0] hann_cntr_1024;
+reg [7:0] hann_cntr_256;
   // A 0-k hozzáfűzése miatt késik az FFT bemenete, hogy ne legyen
   // adatveszteség kell egy skid buffer, mivel mindig az első elküldött adat
   // után egy clk-ra data_in_ready 0-ba megy, ekkor egy adatot elvesztünk,
@@ -87,6 +81,8 @@ module FFT (
       buffer_out_reg_ext <= 0;
       shadow_reg <= 0;
       shadow_valid <= 0;
+      hann_cntr_1024 <= 0;
+      hann_cntr_256 <= 0;
     end else begin
 
       if (data_in_ready) begin
@@ -97,16 +93,23 @@ module FFT (
         data_in_last_d2  <= data_in_last_d1;
 
         if (shadow_valid) begin
-          buffer_out_reg_ext <= shadow_reg;
-          shadow_valid <= 0;
+
+          //ha shadow valid, akkor az kell a data_out_reg_ext-re, de a hann-al
+          //szorozva
+          
+          buffer_out_reg_ext <= {16'b0, shadow_reg * hann_256_coeffs[hann_cntr_256]};
+
         end else begin
-          buffer_out_reg_ext <= {16'b0, buffer_out_raw};
+
+
+
         end
+
       end else begin
         // 1-el delayelt valid még 1-es, de a data_in_ready épp lement 0-ba,
         // mentjük az adatot, flaget állítunk
         if (data_in_valid_d1 == 1 && shadow_valid == 0) begin
-          shadow_reg   <= {16'b0, buffer_out_raw};
+          shadow_reg   <=  buffer_out_raw;
           shadow_valid <= 1;
         end
       end
@@ -114,6 +117,10 @@ module FFT (
   end
 
   assign buffer_out = buffer_out_reg_ext;
+
+
+  //kell egy data_out_cntr, a config_data[1] == 0 akkor 256-os hann, ha 1,
+  //akkor 1024, a data_out_cntr alapján végig kell szorozni
 
 
   xfft_0 fft_radix2 (
@@ -218,7 +225,6 @@ always @(posedge clk) begin
   reg [9:0] large_read_cntr;
   reg [9:0] large_smpl_cntr;
   reg [9:0] large_read_cntr_offset;
-  reg [9:0] smpl_cntr;
 
   reg [1:0] state_reg;
 
