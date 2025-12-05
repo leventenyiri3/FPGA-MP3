@@ -51,23 +51,49 @@ module FFT (
   reg data_in_valid_d1, data_in_valid_d2;
   reg data_in_last_d1, data_in_last_d2;
 
-  reg [31:0] shadow_reg;
+  reg [15:0] shadow_reg;
   reg shadow_valid;
 
   reg [9:0] smpl_cntr;
 
+  reg signed [15:0] current_sample;
+  reg signed [15:0] current_coeff;
 
-reg signed [15:0] hann_256_coeffs [0:255];
-reg signed [15:0] hann_1024_coeffs [0:1023];
 
-initial
-begin
-  $readmemh("hann_256_coeffs.mem",hann_256_coeffs );
-  $readmemh("hann_1024_coeffs.mem",hann_1024_coeffs);
-end
+  reg signed [15:0] hann_256_coeffs[0:255];
+  reg signed [15:0] hann_1024_coeffs[0:1023];  //Q1.15
 
-reg [9:0] hann_cntr_1024;
-reg [7:0] hann_cntr_256;
+  initial begin
+    $readmemh("hann_256_coeffs.mem", hann_256_coeffs);
+    $readmemh("hann_1024_coeffs.mem", hann_1024_coeffs);
+  end
+
+  reg [ 9:0] hann_cntr;
+
+  reg signed [31:0] hanned_buffer;
+
+  always @(*) begin
+    if (shadow_valid == 1) begin
+      current_sample = $signed(shadow_reg);
+    end
+
+    else begin
+      current_sample = $signed(buffer_out_raw); //biztos ami biztos castolom
+    end
+
+    if (config_tdata[1] == 0) begin
+      current_coeff = hann_256_coeffs[hann_cntr];
+    end
+
+    else begin
+      current_coeff = hann_1024_coeffs[hann_cntr];
+    end
+
+    hanned_buffer = current_sample * current_coeff;
+  end
+
+
+
   // A 0-k hozzáfűzése miatt késik az FFT bemenete, hogy ne legyen
   // adatveszteség kell egy skid buffer, mivel mindig az első elküldött adat
   // után egy clk-ra data_in_ready 0-ba megy, ekkor egy adatot elvesztünk,
@@ -81,8 +107,9 @@ reg [7:0] hann_cntr_256;
       buffer_out_reg_ext <= 0;
       shadow_reg <= 0;
       shadow_valid <= 0;
-      hann_cntr_1024 <= 0;
-      hann_cntr_256 <= 0;
+      hann_cntr <= 0;
+      current_sample <= 0;
+      current_coeff <= 0;
     end else begin
 
       if (data_in_ready) begin
@@ -92,16 +119,20 @@ reg [7:0] hann_cntr_256;
         data_in_valid_d2 <= data_in_valid_d1;
         data_in_last_d2  <= data_in_last_d1;
 
-        if (shadow_valid) begin
+        if (data_in_valid_d1 == 1 || shadow_valid == 1) begin
 
           //ha shadow valid, akkor az kell a data_out_reg_ext-re, de a hann-al
           //szorozva
-          
-          buffer_out_reg_ext <= {16'b0, shadow_reg * hann_256_coeffs[hann_cntr_256]};
 
-        end else begin
+          buffer_out_reg_ext <= {16'b0, hanned_buffer[30:15]}; // az alsó 15bit nem kell nekünk, azok a törtrészek, visszaskálázzuk
 
+          hann_cntr <= hann_cntr + 1;
 
+          if (data_in_last_d1 == 1) begin
+            hann_cntr <= 0;
+          end
+
+          if (shadow_valid == 1) shadow_valid <= 0;
 
         end
 
@@ -109,7 +140,7 @@ reg [7:0] hann_cntr_256;
         // 1-el delayelt valid még 1-es, de a data_in_ready épp lement 0-ba,
         // mentjük az adatot, flaget állítunk
         if (data_in_valid_d1 == 1 && shadow_valid == 0) begin
-          shadow_reg   <=  buffer_out_raw;
+          shadow_reg   <= buffer_out_raw;
           shadow_valid <= 1;
         end
       end
@@ -157,7 +188,7 @@ reg [7:0] hann_cntr_256;
   reg start;
   reg [9:0] start_cntr;
 
-always @(posedge clk) begin
+  always @(posedge clk) begin
     if (rst == 0) begin
       fs_cntr <= 0;
       we_a_reg <= 0;
@@ -165,11 +196,10 @@ always @(posedge clk) begin
       smpl_wr_addr_reg <= 0;
       start <= 0;
       start_cntr <= 0;
-    end 
-    else begin
+    end else begin
       //Write_en generálás
       fs_cntr <= fs_cntr + 1;
-      if(fs_cntr == 4534) begin
+      if (fs_cntr == 4534) begin
         fs_cntr  <= 0;
         we_a_reg <= 1;
       end else begin
@@ -182,9 +212,8 @@ always @(posedge clk) begin
         smpl_wr_addr_reg <= smpl_cntr;
 
         if (start == 0) begin
-            start_cntr <= start_cntr + 1;
-            if (start_cntr == 1023)
-                start <= 1; // Trigger FSM to start
+          start_cntr <= start_cntr + 1;
+          if (start_cntr == 1023) start <= 1;  // Trigger FSM to start
         end
       end
     end
@@ -383,8 +412,7 @@ always @(posedge clk) begin
   always @(posedge clk) begin
     if (rst == 0) begin
       out_abs <= 0;
-    end
-    else begin
+    end else begin
       out_abs <= (fft_real * fft_real) + (fft_imag * fft_imag);
     end
   end
