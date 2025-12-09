@@ -26,19 +26,19 @@ reg clk;
 reg rst;
 wire config_ready;
 reg [15:0] data_in;
-wire [31:0] data_out;
-wire data_out_valid;
-reg data_out_ready;
-wire data_out_last;
+wire [31:0] fft_out;
+wire fft_out_valid;
+reg fft_out_ready;
+wire fft_out_last;
 
 FFT testFFT(
     .clk(clk),
     .rst(rst),
     .config_ready(config_ready),
     .data_in(data_in),
-    .data_out(data_out),
-    .data_out_valid(data_out_valid),
-    .data_out_last(data_out_last)
+    .fft_out(fft_out),
+    .fft_out_valid(fft_out_valid),
+    .fft_out_last(fft_out_last)
 );
 
 
