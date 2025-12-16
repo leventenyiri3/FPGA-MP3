@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.8.1)  15 NOV 2025 12:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.8.1)  16 DEC 2025 12:22
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -864,11 +864,11 @@ Overfull \hbox (10.60352pt too wide) in paragraph at lines 338--339
 
 
 [6 <./Pictures/big-values.png (PNG copy)>]
-<./Pictures/main-data-granule.png, id=44, 866.23625pt x 317.185pt>
+<./Pictures/main-data-granule.png, id=44, 3436.84pt x 1252.68pt>
 File: ./Pictures/main-data-granule.png Graphic file (type png)
 <use ./Pictures/main-data-granule.png>
 Package pdftex.def Info: ./Pictures/main-data-granule.png  used on input line 367.
-(pdftex.def)             Requested size: 390.0pt x 142.80452pt.
+(pdftex.def)             Requested size: 390.0pt x 142.13417pt.
 
 
 [7]
@@ -920,7 +920,7 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  84i,11n,87p,1182b,2405s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx2074.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb>
-Output written on onlab.pdf (12 pages, 600269 bytes).
+Output written on onlab.pdf (12 pages, 4309646 bytes).
 PDF statistics:
  139 PDF objects out of 1000 (max. 8388607)
  84 compressed objects within 1 object stream

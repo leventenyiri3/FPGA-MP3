@@ -80,7 +80,7 @@ end
 reg [14:0] sin_cntr_en; //10 kHz-s szinusz legyen
 
 reg  [9:0] sin_cntr;
-reg [12:0] fs_sync_cntr; // Match the FFT's 4534 counter
+reg [12:0] fs_sync_cntr;
 
 always @ (posedge clk) begin
   if (rst == 0) begin

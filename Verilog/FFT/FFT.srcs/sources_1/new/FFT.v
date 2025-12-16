@@ -31,12 +31,7 @@ module FFT (
     output data_in_ready
 );
 
-
-
-
-
-
-
+  /********** INITIALIZING HANN WINDOWS **********/
 
   reg signed [15:0] hann_256_coeffs[0:255];
   reg signed [15:0] hann_1024_coeffs[0:1023];  //Q1.15
@@ -45,8 +40,6 @@ module FFT (
     $readmemh("hann_256_coeffs.mem", hann_256_coeffs);
     $readmemh("hann_1024_coeffs.mem", hann_1024_coeffs);
   end
-
-
 
 
   reg [31:0] config_tdata;
@@ -141,10 +134,6 @@ module FFT (
       .din_b (),
       .dout_b(buffer_out_raw)
   );
-
-
-
-
 
   /************************* FINITE STATE MACHINE ***************************/
 
@@ -270,10 +259,7 @@ module FFT (
               end
 
             end
-
-
           end
-
         end
 
         LARGE_BLOCK_READ: begin
@@ -377,7 +363,7 @@ module FFT (
   wire signed [15:0] fft_imag = fft_out[31:16];
 
   /************************ POWER DENSITY SPECTRUM ************************/
-
+  //skálázás is kell (8/3)
   //ezt is itt inkább dsp-vel
   always @(posedge clk) begin
     if (rst == 0) begin
