@@ -1,42 +1,46 @@
 \documentclass[12pt, a4paper]{article}
-% MARGÓK
-\usepackage[margin=2.5cm]{geometry} 
 
-% SORKÖZ
+% --- MARGÓK ÉS FORMÁZÁS ---
+\usepackage[margin=2.5cm]{geometry}
 \usepackage{setspace}
 \onehalfspacing
 
-\usepackage{graphicx}
-\usepackage{textcomp}
+% --- NYELV ÉS KARAKTERKÓDOLÁS ---
 \usepackage[hungarian]{babel}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
+\usepackage{csquotes}
+\usepackage{textcomp}
+
+% --- GRAFIKA ÉS KÉPEK ---
+\usepackage{graphicx}
+\graphicspath{{./Pictures/}}
+\usepackage{float}
 \usepackage{caption}
 \usepackage{subcaption}
-\usepackage{csquotes}
-\graphicspath{{./Pictures/}}
+
+% --- MATEMATIKA ÉS TÁBLÁZATOK ---
+\usepackage{amsmath}
+\usepackage{tabularx}
+
+% --- BIBLIOGRÁFIA ---
 \usepackage[style=ieee]{biblatex}
 \addbibresource{onlab.bib}
 
-\usepackage{listings}
-\usepackage[svgnames]{xcolor}
-\usepackage{tikz}
-\usetikzlibrary{shapes.geometric, arrows, calc}
-
-\usepackage{float}
-\usepackage{amsmath}
-\usepackage{tabularx}
+% --- URL KEZELÉS ---
 \usepackage{url}
 
+% --- KÓDKIEMELÉS (LISTINGS) ---
+\usepackage{listings}
+\usepackage[svgnames]{xcolor}
 
-% ... többi csomag (graphicx, babel, stb.) ...
-
-% Színbeállítások kódkiemeléshez
+% Színbeállítások
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
 
-\lstset{frame=none,
+\lstset{
+  frame=none,
   language=Bash,
   aboveskip=3mm,
   belowskip=3mm,
@@ -53,8 +57,16 @@
   tabsize=2
 }
 
-% TikZ stílusok
-\tikzstyle{box} = [rectangle, rounded corners, minimum width=3cm, minimum height=0.5cm,text centered, draw=black, fill=orange!30]
+% --- TIKZ BEÁLLÍTÁSOK ---
+\usepackage{tikz}
+
+% - automata, positioning, arrows.meta, bending: Az ÚJ FSM diagramhoz kellenek
+% - shapes.geometric, arrows, calc: A RÉGI diagramjaidhoz kellenek
+% - babel: A magyar nyelvi támogatáshoz
+\usetikzlibrary{shapes.geometric, arrows, calc, automata, positioning, arrows.meta, bending, babel}
+
+% Régi stílusdefiníciók 
+\tikzstyle{box} = [rectangle, rounded corners, minimum width=3cm, minimum height=0.5cm, text centered, draw=black, fill=orange!30]
 \tikzstyle{arrow} = [thick,->,>=stealth]
 
 % --- CÍMOLDAL ADATOK ---
@@ -408,9 +420,9 @@ Mivel minden mintát 32 subband-re osztunk, ezért az eredeti 1152-ből \( 1152*
 
 \subsection{FFT tervezés}
 
-A bejövő adatnak a spektrumát ismerünk kell a pszichoakusztív modell alkalkazásához, ezért FFT-hajtunk végre a bejövő jelen, a filterbankkal párhuzamosa.
+A bejövő adatnak a spektrumát ismerünk kell a pszichoakusztív modell alkalkazásához, ezért FFT-t hajtunk végre a bejövő jelen, a filterbankkal párhuzamosa.
 
-Az FFT elvégzéséhez a Xilinx FFT IP core-ját fogom használni. Meg kell határozni, hogy az elérhető architektúrák közül melyik a legkisebb erőforrás igényű amely megfelel a célunkra. Layer III-nál két FFT-t kell párhuzamosan. Block length == window length.
+Az FFT elvégzéséhez a Xilinx FFT IP core-ját fogom használni. Meg kell határozni, hogy az elérhető architektúrák közül melyik a legkisebb erőforrás igényű amely megfelel a célunknak. Layer III-nál két FFT-t kell párhuzamosan. Block length == window length.
 \begin{description}
   \item[Short blocks] shift length = 192 samples, window length  = 256 samples
   \item[Long blocks] shift length = 576 samples, window length  = 1024 samples
@@ -459,7 +471,136 @@ A Xilinx FFT IP core-ban 4 architekrúra közül lehet választani, ezeknek az e
   \label{fig:fft-arch}
 \end{figure}
 
+A logikámat a(z) \ref{fig:fsm-diagram}. ábrán látható állapotgép vezérli. 
+
+\begin{figure}[H]
+    \centering
+    
+
+    % Átméretezés az oldal szélességére
+    \resizebox{\textwidth}{!}{%
+    
+        \begin{tikzpicture}[->, >=Stealth, node distance=3.5cm]
+
+            %----- Stílusok -----
+            \tikzset{
+                state/.style={
+                    circle, 
+                    draw, 
+                    thick, 
+                    fill=gray!10, 
+                    align=center, 
+                    text width=3cm, 
+                    minimum height=3cm
+                },
+                every node/.style={align=center, font=\footnotesize}
+            }
+
+            %----- Állapotok (States) -----
+            
+            % SAMPLE_IN
+            \node[state, initial] (si) {\texttt{SAMPLE\_IN}\\(2\text{'}b00)};
+
+            % CONFIG (kicsit távolabb húztam jobbra, hogy legyen hely a nyilaknak)
+            \node[state] (cfg) [right=4.5cm of si] {\texttt{CONFIG}\\(2\text{'}b11)};
+
+            % SMALL_BLOCK_READ
+            \node[state] (sbr) [above right=3cm and 1cm of cfg] {\texttt{SMALL\_BLOCK\_READ}\\(2\text{'}b01)};
+
+            % LARGE_BLOCK_READ
+            \node[state] (lbr) [below right=3cm and 1cm of cfg] {\texttt{LARGE\_BLOCK\_READ}\\(2\text{'}b10)};
+
+
+            %----- Átmenetek (Transitions) -----
+
+            % SAMPLE_IN -> SAMPLE_IN (loop)
+            \path (si) edge [loop, out=150, in=120, distance=4em] node[above left] {\texttt{we\_a\_reg == 1}\\(Inc smpl counters)} (si);
+
+            % SAMPLE_IN -> CONFIG
+            \path (si) edge node[above] {\texttt{small\_smpl\_cntr == 192}\\OR\\\texttt{large\_smpl\_cntr == 576}} (cfg);
+
+
+            % --- JAVÍTOTT RÉSZ: CONFIG -> READ ---
+            % Nagyobb ív (45 fok) és középre igazított szöveg (pos=0.5), 
+            % így nem lóg bele a körökbe.
+            
+            % CONFIG -> SMALL_BLOCK_READ
+            \path (cfg) edge [bend left=45] node[above left, pos=0.5] {Handshake OK AND\\\texttt{small\_smpl\_cntr == 192}\\{(Reset cntr, Set NFFT:256)}} (sbr);
+
+            % CONFIG -> LARGE_BLOCK_READ
+            \path (cfg) edge [bend right=45] node[below left, pos=0.5] {Handshake OK AND\\\texttt{large\_smpl\_cntr == 576}\\{(Reset cntr, Set NFFT:1024)}} (lbr);
+
+
+            % --- VISSZATÉRŐ ÁGAK ---
+
+            % SMALL_BLOCK_READ -> SMALL_BLOCK_READ (loop)
+            \path (sbr) edge [loop right] node[right] {Handshake OK AND\\\texttt{small\_read\_cntr < 255}\\{(Inc cntr, if 254 set last)}} (sbr);
+
+            % SMALL_BLOCK_READ -> SAMPLE_IN
+            \path (sbr) edge [bend right=90, looseness=1.3] node[above, sloped] {Handshake OK AND\\\texttt{small\_read\_cntr == 255}\\{(Update Offset +192)}} (si);
+
+
+            % LARGE_BLOCK_READ -> LARGE_BLOCK_READ (loop)
+            \path (lbr) edge [loop right] node[right] {Handshake OK AND\\\texttt{large\_read\_cntr < 1023}\\{(Inc cntr, if 1022 set last)}} (lbr);
+
+            % LARGE_BLOCK_READ -> SAMPLE_IN
+            \path (lbr) edge [bend left=90, looseness=1.3] node[below, sloped] {Handshake OK AND\\\texttt{large\_read\_cntr == 1023}\\{(Update Offset +576)}} (si);
+
+        \end{tikzpicture}%
+    }
+    
+    \caption{Az FFT vezérlő állapotgép diagramja}
+    \label{fig:fsm-diagram}
+\end{figure}
+
+
+A SAMPLE\_IN állapotban írom a bejövő mintákat a BRAM-ba, számlálókkal tartom számon, hogy mennyi jött be (külön számlálók a 256 és 1024 pontos FFT-hez), és ha bejött elegendő egy FFT elvégzéséhez, akkor átmegyünk a CONFIG állapotba. Itt megvizsgálom, hogy melyik számláló hatására léptünk ide, és konfigurálom az FFT core-t. Ezután vagy a SMALL\_BLOCK\_READ vagy a LARGE\_BLOCK\_READ állapotba lépek, és elvégzem az adatátvitelt az IP core bemenetére, majd visszatérek a SAMPLE\_IN állapotba. 
+
+Olvasás után, még mielőtt az FFT bemenetére adnám a jelet végzek rajta egy Hann ablakozást, hogy elkerüljem a spektrális szivárgást. Ehhez a Hann együtthatókat egy python scripttel generálom, eltárolom egy .mem file-ba, majd ebből kiolvasom egy tömbbe. A feladat folytatása során itt is konkretizálni fogom, hogy egy 18k-s BRAM-ba legyenek tárolva.
+
+%Mivel a Hann ablak csökkenti a jelünk energiatartalmát, ezt majd egy konstans szorzóval korrigálom, de csak az FFT után, mivel ott 16 bites bemenetet várunk, és a 16bites PCM jelünket nem szorozhatom 1-nél nagyobb számmal a túlcsordulás veszélye nélkül. Utána viszont úgyis power density spectrumot kell számolni, amit nagyobb változóban fogok tárolni. 
+%
+%A szabvány szerint ebből még majd a pszichoakusztikus modellhez PSD(power spectral density)-t kell számolni, és azt nagyobb változóban fogom tárolni, tehát ott el tudom majd végezni a konstanssal való szorzást is.
+%A képlet a szabvány alapján: 
+%\begin{equation}
+%    \label{eq:psd_calc}
+%    X(k) = 10 \log_{10} \left| \frac{1}{N} \sum_{l=0}^{N-1} h(l) \cdot s(l) \cdot e^{-j \frac{2\pi k l}{N}} \right|^2 \text{ dB} \qquad k = 0 \dots \frac{N}{2}
+%\end{equation}
+%
+%A \ref{eq:psd_calc}. egyenletben a h(l) a Hann ablakunk együtthatója, s(l) a mintavételezett jelünk. A Hann ablak együtthatóit a \ref{eq:hann}. egyenlet alapján generáltam. A \(\sqrt{\frac{8}{3}}\)-as konstanssal (illetve ennek a négyzetével, mivel a PSD-nél fogom beiktatni) majd az FFT után szorzom a jelet.
+
+Mivel a BRAM-ból való olvasás egy órajelbe telik, a szorzás DSP slice-al való hatékony megvalósításához pedig 3 pipeline regiszter szükséges, ezért az FFT core-nak a data\_in\_valid és data\_in\_last jeleit 4 ciklussal meg kell késleltetni. 
+A(z) \ref{fig:dsp}. ábrán látható regiszterek közül nekünk csak az A, B, M és P kell, mivel pre-addert nem használunk.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{dsp.png}
+  \caption{DSP48E1 Slice \cite{xilinx_dsp48e1}}
+  \label{fig:dsp}
+\end{figure}
+
+A bejövő jelek átlapolását úgy oldom meg, hogy minden olvasási ciklus után növelek egy offset változót, a következő ciklusnál innen fogom kezdeni az olvasást. 
+
+Például ha a SMALL\_BLOCK\_READ állapotban vagyok, akkor 256 kiolvasott minta után a small\_read\_offset változómat 192-vel növelem.
+
+16 bit széles PCM jelet feltételezve egy 18k-s BRAM elegendő számunkra a buffereléshez, mivel \(1024*16 = 16384\).
+Szintetizálásnál a Hann ablak együtthatóit is egy 18k-s BRAM-ban fogom tárolni, jelenleg a szimulációhoz csak kiolvasom a .mem file-ból egy tömb-be.
+
+A Xilinx IP core-jának AXI4-Stream interface-e van, tehát akkor történik egy átvitel, ha az általunk(master) meghajtott TVALID és az IP core(slave) által meghajtott TREADY is magas. 
+
+
 A szimulációs waveform-okon a ... és ... ábrákon látszik annak az ideje, amígy kiolvasunk 256 illetve 1024 mintát és elvégezzük rajtuk az FFT-t. Mivel az 1024 pontos FFT mindig közvetlenül egy 256-os után fog jönni(576\%192 = 0), így számolni kell az IP core átkonfigurálásának az idejével is.
+
+A Vivado-ban készített szimuláció waveformja a(z) \ref{fig:sim}. ábrán látható.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{sim.png}
+  \caption{Szimuláció}
+  \label{fig:sim}
+\end{figure}
+
+1kHz-s szinusz jel a bemenetem, we\_a\_reg a 44.1kHz-s mintavételi engedélyező jel, ahol pedig fft\_out\_valid tüskét látunk, ott van FFT kimenetünk.
 
 
 % -------------------------------------------------------------------------

@@ -7,8 +7,8 @@
 \select@language {hungarian} \contentsline {subsubsection}{\numberline {3.1.3}Main Data}{8}{}%
 \select@language {hungarian} \contentsline {subsection}{\numberline {3.2}Analysis Polyphase Filterbank}{8}{}%
 \select@language {hungarian} \contentsline {subsection}{\numberline {3.3}FFT tervezés}{10}{}%
-\select@language {hungarian} \contentsline {section}{\numberline {4}A megtervezett műszaki alkotás értékelése, továbbfejlesztési lehetőségek}{11}{}%
-\select@language {hungarian} \contentsline {section}{\numberline {A}Mellékletek}{14}{}%
-\select@language {hungarian} \contentsline {subsection}{\numberline {A.1}Dokumentációk}{14}{}%
-\select@language {hungarian} \contentsline {subsection}{\numberline {A.2}Forrás file-ok}{14}{}%
-\select@language {hungarian} \contentsline {subsection}{\numberline {A.3}Használati útmutató}{14}{}%
+\select@language {hungarian} \contentsline {section}{\numberline {4}A megtervezett műszaki alkotás értékelése, továbbfejlesztési lehetőségek}{14}{}%
+\select@language {hungarian} \contentsline {section}{\numberline {A}Mellékletek}{16}{}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {A.1}Dokumentációk}{16}{}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {A.2}Forrás file-ok}{16}{}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {A.3}Használati útmutató}{16}{}%
