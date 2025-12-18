@@ -22,6 +22,8 @@
 % --- MATEMATIKA ÉS TÁBLÁZATOK ---
 \usepackage{amsmath}
 \usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{siunitx}
 
 % --- BIBLIOGRÁFIA ---
 \usepackage[style=ieee]{biblatex}
@@ -100,11 +102,13 @@
     
     {\large Konzulens: \par}
     \vspace{0.5cm}
-    {\large Szántó Péter \par}
+    {\Large \textbf{Szántó Péter} \par}
     {\large (Mesterséges Intelligencia és Rendszertervezés Tanszék) \par}
     
     \vspace{2cm}
 \end{titlepage}
+
+\pagenumbering{gobble}
 
 \selectlanguage{hungarian}
 
@@ -129,6 +133,7 @@ A feladat célja, az alkalmazások jelentős részében előkerülő audio töm�
 % -------------------------------------------------------------------------
 % 4. BEVEZETÉS
 % -------------------------------------------------------------------------
+\pagenumbering{arabic}
 \section{Bevezetés}
 % A feladat értelmezése, a specifikáció pontosítása
 
@@ -420,7 +425,7 @@ Mivel minden mintát 32 subband-re osztunk, ezért az eredeti 1152-ből \( 1152*
 
 \subsection{FFT tervezés}
 
-A bejövő adatnak a spektrumát ismerünk kell a pszichoakusztív modell alkalkazásához, ezért FFT-t hajtunk végre a bejövő jelen, a filterbankkal párhuzamosa.
+A bejövő adatnak a spektrumát ismerünk kell a pszichoakusztív modell alkalkazásához, ezért FFT-t hajtunk végre a bejövő jelen, a filterbankkal párhuzamosan.
 
 Az FFT elvégzéséhez a Xilinx FFT IP core-ját fogom használni. Meg kell határozni, hogy az elérhető architektúrák közül melyik a legkisebb erőforrás igényű amely megfelel a célunknak. Layer III-nál két FFT-t kell párhuzamosan. Block length == window length.
 \begin{description}
@@ -428,7 +433,7 @@ Az FFT elvégzéséhez a Xilinx FFT IP core-ját fogom használni. Meg kell hat�
   \item[Long blocks] shift length = 576 samples, window length  = 1024 samples
 \end{description}
 
-Mivel \(f_s = 44.1 kHz\), ezért \[window\_size_1 = \frac{256}{44100} = 5.8 ms\] \[window\_size_2 = \frac{1024}{44100} = 23.2 ms\].
+Mivel \(f_s = 44.1 kHz\), ezért \[window\_size_1 = \frac{256}{44100} = 5.8 ms\] \[window\_size_2 = \frac{1024}{44100} = 23.2 ms\]
 \[frequency\_resolution_1 = \frac{44100}{256} = 172.3 Hz\] \[frequency\_resolution_2 = \frac{44100}{1024} = 43.1 Hz\]
 
 Látszik, hogy a kisebb ablakok jobb felbontást biztosítanak időtartományban, a hosszabb ablakok pedig frekvencia tartományban. A cél megtalálni az AMD által biztosított FFT core-nak azt a felparaméterezését, amely a lehető legkisebb erőforrás felhasználás nélkül teljesíteni tudja a követelményeket.
@@ -554,9 +559,10 @@ A logikámat a(z) \ref{fig:fsm-diagram}. ábrán látható állapotgép vezérli
 \end{figure}
 
 
-A SAMPLE\_IN állapotban írom a bejövő mintákat a BRAM-ba, számlálókkal tartom számon, hogy mennyi jött be (külön számlálók a 256 és 1024 pontos FFT-hez), és ha bejött elegendő egy FFT elvégzéséhez, akkor átmegyünk a CONFIG állapotba. Itt megvizsgálom, hogy melyik számláló hatására léptünk ide, és konfigurálom az FFT core-t. Ezután vagy a SMALL\_BLOCK\_READ vagy a LARGE\_BLOCK\_READ állapotba lépek, és elvégzem az adatátvitelt az IP core bemenetére, majd visszatérek a SAMPLE\_IN állapotba. 
+A SAMPLE\_IN állapotban írjuk a bejövő mintákat a BRAM-ba, számlálókkal vannak számon tartva, hogy mennyi jött be (külön számlálók a 256 és 1024 pontos FFT-hez), és amint van elegendő egy FFT elvégzéséhez, akkor átmegyünk a CONFIG állapotba.
+Itt megvizsgáljuk, hogy melyik számláló hatására léptünk ide, és konfiguráljuk az FFT core-t. Ezután vagy a SMALL\_BLOCK\_READ vagy a LARGE\_BLOCK\_READ állapotba lépünk, és elvégezzük az adatátvitelt az IP core bemenetére, majd visszatérünk a SAMPLE\_IN állapotba. 
 
-Olvasás után, még mielőtt az FFT bemenetére adnám a jelet végzek rajta egy Hann ablakozást, hogy elkerüljem a spektrális szivárgást. Ehhez a Hann együtthatókat egy python scripttel generálom, eltárolom egy .mem file-ba, majd ebből kiolvasom egy tömbbe. A feladat folytatása során itt is konkretizálni fogom, hogy egy 18k-s BRAM-ba legyenek tárolva.
+Olvasás után, még mielőtt az FFT bemenetére adjuk a jelet végzünk rajta egy Hann ablakozást, hogy elkerüljük a spektrális szivárgást. Ehhez a Hann együtthatók egy python scripttel lettek generálva és egy .mem file-ban vannak tárolva. A feladat folytatása során itt is konkretizálni kell, hogy egy 18k-s BRAM-ba legyenek tárolva.
 
 %Mivel a Hann ablak csökkenti a jelünk energiatartalmát, ezt majd egy konstans szorzóval korrigálom, de csak az FFT után, mivel ott 16 bites bemenetet várunk, és a 16bites PCM jelünket nem szorozhatom 1-nél nagyobb számmal a túlcsordulás veszélye nélkül. Utána viszont úgyis power density spectrumot kell számolni, amit nagyobb változóban fogok tárolni. 
 %
@@ -579,9 +585,9 @@ A(z) \ref{fig:dsp}. ábrán látható regiszterek közül nekünk csak az A, B, 
   \label{fig:dsp}
 \end{figure}
 
-A bejövő jelek átlapolását úgy oldom meg, hogy minden olvasási ciklus után növelek egy offset változót, a következő ciklusnál innen fogom kezdeni az olvasást. 
+A bejövő jelek átlapolása érdekében minden olvasási ciklus után növelünk egy offset változót, a következő ciklusnál innen kell kezdeni az olvasást. 
 
-Például ha a SMALL\_BLOCK\_READ állapotban vagyok, akkor 256 kiolvasott minta után a small\_read\_offset változómat 192-vel növelem.
+Például ha a SMALL\_BLOCK\_READ állapotban vagyunk, akkor 256 kiolvasott minta után a small\_read\_offset változót 192-vel növeljük.
 
 16 bit széles PCM jelet feltételezve egy 18k-s BRAM elegendő számunkra a buffereléshez, mivel \(1024*16 = 16384\).
 Szintetizálásnál a Hann ablak együtthatóit is egy 18k-s BRAM-ban fogom tárolni, jelenleg a szimulációhoz csak kiolvasom a .mem file-ból egy tömb-be.
@@ -591,7 +597,7 @@ A Xilinx IP core-jának AXI4-Stream interface-e van, tehát akkor történik egy
 
 A szimulációs waveform-okon a ... és ... ábrákon látszik annak az ideje, amígy kiolvasunk 256 illetve 1024 mintát és elvégezzük rajtuk az FFT-t. Mivel az 1024 pontos FFT mindig közvetlenül egy 256-os után fog jönni(576\%192 = 0), így számolni kell az IP core átkonfigurálásának az idejével is.
 
-A Vivado-ban készített szimuláció waveformja a(z) \ref{fig:sim}. ábrán látható.
+A Vivado-ban készített szimuláció waveformja a(z) \ref{fig:sim}. ábrán látható. A tesztekhez kezdetben egy Radix-2-lite Burst I/O architektúrásjú, fixed-point számábrázolású, real-time, natural order kimenetű FFT-t használunk. A végleges megoldásban bit/digit reversed order lesz, azonban még a tesztelésnél segít, ha natural order van. A bemeneti adatszélesség 16 bit, a core 16bit valós és 16 bit képzetes részt vár, a képzetes részre 0-kat konkatenálunk.
 
 \begin{figure}[H]
   \centering
@@ -600,40 +606,127 @@ A Vivado-ban készített szimuláció waveformja a(z) \ref{fig:sim}. ábrán lá
   \label{fig:sim}
 \end{figure}
 
-1kHz-s szinusz jel a bemenetem, we\_a\_reg a 44.1kHz-s mintavételi engedélyező jel, ahol pedig fft\_out\_valid tüskét látunk, ott van FFT kimenetünk.
+1kHz-s szinusz jel a bemenet, we\_a\_reg a 44.1kHz-s mintavételi engedélyező jel, ahol pedig fft\_out\_valid tüskét látunk, ott van FFT kimenetünk.
+
+Hogy bizonyosak lehessünk benne, hogy az történik amit szeretnénk, érdemes megvizsgálni a szorzások eredményét, és az engedélyező jelet.
+
+% --- FIRST FIGURE: 3 Stacked Images ---
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{wr_data_0.png} \\ \vspace{5pt}
+    \includegraphics[width=0.6\textwidth]{wr_data_1.png} \\ \vspace{5pt}
+    \includegraphics[width=0.6\textwidth]{wr_data_2.png}
+    \caption{BRAM-ba beírt adatok}
+    \label{fig:bram_write}
+\end{figure}
+
+% --- SECOND FIGURE: Single Large Image ---
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{bram-hann.png}
+    \caption{BRAM-ból olvasás, Hann ablakozás}
+    \label{fig:bram_read}
+\end{figure}
 
 
-% -------------------------------------------------------------------------
+A bufferelt bemeneti értékeket és a hozzájuk tartozó számított kimeneti adatokat a \ref{tab:buffer_values}. táblázat foglalja össze. Az értékeket összevetve a \ref{fig:bram_write}. ábrán látható adatokkal látszik, hogy megfelelően működik.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{|c|c|c|r|}
+\hline
+Index & \texttt{buffer} (bemenet) & Hann-együttható & \multicolumn{1}{c|}{\texttt{buffer\_out} (elvárt)} \\ \hline
+0     & 0     & 0   & $0 \times 0 = 0$               \\ \hline
+1     & 4609  & 5   & $4609 \times 5 = 23045$        \\ \hline
+6     & 24547 & 177 & $24547 \times 177 = 4344819$   \\ \hline
+\end{tabular}
+\caption{Bemeneti minták és a Hann-ablakozás utáni elvárt kimeneti értékek}
+\label{tab:buffer_values}
+\end{table}
+
+A feldolgozási lánc időzítése kritikus az FFT szempontjából. A pipeline késleltetés az alábbi lépésekből tevődik össze (lásd: \ref{fig:bram_read}. és \ref{fig:dsp}. ábra):
+
+\begin{itemize}
+    \item \textbf{T0:} A \texttt{data\_in\_valid[0]} jel magasba váltásakor megkezdődik a kiolvasás a BRAM-ból.
+    \item \textbf{T1:} Egy órajelciklussal később után az adat megjelenik a \texttt{buffer\_out\_raw} buszon, és elkezdjük a szorzást a Hann-együtthatóval.
+    \item \textbf{T2--T4:} A DSP slice belső pipeline regiszterei további 3 órajelnyi késleltetést okoznak.
+    \item \textbf{T4:} A szorzat érvényessé válik a kimeneten, a \texttt{data\_in\_valid[4]} az FFT-nek a T\_VALID jele.
+\end{itemize}
+
+Az IP core az első vétel után  a T\_READY jelet lehúzza, amíg készen nem áll a feldolgozásra, addig az első adatot egy buffer-ban tárolja, ez látszik a(z) \ref{fig:bram_read}. ábrán is.
+
+Vizsgáljuk meg, hogy mennyi időbe telik egy 256 és egy 1024 pontos FFT végrehajtása. A data\_in\_valid[4] felfutó élétől az fft\_out\_valid lefutó éléig mérjük az időt.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{256.png}
+    \caption{N=256 FFT végrehajtási idő}
+    \label{fig:256_FFT}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{1024.png}
+    \caption{N=1024 FFT végrehajtási idő}
+    \label{fig:1024_FFT}
+\end{figure}
+
+A(z) \ref{fig:1024_FFT} .ábrán látszik, hogy a 256-os FFT után amíg átkonfigurálódik az IP core 1024-pontosra, addig lehúzza a data\_in\_ready-t, és csak utána folytatódik a feldolgozás.
+
+Az ábrák alapján az N=256-os FFT 13.37 \unit{\us} alatt megy végbe, az N=1024-es 74.2 \unit{\us} alatt. Ez alapján bőven elég egy darab Radix-2-lite Burst I/O architektúrájú FFT IP core időmultiplexáltan használva.
+
+A teszteléshez használt szinusz jel 990.527Hz-s. Szinusz jel spektruma egy darab komponenst tartalmaz egy frekvencián, szimmetrikusan a képzetes tengelyre.
+
+Mivel 200MHz-es az órajelünk, ezért az órajelperiódus T=5ns. Az ábrán mért időkből egy periódust le kell vonni, mert jelenleg az abszolútérték képzés egy órajelbe telik.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{|c|c|c|r|}
+\hline
+FFT pontszám & Felbontás [Hz] & \begin{tabular}[c]{@{}c@{}}Eltelt órajel \\ periódusok\end{tabular} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}Számított frekvencia-\\ komponens [Hz]\end{tabular}} \\ \hline
+% A \rule{0pt}{4ex} adja a felső helyet, a \\[2ex] az alsót
+256          & \rule{0pt}{4ex} $\frac{44100}{256} \approx 172,27$ & $\frac{30}{5} = 6$ & $1033,62$ \\[2ex] \hline
+1024         & \rule{0pt}{4ex} $\frac{44100}{1024} \approx 43,07$ & $\frac{115}{5} = 23$ & $990.61$ \\[2ex] \hline
+\end{tabular}
+\caption{Spektrális komponens frekvenciája}
+\label{tab:fft_final_analysis}
+\end{table}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{256-ido.png}
+    \caption{N=256 FFT kimeneti komponens frekvenciája}
+    \label{fig:256_FFT_ki}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{1024-ido.png}
+    \caption{N=1024 FFT kimeneti komponens frekvenciája}
+    \label{fig:1024_FFT_ki}
+\end{figure}
+
+Ha a felbontásnak nem a kerekített értékével szoroznánk, akkor mégjobban visszaadná a számított frekvencia az eredeti jelét, de így is látszik, hogy az történik amire számítunk.
+
+\clearpage
 % 7. ÉRTÉKELÉS
 % -------------------------------------------------------------------------
-\section{A megtervezett műszaki alkotás értékelése, továbbfejlesztési lehetőségek}
-% TODO: Itt kell összefoglalni az elért eredményeket, erőforrás felhasználást, sebességet.
+\section{Összefoglalás}
 
-A tervezés során meghatároztuk az MP3 encoder alapvető paramétereit és az FPGA implementációhoz szükséges számítási kapacitást. Az FFT számítások időzítése kritikus, a számítások azt mutatják, hogy a rövid ablakok feldolgozása jelenti a szűkebb keresztmetszetet (4.35 ms).
+\subsection{Értékelés}
+A félév folyamán megismerkedtem az audio tömörítő codec-ek világával, mélyebben az MPEG1-Audio Layer III (MP3)-al. Mivel ebben a félévben kezdtem a témát, ezért jelentős mennyiségű idő irodalomkutatással telt. HDL kódban megvalósításra a bejövő jel szabvány szerinti FFT-zése került. 
 
-A továbbfejlesztés iránya lehet a sztereó módok (Joint Stereo) teljeskörű implementálása és a Huffman kódolás optimalizálása hardveres gyorsítással.
+
+\subsection{Folytatás}
+A témát a Diplomatervezés tárgyak keretében fogom folytatni, ahol a következő lépés az FFT kimenetét felhasználva a pszichoakusztikus modell megvalósítása lesz.
+A végcél egy olyan FPGA-s megvalósítása az MP3 szabványnak, amely valós időben adja ki egy ADC-ről kapott bemenetnek a tömörített bitstream-jét.
 
 % -------------------------------------------------------------------------
 % 8. IRODALOMJEGYZÉK
 % -------------------------------------------------------------------------
 \newpage
 \printbibliography
-
-% -------------------------------------------------------------------------
-% 9. MELLÉKLETEK
-% -------------------------------------------------------------------------
-\newpage
-\appendix
-\section{Mellékletek}
-
-\subsection{Dokumentációk}
-% Kapcsolási rajz, huzalozási rajz, beültetési rajz (hivatkozás a fájlokra vagy képek beszúrása)
-% \includegraphics[width=\textwidth]{schematic.png}
-
-\subsection{Forrás file-ok}
-% Itt lehet hivatkozni a csatolt CD/Repo tartalmára
-
-\subsection{Használati útmutató}
-% Rövid leírás a rendszer indításáról
 
 \end{document}
