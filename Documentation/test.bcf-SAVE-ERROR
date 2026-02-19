@@ -2377,7 +2377,3 @@
     <bcf:citekey order="1" intorder="1">mp3-iso</bcf:citekey>
     <bcf:citekey order="2" intorder="1">raissi-mp3</bcf:citekey>
     <bcf:citekey order="3" intorder="1">raissi-mp3</bcf:citekey>
-    <bcf:citekey order="4" intorder="1">xilinx_fft</bcf:citekey>
-    <bcf:citekey order="5" intorder="1">xilinx_fft</bcf:citekey>
-    <bcf:citekey order="6" intorder="1">xilinx_dsp48e1</bcf:citekey>
-    <bcf:citekey order="7" intorder="1">xilinx_dsp48e1</bcf:citekey>

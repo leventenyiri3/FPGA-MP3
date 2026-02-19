@@ -1,12 +1,12 @@
 # Fdb version 4
-["biber test"] 1766068908.65407 "test.bcf" "test.bbl" "test" 1766071479.04311 0
+["biber test"] 1766126108.58427 "test.bcf" "test.bbl" "test" 1766127005.08641 0
   "onlab.bib" 1765981630.38072 1648 0262b5b72f35813781fd9cf0e2d5b213 ""
-  "test.bcf" 1766071478.94572 108259 bca550f039ae5f33f91795a14e9985ac "pdflatex"
+  "test.bcf" 1766127004.98736 108259 bca550f039ae5f33f91795a14e9985ac "pdflatex"
   (generated)
   "test.bbl"
   "test.blg"
   (rewritten before read)
-["pdflatex"] 1766071477.94527 "test.tex" "test.pdf" "test" 1766071479.04337 0
+["pdflatex"] 1766127003.99238 "test.tex" "test.pdf" "test" 1766127005.08665 0
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -25,8 +25,6 @@
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/ecti1200.tfm" 1136768653 3072 8b5a64dc91775463bc95e2d818524028 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/ectt1000.tfm" 1136768653 1536 06717a2b50de47d4087ac0e6cd759455 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/ectt1200.tfm" 1136768653 1536 487c9b46984a816c7ed238d0674595c7 ""
-  "/usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/tcrm0600.tfm" 1136768653 1536 12e8c510d3e158fdd0e9a42e75118bd9 ""
-  "/usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/tcrm0800.tfm" 1136768653 1536 05df9db6aeccc4eea94fec15c9024f79 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/tcrm1200.tfm" 1136768653 1536 74b7293ec3713bb7fdca8dd1bd1f469c ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -46,6 +44,7 @@
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb" 1248133631 32722 d7379af29a190c3f453aba36302ff5a9 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb" 1248133631 32726 0a1aea6fcd6468ee2cf64d891f5c43c8 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1248133631 32569 5e5ddc8df908dea60932f3c484a54c0d ""
+  "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb" 1248133631 32626 4f5c1b83753b1dd3a97d1b399a005b4b ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb" 1215737283 145408 43d44302ca7d82d487f511f83e309505 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb" 1215737283 140176 d4962f948b4cc0adf4d3dde77a128c95 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb" 1215737283 135942 859a90cad7494a1e79c94baf546d7de5 ""
@@ -234,11 +233,11 @@
   "Pictures/wr_data_0.png" 1766053908.23178 6709 f22d8fdcea3171ca78bd47c7166d247c ""
   "Pictures/wr_data_1.png" 1766053952.25098 6370 cd2582dd272fac87c7bd094a0a1f23ff ""
   "Pictures/wr_data_2.png" 1766055040.54041 9314 b5dacca9f9991eb6954c4117b6a85a42 ""
-  "test.aux" 1766071478.94462 8144 96eb1596c73c0784a0ba46b11ddfd094 "pdflatex"
-  "test.bbl" 1766068909.40056 5785 3577ec69c5479deed7c630c9d625abe3 "biber test"
-  "test.run.xml" 1766071478.94687 2464 7bece9ab7dd384fca62a82f5f0f6e4a9 "pdflatex"
-  "test.tex" 1766071475.53471 33524 3b78ff81e37da8aa08e336df6a47b83d ""
-  "test.toc" 1766071478.94687 1135 5f216bc8d8cdd9fd154e7dafe2599d8a "pdflatex"
+  "test.aux" 1766127004.98642 8292 b5dc44467af9dce802934ef2a9a29fe2 "pdflatex"
+  "test.bbl" 1766126109.32952 5785 3577ec69c5479deed7c630c9d625abe3 "biber test"
+  "test.run.xml" 1766127004.98868 2464 7bece9ab7dd384fca62a82f5f0f6e4a9 "pdflatex"
+  "test.tex" 1766127003.96073 35015 88ba7d4f440cba830a1cf3916f10662e ""
+  "test.toc" 1766127004.98868 1243 85dd866f4e4657e966f30e1cacf369d1 "pdflatex"
   (generated)
   "test.aux"
   "test.bcf"

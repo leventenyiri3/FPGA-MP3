@@ -1,12 +1,13 @@
 \select@language {hungarian} \contentsline {section}{\numberline {1}Bevezetés}{1}{}%
 \select@language {hungarian} \contentsline {section}{\numberline {2}Technológiai háttér}{1}{}%
 \select@language {hungarian} \contentsline {section}{\numberline {3}Encoder}{1}{}%
-\select@language {hungarian} \contentsline {subsection}{\numberline {3.1}Frame struktúra}{1}{}%
-\select@language {hungarian} \contentsline {subsubsection}{\numberline {3.1.1}Header}{2}{}%
-\select@language {hungarian} \contentsline {subsubsection}{\numberline {3.1.2}Side information}{3}{}%
-\select@language {hungarian} \contentsline {subsubsection}{\numberline {3.1.3}Main Data}{6}{}%
-\select@language {hungarian} \contentsline {subsection}{\numberline {3.2}Analysis Polyphase Filterbank}{6}{}%
-\select@language {hungarian} \contentsline {subsection}{\numberline {3.3}FFT tervezés}{8}{}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {3.1}Az encoder működési elve}{1}{}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {3.2}Frame struktúra}{2}{}%
+\select@language {hungarian} \contentsline {subsubsection}{\numberline {3.2.1}Header}{2}{}%
+\select@language {hungarian} \contentsline {subsubsection}{\numberline {3.2.2}Side information}{3}{}%
+\select@language {hungarian} \contentsline {subsubsection}{\numberline {3.2.3}Main Data}{6}{}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {3.3}Analysis Polyphase Filterbank}{7}{}%
+\select@language {hungarian} \contentsline {subsection}{\numberline {3.4}FFT tervezés}{8}{}%
 \select@language {hungarian} \contentsline {section}{\numberline {4}Összefoglalás}{16}{}%
 \select@language {hungarian} \contentsline {subsection}{\numberline {4.1}Értékelés}{16}{}%
 \select@language {hungarian} \contentsline {subsection}{\numberline {4.2}Folytatás}{16}{}%
