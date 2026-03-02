@@ -20,33 +20,42 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module dsp(
+module dsp
+#
+(
+  parameter A_REG = 2,
+  parameter B_REG = 2
+)(
   input clk,
-  input signed [15:0] in_a,
-  input signed [15:0] in_b,
+  input signed [24:0] a,
+  input signed [17:0] b,
+  input signed [47:0] pci,
+  output signed [47:0] p
 
-  output signed [47:0] out
+);
+integer i;
+reg signed [24:0] a_reg [A_REG];
+reg signed [17:0] b_reg [B_REG];
+reg signed [47:0] m_reg;
+reg signed [47:0] p_reg;
 
-    );
+always @ (posedge clk)
+begin
+  for (i = 0; i<A_REG; i = i+1) begin
+    a_reg[i] <= (i==0) ? a : a_reg[i-1];
+  end
 
+  for (i = 0; i<B_REG; i = i+1) begin
+    b_reg[i] <= (i==0) ? b : b_reg[i-1];
+  end
+end
 
-  reg signed [15:0] reg_a;
-  reg signed [15:0] reg_b;
-  reg signed [31:0] m_reg;
+always @ (posedge clk)
+begin
+  m_reg <= a_reg[A_REG-1] * b_reg[B_REG-1];
+  p_reg <= m_reg + pci;
+end
 
-  reg signed [47:0] out_reg;
-
-
-  always @ (posedge clk)
-    begin
-      reg_a <= in_a;
-      reg_b <= in_b;
-
-      m_reg <= reg_a * reg_b;
-
-      out_reg <= m_reg;
-    end
-
-assign out = out_reg;
+assign p = p_reg;
 
 endmodule

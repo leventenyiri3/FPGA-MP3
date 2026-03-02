@@ -349,7 +349,13 @@ module FFT (
   assign dsp_in = data_in_valid[1] == 0 ? 16'b0 : buffer_out_raw;
 
   //Hann ablakozás FFT előtt
-  dsp dsp0 (
+  dsp
+  #(
+    A_REG(1),
+    B_REG(1)
+  )
+  dsp0
+  (
       .clk (clk),
       .in_a(dsp_in),
       .in_b(hann_coeff),

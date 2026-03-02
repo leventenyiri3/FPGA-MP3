@@ -1,0 +1,150 @@
+\documentclass[12pt, a4paper]{article}
+
+% --- MARGÓK ÉS FORMÁZÁS ---
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+
+% --- NYELV ÉS KARAKTERKÓDOLÁS ---
+\usepackage[hungarian]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{csquotes}
+\usepackage{textcomp}
+
+% --- GRAFIKA ÉS KÉPEK ---
+\usepackage{graphicx}
+\graphicspath{{./Pictures/}}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+
+% --- MATEMATIKA ÉS TÁBLÁZATOK ---
+\usepackage{amsmath}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{siunitx}
+
+% --- BIBLIOGRÁFIA ---
+\usepackage[style=ieee]{biblatex}
+\addbibresource{onlab.bib}
+
+% --- URL KEZELÉS ---
+\usepackage{url}
+
+% --- KÓDKIEMELÉS (LISTINGS) ---
+\usepackage{listings}
+\usepackage[svgnames]{xcolor}
+
+% Színbeállítások
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{
+  frame=none,
+  language=Bash,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=2
+}
+
+% --- TIKZ BEÁLLÍTÁSOK ---
+\usepackage{tikz}
+
+% - automata, positioning, arrows.meta, bending: Az ÚJ FSM diagramhoz kellenek
+% - shapes.geometric, arrows, calc: A RÉGI diagramjaidhoz kellenek
+% - babel: A magyar nyelvi támogatáshoz
+\usetikzlibrary{shapes.geometric, arrows, calc, automata, positioning, arrows.meta, bending, babel}
+
+% Régi stílusdefiníciók 
+\tikzstyle{box} = [rectangle, rounded corners, minimum width=3cm, minimum height=0.5cm, text centered, draw=black, fill=orange!30]
+\tikzstyle{arrow} = [thick,->,>=stealth]
+
+% --- CÍMOLDAL ADATOK ---
+\title{\textbf{Audio tömörítő egység megvalósítása FPGA-val}}
+\author{Nyiri Levente}
+\date{2025 Október}
+
+\begin{document}
+
+% -------------------------------------------------------------------------
+% 1. CÍMOLDAL
+% -------------------------------------------------------------------------
+\begin{titlepage}
+    \centering
+    \includegraphics[width=0.8\textwidth]{BME.png} 
+    \vspace{1cm}
+    
+    {\Huge \textbf{Audio tömörítő egység megvalósítása FPGA-val} \par}
+    
+    \vspace{2cm}
+    
+    {\large Diplomaterverzés 1 zárójegyzőkönyv \par}
+    {\large 2025/26. 2. félév \par}
+    \vspace{3cm}
+    
+    {\Huge \textbf{Nyiri Levente (ULYHQH)} \par}
+    \vspace{0.5cm}
+    {\large Villamosmérnök szakos hallgató \par}
+    {\large MSc FPGA alapú rendszerek mellékspecializáció \par}
+    \vspace{2cm}
+    
+    {\large Konzulens: \par}
+    \vspace{0.5cm}
+    {\Large \textbf{Szántó Péter} \par}
+    {\large (Mesterséges Intelligencia és Rendszertervezés Tanszék) \par}
+    
+    \vspace{2cm}
+\end{titlepage}
+
+\pagenumbering{gobble}
+
+\selectlanguage{hungarian}
+
+% -------------------------------------------------------------------------
+% 2. FELADATKIÍRÁS
+% -------------------------------------------------------------------------
+\newpage
+\section*{Feladatkiírás}
+Az AMD Ultrascale+ MPSoC FPGA-k használata számos multimédia feldolgozást igénylő alkalmazásban kedvező opció. 
+
+Míg a video tömörítésre az eszköz dedikált hardveregységet tartalmaz, addig az audio kezelése elsősorban az általános célú ARM processzoros alrendszeren oldható meg. Ez azonban fogyasztás, illetve CPU terhelés szempontjából nem feltétlenül optimális.
+
+A feladat célja, az alkalmazások jelentős részében előkerülő audiotömörítésre egy, az FPGA általános erőforrásait felhasználó hardver gyorsító kifejlesztése, valamint ennek összehasonlítása a tisztán szoftveres megoldással.
+
+% -------------------------------------------------------------------------
+% 3. TARTALOMJEGYZÉK
+% -------------------------------------------------------------------------
+\newpage
+\tableofcontents
+\newpage
+
+% -------------------------------------------------------------------------
+% 4. BEVEZETÉS
+% -------------------------------------------------------------------------
+\pagenumbering{arabic}
+\section{Vázlat}
+A hibrid filterbank előállíátásához a szabványban előírt módon járok el. Megvárom amíg 512 minta beérkezik, majd ebbe a tömbbe beshiftelek 32 új mintát, és megkezdem a feldolgozást.
+Először is ablakolni kell, ehhez egy táblázatban megadták a szükséges együtthatókat. Mivel ezek az együtthatók mind 1-nél kisebb számok, ezért némi átalakítást kell végezni rajtuk, mivel Verilogba egész számokra van szükségünk. 
+Az eljárás a következő: először is egy szöveges file-ba kiírtam és úgy formáztam, hogy minden sorban csak egy bejegyzés legyen.
+Ezután egy C program segítségével beolvastam ezeket egy tömbbe, megszoroztam $2^{31}$-el és hex-be átváltva kiírtam egy másik, .mem file-ba, amit majd a verilog modulomban tudok használni.
+
+A negatív számokat is unsigned long változóban tárolom, ami nem probléma, mert kettes komplemest számábrázolásban lesz, csak emlékezni kell rá.
+Mivel 10 digites számok az együtthatók (1 egészrész, 9 tört), ezért 32 bites változóban kell majd tárolni, mivel $2^{31}$-el kellett szorozni, hogy egészek legyenek.
+Néhány számot visszaellenőrizve meggyőződtem az átalakítás helyességéről (a második bejegyzés például -0.000000477, ami átváltá után FFFFFC00 lett, ezt visszaváltva decimálisba -1024-et kapunk, ami kerekítési hibával $-0.000000477 * 2^{31}$).
+
+
+
+
+\end{document}
