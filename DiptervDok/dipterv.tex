@@ -148,6 +148,8 @@ Ezeket az együtthatókat egy 512x32-es ROM-ban tárolom.
 A számításnál a flowchart alapján be kell shiftelni 32 új mintát, a legrégebbi 32-t pedig ki kell shiftelni. Ezután megadott együtthatókkal ablakolni kell, az így kapott értékeket 64 elemenként szummázni, és az ezekből az értékekből alkotott mátrixot összeszorozni egy másik együttható mátrixxal, amelyhez megadták a képletet a szabványban, hogy az együtthatóit kiszámoljuk.
 A minták kezelését FPGA-ban erőforrás szempontjából hatékony, ha egy BRAM-ban megvalósított cirkuláris bufferben tesszük.
 Első lépésben feltöltöm 512 bejövő mintával a RAM-ot. Ekkor a legrégebbi mintáim a 0-31 címeken helyezkednek el, így az első alkalommal, amikor új mintákat olvasok be, a 0-31 címekre helyezem őket. Egy változóban tárolom az olvasáshoz az offsetet, amely minden 32 minta shiftelése után 32-vel növelek. A minták olvasását mindig ettől az offsettől kezdem.
+A címszámlálót a legújabb mintától kezdve csökkentem, 511-ről kezdve amíg el nem éri a 0-t, mivel a legújabb minta van a legrégebbi címre beírva, visszafele kell kiolvasni őket.
+% miután ezt implementáltam ide egy kis magyarázó ábrá szerűséget rakni...
 
 
 
