@@ -357,8 +357,8 @@ module FFT (
   dsp0
   (
       .clk (clk),
-      .in_a(dsp_in),
-      .in_b(hann_coeff),
+      .in_a({{9{dsp_in[15]}}, dsp_in}),
+      .in_b({{2{hann_coeff[15]}}, hann_coeff}),
       .out (buffer_out)
   );
 

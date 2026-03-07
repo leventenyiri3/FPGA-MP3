@@ -143,6 +143,11 @@ Ezután egy C program segítségével beolvastam ezeket egy tömbbe, megszorozta
 A negatív számokat is unsigned long változóban tárolom, ami nem probléma, mert kettes komplemest számábrázolásban lesz, csak emlékezni kell rá.
 Mivel 10 digites számok az együtthatók (1 egészrész, 9 tört), ezért 32 bites változóban kell majd tárolni, mivel $2^{31}$-el kellett szorozni, hogy egészek legyenek.
 Néhány számot visszaellenőrizve meggyőződtem az átalakítás helyességéről (a második bejegyzés például -0.000000477, ami átváltá után FFFFFC00 lett, ezt visszaváltva decimálisba -1024-et kapunk, ami kerekítési hibával $-0.000000477 * 2^{31}$).
+Ezeket az együtthatókat egy 512x32-es ROM-ban tárolom.
+
+A számításnál a flowchart alapján be kell shiftelni 32 új mintát, a legrégebbi 32-t pedig ki kell shiftelni. Ezután megadott együtthatókkal ablakolni kell, az így kapott értékeket 64 elemenként szummázni, és az ezekből az értékekből alkotott mátrixot összeszorozni egy másik együttható mátrixxal, amelyhez megadták a képletet a szabványban, hogy az együtthatóit kiszámoljuk.
+A minták kezelését FPGA-ban erőforrás szempontjából hatékony, ha egy BRAM-ban megvalósított cirkuláris bufferben tesszük.
+Első lépésben feltöltöm 512 bejövő mintával a RAM-ot. Ekkor a legrégebbi mintáim a 0-31 címeken helyezkednek el, így az első alkalommal, amikor új mintákat olvasok be, a 0-31 címekre helyezem őket. Egy változóban tárolom az olvasáshoz az offsetet, amely minden 32 minta shiftelése után 32-vel növelek. A minták olvasását mindig ettől az offsettől kezdem.
 
 
 
