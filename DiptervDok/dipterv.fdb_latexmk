@@ -1,12 +1,12 @@
 # Fdb version 4
-["biber dipterv"] 0 "dipterv.bcf" "dipterv.bbl" "dipterv" 1772458131.37742 0
+["biber dipterv"] 0 "dipterv.bcf" "dipterv.bbl" "dipterv" 1773487380.86613 0
   "dipterv.bcf" 0 -1 0 "pdflatex"
   "onlab.bib" 0 -1 0 ""
   (generated)
   "dipterv.bbl"
   "dipterv.blg"
   (rewritten before read)
-["pdflatex"] 1772458130.42646 "dipterv.tex" "dipterv.pdf" "dipterv" 1772458131.3777 0
+["pdflatex"] 1773487378.32217 "dipterv.tex" "dipterv.pdf" "dipterv" 1773487380.86642 0
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/ecbx1200.tfm" 1136768653 3584 402da0b29eafbad07963b1224b222f18 ""
@@ -198,11 +198,12 @@
   "/usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1754038062 3605723 c1007134c0de2c8854b3f827b4d39407 ""
   "/usr/local/texlive/2025/texmf.cnf" 1754037927.02921 455 5b996dcaa0eb4ef14a83b026bc0a008c ""
   "Pictures/BME.png" 1760195733.27538 7797 0e7bb921739505c79b2c9ea67a498e9c ""
-  "dipterv.aux" 1772458131.22784 368 a42ae4281419b99a772633ee02823c56 "pdflatex"
+  "Pictures/dipterv1/analysis_subband_filter_flowchart.png" 1773487128.62229 1948157 967c87036450012c64b2c899205c972f ""
+  "dipterv.aux" 1773487380.71656 702 b208e7e87dc53eee3b0b349d7ad97174 "pdflatex"
   "dipterv.bbl" 0 -1 0 "biber dipterv"
-  "dipterv.run.xml" 1772458131.22984 2485 e4a86476e3bfa1a4df4778d39de911b0 "pdflatex"
-  "dipterv.tex" 1772458129.78684 5644 af384417d2ae01df09fc011e07bfd5f5 ""
-  "dipterv.toc" 1772458131.22984 83 11d54534587c87c617fd9f2f1df681ff "pdflatex"
+  "dipterv.run.xml" 1773487380.7195 2485 e4a86476e3bfa1a4df4778d39de911b0 "pdflatex"
+  "dipterv.tex" 1773487373.82756 7203 12d4c043e9557dbb886f7cdffdecd49b ""
+  "dipterv.toc" 1773487380.7195 83 11d54534587c87c617fd9f2f1df681ff "pdflatex"
   (generated)
   "dipterv.aux"
   "dipterv.bcf"

@@ -358,6 +358,10 @@ INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmex10.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
+INPUT ./Pictures/dipterv1/analysis_subband_filter_flowchart.png
+INPUT ./Pictures/dipterv1/analysis_subband_filter_flowchart.png
+INPUT ./Pictures/dipterv1/analysis_subband_filter_flowchart.png
+INPUT ./Pictures/dipterv1/analysis_subband_filter_flowchart.png
 INPUT dipterv.aux
 INPUT dipterv.run.xml
 OUTPUT dipterv.run.xml

@@ -27,17 +27,15 @@ module c_coeff_rom_512x32(
 
     );
 
-(* ram_style = "block" *) reg signed [31:0] data_reg [512];
+(* ram_style = "block" *) reg signed [31:0] window_coeffs [511:0];
 initial $readmemh("window_coeffs.mem", window_coeffs);
 
-reg signed [31:0] dout_reg [512];
-
+reg [31:0] dout_reg;
 always @ (posedge clk)
 begin
   dout_reg <= window_coeffs[addr];
 end
 
 assign dout = dout_reg;
-
 
 endmodule

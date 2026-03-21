@@ -3,163 +3,89 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="/home/levente/git/Msc/FPGA-MP3/Verilog/FFT/FFT.sim/sim_1/behav/xsim/test_behav.wdb" id="1">
+      <db_ref path="filterbank_test_behav.wdb" id="1">
          <top_modules>
+            <top_module name="filterbank_test" />
             <top_module name="glbl" />
-            <top_module name="test" />
-            <top_module name="vcomponents" />
          </top_modules>
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="36,350,514.100 ns"></ZoomStartTime>
-      <ZoomEndTime time="36,350,762.101 ns"></ZoomEndTime>
-      <Cursor1Time time="36,350,667.500 ns"></Cursor1Time>
+      <ZoomStartTime time="10,328.800 ns"></ZoomStartTime>
+      <ZoomEndTime time="10,475.501 ns"></ZoomEndTime>
+      <Cursor1Time time="10,365.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="197"></NameColumnWidth>
-      <ValueColumnWidth column_width="149"></ValueColumnWidth>
+      <NameColumnWidth column_width="230"></NameColumnWidth>
+      <ValueColumnWidth column_width="97"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="29" />
+   <WVObjectSize size="14" />
    <wave_markers>
       <marker label="" time="36292287500" />
       <marker label="" time="36292252500" />
       <marker label="" time="36350667500" />
       <marker label="" time="36350547500" />
    </wave_markers>
-   <wvobject type="logic" fp_name="/test/testFFT/clk">
+   <wvobject type="logic" fp_name="/filterbank_test/clk">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/test/testFFT/rst">
+   <wvobject type="logic" fp_name="/filterbank_test/rst">
       <obj_property name="ElementShortName">rst</obj_property>
       <obj_property name="ObjectShortName">rst</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/test/testFFT/data_in">
-      <obj_property name="ElementShortName">data_in[15:0]</obj_property>
-      <obj_property name="ObjectShortName">data_in[15:0]</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      <obj_property name="WaveformStyle">STYLE_ANALOG</obj_property>
-      <obj_property name="CellHeight">100</obj_property>
+   <wvobject type="array" fp_name="/filterbank_test/sample">
+      <obj_property name="ElementShortName">sample[15:0]</obj_property>
+      <obj_property name="ObjectShortName">sample[15:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/test/testFFT/smpl_wr_addr">
-      <obj_property name="ElementShortName">smpl_wr_addr[9:0]</obj_property>
-      <obj_property name="ObjectShortName">smpl_wr_addr[9:0]</obj_property>
+   <wvobject type="array" fp_name="/filterbank_test/sample_addr">
+      <obj_property name="ElementShortName">sample_addr[8:0]</obj_property>
+      <obj_property name="ObjectShortName">sample_addr[8:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/test/testFFT/we_a_reg">
-      <obj_property name="ElementShortName">we_a_reg</obj_property>
-      <obj_property name="ObjectShortName">we_a_reg</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/test/testFFT/out_abs">
-      <obj_property name="ElementShortName">out_abs[32:0]</obj_property>
-      <obj_property name="ObjectShortName">out_abs[32:0]</obj_property>
-      <obj_property name="WaveformStyle">STYLE_ANALOG</obj_property>
-      <obj_property name="CellHeight">100</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      <obj_property name="AnalogYRangeMin">-9.28544e+06</obj_property>
-      <obj_property name="AnalogYRRangeMax">1.42853e+07</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/test/testFFT/fft_out_valid">
-      <obj_property name="ElementShortName">fft_out_valid</obj_property>
-      <obj_property name="ObjectShortName">fft_out_valid</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/test/testFFT/fft_out_last">
-      <obj_property name="ElementShortName">fft_out_last</obj_property>
-      <obj_property name="ObjectShortName">fft_out_last</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/test/testFFT/data_in_valid">
-      <obj_property name="ElementShortName">data_in_valid[0:4]</obj_property>
-      <obj_property name="ObjectShortName">data_in_valid[0:4]</obj_property>
-      <obj_property name="isExpanded"></obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/test/testFFT/data_in_last">
-      <obj_property name="ElementShortName">data_in_last[0:4]</obj_property>
-      <obj_property name="ObjectShortName">data_in_last[0:4]</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/test/testFFT/data_in_ready">
-      <obj_property name="ElementShortName">data_in_ready</obj_property>
-      <obj_property name="ObjectShortName">data_in_ready</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/test/testFFT/fft_out">
-      <obj_property name="ElementShortName">fft_out[31:0]</obj_property>
-      <obj_property name="ObjectShortName">fft_out[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/test/testFFT/smpl_rd_addr">
-      <obj_property name="ElementShortName">smpl_rd_addr[9:0]</obj_property>
-      <obj_property name="ObjectShortName">smpl_rd_addr[9:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/test/testFFT/hann_cntr">
-      <obj_property name="ElementShortName">hann_cntr[9:0]</obj_property>
-      <obj_property name="ObjectShortName">hann_cntr[9:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/test/testFFT/hann_coeff">
-      <obj_property name="ElementShortName">hann_coeff[15:0]</obj_property>
-      <obj_property name="ObjectShortName">hann_coeff[15:0]</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/test/testFFT/buffer_out_raw">
-      <obj_property name="ElementShortName">buffer_out_raw[15:0]</obj_property>
-      <obj_property name="ObjectShortName">buffer_out_raw[15:0]</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/test/testFFT/buffer_out">
-      <obj_property name="ElementShortName">buffer_out[31:0]</obj_property>
-      <obj_property name="ObjectShortName">buffer_out[31:0]</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/test/testFFT/config_tdata">
-      <obj_property name="ElementShortName">config_tdata[31:0]</obj_property>
-      <obj_property name="ObjectShortName">config_tdata[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/test/testFFT/config_ready">
-      <obj_property name="ElementShortName">config_ready</obj_property>
-      <obj_property name="ObjectShortName">config_ready</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/test/testFFT/config_valid">
-      <obj_property name="ElementShortName">config_valid</obj_property>
-      <obj_property name="ObjectShortName">config_valid</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/test/testFFT/small_read_cntr">
-      <obj_property name="ElementShortName">small_read_cntr[7:0]</obj_property>
-      <obj_property name="ObjectShortName">small_read_cntr[7:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/test/testFFT/small_smpl_cntr">
-      <obj_property name="ElementShortName">small_smpl_cntr[7:0]</obj_property>
-      <obj_property name="ObjectShortName">small_smpl_cntr[7:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/test/testFFT/small_read_cntr_offset">
-      <obj_property name="ElementShortName">small_read_cntr_offset[9:0]</obj_property>
-      <obj_property name="ObjectShortName">small_read_cntr_offset[9:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/test/testFFT/large_read_cntr">
-      <obj_property name="ElementShortName">large_read_cntr[9:0]</obj_property>
-      <obj_property name="ObjectShortName">large_read_cntr[9:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/test/testFFT/large_smpl_cntr">
-      <obj_property name="ElementShortName">large_smpl_cntr[9:0]</obj_property>
-      <obj_property name="ObjectShortName">large_smpl_cntr[9:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/test/testFFT/large_read_cntr_offset">
-      <obj_property name="ElementShortName">large_read_cntr_offset[9:0]</obj_property>
-      <obj_property name="ObjectShortName">large_read_cntr_offset[9:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/test/testFFT/buffer_out_ext">
-      <obj_property name="ElementShortName">buffer_out_ext[31:0]</obj_property>
-      <obj_property name="ObjectShortName">buffer_out_ext[31:0]</obj_property>
-      <obj_property name="Radix">BINARYRADIX</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/test/testFFT/start">
-      <obj_property name="ElementShortName">start</obj_property>
-      <obj_property name="ObjectShortName">start</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/test/testFFT/state_reg">
+   <wvobject type="array" fp_name="/filterbank_test/filterbank/state_reg">
       <obj_property name="ElementShortName">state_reg[1:0]</obj_property>
       <obj_property name="ObjectShortName">state_reg[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/filterbank_test/filterbank/sample_shift_cntr">
+      <obj_property name="ElementShortName">sample_shift_cntr[4:0]</obj_property>
+      <obj_property name="ObjectShortName">sample_shift_cntr[4:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/filterbank_test/filterbank/input_sample_count">
+      <obj_property name="ElementShortName">input_sample_count[8:0]</obj_property>
+      <obj_property name="ObjectShortName">input_sample_count[8:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/filterbank_test/filterbank/sample_write_addr">
+      <obj_property name="ElementShortName">sample_write_addr[8:0]</obj_property>
+      <obj_property name="ObjectShortName">sample_write_addr[8:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/filterbank_test/filterbank/sample_read_addr">
+      <obj_property name="ElementShortName">sample_read_addr[8:0]</obj_property>
+      <obj_property name="ObjectShortName">sample_read_addr[8:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/filterbank_test/filterbank/coeff_read_addr">
+      <obj_property name="ElementShortName">coeff_read_addr[8:0]</obj_property>
+      <obj_property name="ObjectShortName">coeff_read_addr[8:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/filterbank_test/filterbank/sample_to_mul">
+      <obj_property name="ElementShortName">sample_to_mul[15:0]</obj_property>
+      <obj_property name="ObjectShortName">sample_to_mul[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/filterbank_test/filterbank/coeff">
+      <obj_property name="ElementShortName">coeff[31:0]</obj_property>
+      <obj_property name="ObjectShortName">coeff[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/filterbank_test/filterbank/mul_res">
+      <obj_property name="ElementShortName">mul_res[58:0]</obj_property>
+      <obj_property name="ObjectShortName">mul_res[58:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/filterbank_test/filterbank/sample_write_en">
+      <obj_property name="ElementShortName">sample_write_en</obj_property>
+      <obj_property name="ObjectShortName">sample_write_en</obj_property>
    </wvobject>
 </wave_config>

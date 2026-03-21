@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <stdint.h>
 
 int main(void)
 {
@@ -12,15 +13,14 @@ int main(void)
     printf("Could not open file\n");
     return 1;
   }
-  srand
+  srand((unsigned) time(NULL));
 
   for (int i = 0; i < 512; i++)
   {
-    fprintf(file, "%08X\n", 
+    fprintf(file, "%04X\n", ((uint16_t)rand()));
   }
-  
-  
 
+  fclose(file);
 
 
   return 0;

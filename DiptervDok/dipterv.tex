@@ -14,7 +14,7 @@
 
 % --- GRAFIKA ÉS KÉPEK ---
 \usepackage{graphicx}
-\graphicspath{{./Pictures/}}
+\graphicspath{{./Pictures/}{./Pictures/dipterv1}}
 \usepackage{float}
 \usepackage{caption}
 \usepackage{subcaption}
@@ -27,7 +27,7 @@
 
 % --- BIBLIOGRÁFIA ---
 \usepackage[style=ieee]{biblatex}
-\addbibresource{onlab.bib}
+\addbibresource{dipterv.bib}
 
 % --- URL KEZELÉS ---
 \usepackage{url}
@@ -145,11 +145,18 @@ Mivel 10 digites számok az együtthatók (1 egészrész, 9 tört), ezért 32 bi
 Néhány számot visszaellenőrizve meggyőződtem az átalakítás helyességéről (a második bejegyzés például -0.000000477, ami átváltá után FFFFFC00 lett, ezt visszaváltva decimálisba -1024-et kapunk, ami kerekítési hibával $-0.000000477 * 2^{31}$).
 Ezeket az együtthatókat egy 512x32-es ROM-ban tárolom.
 
-A számításnál a flowchart alapján be kell shiftelni 32 új mintát, a legrégebbi 32-t pedig ki kell shiftelni. Ezután megadott együtthatókkal ablakolni kell, az így kapott értékeket 64 elemenként szummázni, és az ezekből az értékekből alkotott mátrixot összeszorozni egy másik együttható mátrixxal, amelyhez megadták a képletet a szabványban, hogy az együtthatóit kiszámoljuk.
+A számításnál a flowchart alapján (\ref{fig:analysis_subband_filter_flow_chart}. ábra) be kell shiftelni 32 új mintát, a legrégebbi 32-t pedig ki kell shiftelni. Ezután megadott együtthatókkal ablakolni kell, az így kapott értékeket 64 elemenként szummázni, és az ezekből az értékekből alkotott mátrixot összeszorozni egy másik együttható mátrixxal, amelyhez megadták a képletet a szabványban, hogy az együtthatóit kiszámoljuk.
 A minták kezelését FPGA-ban erőforrás szempontjából hatékony, ha egy BRAM-ban megvalósított cirkuláris bufferben tesszük.
 Első lépésben feltöltöm 512 bejövő mintával a RAM-ot. Ekkor a legrégebbi mintáim a 0-31 címeken helyezkednek el, így az első alkalommal, amikor új mintákat olvasok be, a 0-31 címekre helyezem őket. Egy változóban tárolom az olvasáshoz az offsetet, amely minden 32 minta shiftelése után 32-vel növelek. A minták olvasását mindig ettől az offsettől kezdem.
 A címszámlálót a legújabb mintától kezdve csökkentem, 511-ről kezdve amíg el nem éri a 0-t, mivel a legújabb minta van a legrégebbi címre beírva, visszafele kell kiolvasni őket.
 % miután ezt implementáltam ide egy kis magyarázó ábrá szerűséget rakni...
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{analysis_subband_filter_flowchart.png}
+  \caption{Analysis subband filter flow chart \cite{mp3-iso}}
+  \label{fig:analysis_subband_filter_flow_chart}
+\end{figure}
 
 
 

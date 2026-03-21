@@ -34,8 +34,8 @@ module dsp
 
 );
 integer i;
-reg signed [24:0] a_reg [A_REG];
-reg signed [17:0] b_reg [B_REG];
+reg signed [24:0] a_reg [A_REG-1:0];
+reg signed [17:0] b_reg [B_REG-1:0];
 reg signed [47:0] m_reg;
 reg signed [47:0] p_reg;
 
