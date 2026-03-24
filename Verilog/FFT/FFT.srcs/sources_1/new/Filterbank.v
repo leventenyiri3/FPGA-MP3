@@ -190,25 +190,133 @@ mul_24x35 mul_sample_and_coeff_c(
 //csinálni egyben? Szorzok, és hozzáadom az előzőt, igen ez kibaszottul egy
 //konvolúció
 
-reg [16:0] c_mul_res_reg;
-reg [5:0] accu_cntr; // 8-at kell összeadni
-reg [22:0] accu; //log_2 (64) = 6-al nagyobb mint a c_mul_res
+// csak annyival shiftelek vissza, hogy 24 bites eredményem legyen, és számon
+// tartom, hogy Q17.7-es a számábrázolásom
+
+// Y számítása (c_mul_res = Z_i)
+//64 db eredmény, felosztjuk az 512 eredményt 64-re, ahol Y_0 minden szegmens
+//0-ik eleme, Y_1 minden szegmens 1. eleme...
+//Ezzel tömörítjük az adatot, és aliasolunk direkt
+//Visszaállításnál elvben az átlapolódó részek kioltják majd egymást
+
+reg [61:0] y_res;
+reg [61:0] y_new_sum;
+wire [61:0] y_old_sum;
+reg y_en [0:5];
+reg [5:0] y_addr_wr [0:1];
+reg [5:0] y_addr_rd;
+
+ram
+#
+(
+  .DATA_W(62),
+  .ADDR_W(6)
+)y_ram
+(
+  .clk_a(clk),
+  .we_a(y_en[5]),
+  .addr_a(y_addr_wr[1]),
+  .din_a(y_new_sum),
+  .dout_a(),
+
+  .clk_b(clk),
+  .we_b(0),
+  .addr_b(y_addr_rd),
+  .din_b(),
+  .dout_b(y_old_sum)
+)
+//448 szorztanál már elkezdhetem a mátrixolást, a kérdés az, hogy mennyire
+//bonyolítja meg, hogy  akkor még dolgozom föl a többi y értéket is... olyan
+//szempontból nem baj, hogy minden clk-ra a következő Y érték el fog készülni
+//csak oda kell figyelni az időzítésre az olvasásnál
+
+//ki kéne számolni, hogy mennyi időm van a feldolgozásra, mennyi idő alatt jön
+//be 32 minta, mivel ennyi idő alatt el kell készülnöm az egész folyamattal
+//f_s = 44.1kHz -> T_s = 22.67 us, 32*T_s = 725.44 us
+//clk = 100MHz, egy szorzás 1 clk -> T_clk = 10ns
+//mielőtt megkezdhetném a mátrixolást az ablakolásnak és az Y-ok összeadásának
+//el kell készülnie, ez jelenleg: 512 szorzás (512 clk), miközben ezek
+//készülnek el, csinálhatom a részösszeadásokat is, szóval az nem extra idő
+//Akkor, mire elkezdhetem a mátrixolást 5.12 us telt el, marad rá ~720us
+//Ja várjunk, annyi időm van, amíg 1 minta bejön, nem ameddig 32, szóval ~17
+//us-em van, de az is 17000clk
+//Valószínűleg nem kell elkezdenem 448 nál és akkor kevésbé bonyolodok bele,
+//feltölthetem az egész 64 Y értékeket mielőtt hozzálátok
+
+
+// egyszerűen, ha a címszámlálót úgy növelem, ahogy jönnek be a minták, akkor
+// jól fogja összeadni őket, mindegyik indexre 8 darab, 64-el eltolt szorzat
+// lesz összeadva
+always @ (posedge clk)
+  y_en <= (state_reg == CALC_SAMPLES);
+
+// engedélyező jelhez azt kell megnéznem, hogy mikor kezdődik el a minták
+// feldolgozása, és ehhez képest mikor lesz készen az első szorzat 
+// 1clk a BRAM-ból kiolvasni, hogy mit szorozzon és a DSP 4 clk alatt lesz kész a szorzással
+// szóval onnantól, hogy CALC_SAMPLES-be léptünk, 5 clk, mire lesz kész
+// szorzatunk
+// A 4.clk-ban kezdeményeznem kell az y_ram olvasást, hogy az 5.re készen
+// legyen (igazábol nem biztos, mert az első úgyis 0 és útána amikor elkezdem
+// az összeadásokat, akkor amikor egyet beírok, már egyből olvasom ki
+// a következő címen léveő értéket, szóval a következő órajelre már készen fog
+// állni
+// Tehát, a lényeg, hogy 5clk mire lesz szorzat, és 1 clk, mire elvégzem az
+// összeadást, tehát 6clk-val megkésleltetve néznem, hogy mikor vagyunk
+// a CALC_SAMPLE állatpotban
+integer i;
 
 always @ (posedge clk)
 begin
-  if (rst_n == 0)
-    accu_cntr <= 0;
-  else
-  begin
-    c_mul_res_reg <= {{10{c_mul_res[58]}},c_mul_res[48:31]}; //31-el jobbra shiftelve, előjelkiterjesztve
-    if (accu_en == 1)
-    begin
-      accu <= accu + c_mul_res_reg;
-      accu_cntr <= accu_cntr + 1;
-    end
-  end
+  for(i = 0; i<6; i = i + 1)
+    y_en[i] <= (i==0) ? (state_reg == CALC_SAMPLES) : y_en[i-1];
 end
 
+// simán a növelésnél elmentem a y_addr_rd-et y_addr_wr-ba? szerintem az lesz
+// rd-elni eggyel előbb kéne
+
+ 
+always @ (posedge clk)
+begin
+  if(rst == 1)
+    begin
+      y_addr <= 0;
+      y_addr_cntr <= 0;
+    end
+  // egy clk-val előbb meg kell növelni az olvasási címet
+  // ez a y_en-es if-elés csak az első nekifutásnál működik... máshogy kell id
+  // őzíteni
+  // c_mul_res-t késleltetni?
+
+  else if (y_en[4])
+    begin
+      y_new_sum <= c_mul_res + y_old_sum;
+      y_addr_wr <= y_addr_rd
+      y_addr_rd <= y_addr_rd + 1;
+    end
+end
+
+reg [2:0] y_ready_cntr;
+
+always @ (posedge clk)
+begin
+  if(rst)
+    y_ready_cntr <= 0;
+
+  else if(y_addr_rd == 63)
+    y_ready_cntr <= y_read_cntr + 1;
+end
+
+// miközben számítom ki a szorzatokat, közben adogathatom össze az y-okat is.
+// Az a baj, hogy az első 448 szorzatnak készen kell lennie, hogy az y-okat el
+// tudjam kezdeni feldolgozni...
+// Opció1: folyamatosan dolgozom fel az y-okat ahogy készülnek el a szorzatok,
+// és eltárolom őket egy BRAM-ban, majd ebből mátrixolok
+// Nagyon más opció nincs is, mert a következő lépéshez a kész Y-ok kellenek,
+// az y részeredmények nem hasznosak
+
+
+
+//Matrixing
 reg [10:0] matrix_coeff_addr;
 wire signed [31:0] matrix_coeff;
 
