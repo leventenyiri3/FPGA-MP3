@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="10,328.800 ns"></ZoomStartTime>
-      <ZoomEndTime time="10,475.501 ns"></ZoomEndTime>
-      <Cursor1Time time="10,365.000 ns"></Cursor1Time>
+      <ZoomStartTime time="5,704.667 ns"></ZoomStartTime>
+      <ZoomEndTime time="6,006.668 ns"></ZoomEndTime>
+      <Cursor1Time time="5,945.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="230"></NameColumnWidth>
-      <ValueColumnWidth column_width="97"></ValueColumnWidth>
+      <NameColumnWidth column_width="204"></NameColumnWidth>
+      <ValueColumnWidth column_width="74"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="14" />
+   <WVObjectSize size="20" />
    <wave_markers>
       <marker label="" time="36292287500" />
       <marker label="" time="36292252500" />
@@ -67,25 +67,50 @@
       <obj_property name="ObjectShortName">sample_read_addr[8:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/filterbank_test/filterbank/coeff_read_addr">
-      <obj_property name="ElementShortName">coeff_read_addr[8:0]</obj_property>
-      <obj_property name="ObjectShortName">coeff_read_addr[8:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
    <wvobject type="array" fp_name="/filterbank_test/filterbank/sample_to_mul">
       <obj_property name="ElementShortName">sample_to_mul[15:0]</obj_property>
       <obj_property name="ObjectShortName">sample_to_mul[15:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/filterbank_test/filterbank/coeff">
-      <obj_property name="ElementShortName">coeff[31:0]</obj_property>
-      <obj_property name="ObjectShortName">coeff[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/filterbank_test/filterbank/mul_res">
-      <obj_property name="ElementShortName">mul_res[58:0]</obj_property>
-      <obj_property name="ObjectShortName">mul_res[58:0]</obj_property>
-   </wvobject>
    <wvobject type="logic" fp_name="/filterbank_test/filterbank/sample_write_en">
       <obj_property name="ElementShortName">sample_write_en</obj_property>
       <obj_property name="ObjectShortName">sample_write_en</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/filterbank_test/filterbank/c_coeff_read_addr">
+      <obj_property name="ElementShortName">c_coeff_read_addr[8:0]</obj_property>
+      <obj_property name="ObjectShortName">c_coeff_read_addr[8:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/filterbank_test/filterbank/c_coeff">
+      <obj_property name="ElementShortName">c_coeff[31:0]</obj_property>
+      <obj_property name="ObjectShortName">c_coeff[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/filterbank_test/filterbank/c_mul_res">
+      <obj_property name="ElementShortName">c_mul_res[58:0]</obj_property>
+      <obj_property name="ObjectShortName">c_mul_res[58:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/filterbank_test/filterbank/y_new_sum">
+      <obj_property name="ElementShortName">y_new_sum[61:0]</obj_property>
+      <obj_property name="ObjectShortName">y_new_sum[61:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/filterbank_test/filterbank/y_old_sum">
+      <obj_property name="ElementShortName">y_old_sum[61:0]</obj_property>
+      <obj_property name="ObjectShortName">y_old_sum[61:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/filterbank_test/filterbank/y_en">
+      <obj_property name="ElementShortName">y_en[5:0]</obj_property>
+      <obj_property name="ObjectShortName">y_en[5:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/filterbank_test/filterbank/y_addr_wr">
+      <obj_property name="ElementShortName">y_addr_wr[5:0]</obj_property>
+      <obj_property name="ObjectShortName">y_addr_wr[5:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/filterbank_test/filterbank/y_addr_rd">
+      <obj_property name="ElementShortName">y_addr_rd[5:0]</obj_property>
+      <obj_property name="ObjectShortName">y_addr_rd[5:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/filterbank_test/filterbank/y_ready_cntr">
+      <obj_property name="ElementShortName">y_ready_cntr[2:0]</obj_property>
+      <obj_property name="ObjectShortName">y_ready_cntr[2:0]</obj_property>
    </wvobject>
 </wave_config>

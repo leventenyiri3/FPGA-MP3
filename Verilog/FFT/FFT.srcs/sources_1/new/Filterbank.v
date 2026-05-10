@@ -187,7 +187,7 @@ mul_24x35 mul_sample_and_coeff_c(
 
 //Egy RAM kéne, amibe eltárolok 64 szorzás eredményt, hogy össze tudjam adni
 //őket... várjunk csak, ez egy konvolúció nem? Ezt a lépést meg tudnám
-//csinálni egyben? Szorzok, és hozzáadom az előzőt, igen ez kibaszottul egy
+//csinálni egyben? Szorzok, és hozzáadom az előzőt, igen ez egy
 //konvolúció
 
 // csak annyival shiftelek vissza, hogy 24 bites eredményem legyen, és számon
@@ -202,8 +202,8 @@ mul_24x35 mul_sample_and_coeff_c(
 reg [61:0] y_res;
 reg [61:0] y_new_sum;
 wire [61:0] y_old_sum;
-reg y_en [0:5];
-reg [5:0] y_addr_wr [0:1];
+reg [5:0] y_en;
+reg [5:0] y_addr_wr;
 reg [5:0] y_addr_rd;
 
 ram
@@ -215,7 +215,7 @@ ram
 (
   .clk_a(clk),
   .we_a(y_en[5]),
-  .addr_a(y_addr_wr[1]),
+  .addr_a(y_addr_wr),
   .din_a(y_new_sum),
   .dout_a(),
 
@@ -224,7 +224,7 @@ ram
   .addr_b(y_addr_rd),
   .din_b(),
   .dout_b(y_old_sum)
-)
+);
 //448 szorztanál már elkezdhetem a mátrixolást, a kérdés az, hogy mennyire
 //bonyolítja meg, hogy  akkor még dolgozom föl a többi y értéket is... olyan
 //szempontból nem baj, hogy minden clk-ra a következő Y érték el fog készülni
@@ -247,8 +247,6 @@ ram
 // egyszerűen, ha a címszámlálót úgy növelem, ahogy jönnek be a minták, akkor
 // jól fogja összeadni őket, mindegyik indexre 8 darab, 64-el eltolt szorzat
 // lesz összeadva
-always @ (posedge clk)
-  y_en <= (state_reg == CALC_SAMPLES);
 
 // engedélyező jelhez azt kell megnéznem, hogy mikor kezdődik el a minták
 // feldolgozása, és ehhez képest mikor lesz készen az első szorzat 
@@ -263,34 +261,26 @@ always @ (posedge clk)
 // Tehát, a lényeg, hogy 5clk mire lesz szorzat, és 1 clk, mire elvégzem az
 // összeadást, tehát 6clk-val megkésleltetve néznem, hogy mikor vagyunk
 // a CALC_SAMPLE állatpotban
-integer i;
 
 always @ (posedge clk)
 begin
-  for(i = 0; i<6; i = i + 1)
-    y_en[i] <= (i==0) ? (state_reg == CALC_SAMPLES) : y_en[i-1];
+    y_en <=  {y_en[4:0], (state_reg == CALC_SAMPLES)};
 end
-
-// simán a növelésnél elmentem a y_addr_rd-et y_addr_wr-ba? szerintem az lesz
-// rd-elni eggyel előbb kéne
 
  
 always @ (posedge clk)
 begin
-  if(rst == 1)
-    begin
-      y_addr <= 0;
-      y_addr_cntr <= 0;
-    end
-  // egy clk-val előbb meg kell növelni az olvasási címet
-  // ez a y_en-es if-elés csak az első nekifutásnál működik... máshogy kell id
-  // őzíteni
-  // c_mul_res-t késleltetni?
-
-  else if (y_en[4])
+  if(rst)
+  begin
+    y_addr_wr <= 0;
+    y_addr_rd <= 0;
+    y_new_sum <= 0;
+  end
+  // itt még valami olvasásos időzítés lehet nem jó...
+  if (y_en[4])
     begin
       y_new_sum <= c_mul_res + y_old_sum;
-      y_addr_wr <= y_addr_rd
+      y_addr_wr <= y_addr_rd;
       y_addr_rd <= y_addr_rd + 1;
     end
 end
@@ -303,7 +293,7 @@ begin
     y_ready_cntr <= 0;
 
   else if(y_addr_rd == 63)
-    y_ready_cntr <= y_read_cntr + 1;
+    y_ready_cntr <= y_ready_cntr + 1;
 end
 
 // miközben számítom ki a szorzatokat, közben adogathatom össze az y-okat is.
@@ -317,46 +307,45 @@ end
 
 
 //Matrixing
-reg [10:0] matrix_coeff_addr;
-wire signed [31:0] matrix_coeff;
-
-matrix_coeff_rom matrix_coeff_rom(
-  .clk(clk),
-  .addr(matrix_coeff_addr),
-  .dout(matrix_coeff)
-);
-
-mul_24x35 matrixing(
-  .clk(clk),
-  .a({accu[22],accu[22:0]}),
-  .b({{3{matrix_coeff[31]}}, matrix_coeff}),
-  .m(matrix_mul_res)
-);
-
-
-
-
-always @ (posedge clk)
-begin
-  if(rst_n == 0)
-  begin
-  end
-
-  else
-  begin
-    if(accu_cntr == 63)
-    begin
-      matrix_coeff <= matrix_coeff + 1;
-    end
-  end
-
-end
+//reg [10:0] matrix_coeff_addr;
+//wire signed [31:0] matrix_coeff;
+//
+//matrix_coeff_rom matrix_coeff_rom(
+//  .clk(clk),
+//  .addr(matrix_coeff_addr),
+//  .dout(matrix_coeff)
+//);
+//
+//mul_24x35 matrixing(
+//  .clk(clk),
+//  .a({accu[22],accu[22:0]}),
+//  .b({{3{matrix_coeff[31]}}, matrix_coeff}),
+//  .m(matrix_mul_res)
+//);
+//
+//
+//
+//
+//always @ (posedge clk)
+//begin
+//  if(rst_n == 0)
+//  begin
+//  end
+//
+//  else
+//  begin
+//    if(accu_cntr == 63)
+//    begin
+//      matrix_coeff <= matrix_coeff + 1;
+//    end
+//  end
+//
+//end
 
 
 //C kóddal legenerálni az M_ik mátrixot, ROM-ba rakni az értékeket
 
 //M_ik = cos [(2i + 1)(k - 16)pi/64], for i = 0...31 and k = 0...63
-
 
 
 
